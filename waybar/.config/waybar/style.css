@@ -5,29 +5,29 @@
     border-radius: 1px;
     /* padding-right: 2px; */
     /* padding: 2px; */
-    padding-bottom: 2px;
-    margin-right: 2px;
-    margin-left: 2px;
+    padding-bottom: 1px;
+    margin-right: 1px;
+    margin-left: 1px;
     font-family: "Font Awesome 5 Free", "Roboto", sans-serif;
     font-size: 12px;
     min-height: 0;
 }
 
 window#waybar {
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.65);
     color: @text-color-12;
 }
 
 #workspaces button {
-    padding: 0 5px;
+    padding: 1px 0;
     background: alpha(@color-0, 0.15);
     color: #fff8f0;
-    margin-right: 1px;
-    margin-left: 1px;
-    /* border-top: 3px solid @color-0; */
+    /* margin-right: 1px;
+    margin-left: 1px; */
+    border-top: 3px solid @color-0;
     /* border-left: 1px solid @color-1; */
     /* border-right: 1px solid @color-1; */
-    border-bottom: 3px solid @color-0;
+    /* border-bottom: 3px solid @color-0; */
     border-radius: 0;
 }
 
@@ -35,7 +35,7 @@ window#waybar {
     background: alpha(@color-1, 0.35);
     color: #fff8f0;
     /* border-top: 3px solid @color-5; */
-    border-top: 3px solid @color-5;
+    border-bottom: 3px solid @color-5;
 }
 
 #workspaces button.urgent {
@@ -60,12 +60,13 @@ window#waybar {
 #idle_inhibitor,
 #mpd,
 #custom-theme,
+#custom-wallpaper,
 #custom-power,
 #custom-notification {
     /* padding: 0 10px; */
     color: #fff8f0;
     background-color: alpha(@color-0, 0.15);
-    padding: 0 2px;
+    padding: 0 5px;
     border-radius: 0;
     border-bottom: 3px solid @color-0;
     min-width: 30px;
@@ -190,6 +191,12 @@ window#waybar {
     background-color: alpha(@color-4, 0.15);
     color: #fff8f0;
     border-bottom: 3px solid @color-4;
+}
+
+#custom-wallpaper {
+    background-color: alpha(@color-6, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-6;
 }
 
 #battery.critical:not(.charging) {

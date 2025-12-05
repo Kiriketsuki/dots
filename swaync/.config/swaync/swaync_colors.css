@@ -1,18 +1,18 @@
 
 :root {
-    --cc-bg: alpha(@color-9, 0.7);
-    --noti-border-color: alpha(@color-7, 0.5);
-    --noti-bg: @color-4;
-    --noti-bg-darker: @color-3;
-    --noti-bg-hover: @color-2;
-    --noti-bg-focus: alpha(@color-8, 0.6);
-    --noti-close-bg: @color-1;
-    --noti-close-bg-hover: @color-0;
-    --bg-selected: @color-6;
+    --cc-bg: alpha(@color-6, 0.7);
+    --noti-border-color: alpha(@color-2, 0.5);
+    --noti-bg: @color-7;
+    --noti-bg-darker: @color-4;
+    --noti-bg-hover: @color-5;
+    --noti-bg-focus: alpha(@color-0, 0.6);
+    --noti-close-bg: @color-8;
+    --noti-close-bg-hover: @color-9;
+    --bg-selected: @color-3;
     
     /* Keep text color consistent with the main notification background if possible, 
        or just use text-color-0 as a safe default if the theme ensures it contrasts with everything.
        For now, let's try to match the notification background's text color. */
-    --text-color: @text-color-4;
-    --text-color-disabled: alpha(@text-color-4, 0.5);
+    --text-color: @text-color-7;
+    --text-color-disabled: alpha(@text-color-7, 0.5);
 }
