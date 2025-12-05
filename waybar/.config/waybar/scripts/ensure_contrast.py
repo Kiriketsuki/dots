@@ -3,6 +3,10 @@ import os
 import re
 import random
 
+FALLBACK_BLACK = "#2E3138"
+FALLBACK_WHITE = "#FFF8F0"
+CONTRAST_THRESHOLD = 4.5
+
 def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip('#')
     if len(hex_color) == 8: # Handle alpha
@@ -21,24 +25,68 @@ def contrast(rgb1, rgb2):
     darkest = min(lum1, lum2)
     return (brightest + 0.05) / (darkest + 0.05)
 
-def get_best_text_color(bg_hex):
+def get_best_text_color(bg_hex, palette_darkest, palette_lightest):
     try:
         bg_rgb = hex_to_rgb(bg_hex)
+        p_dark_rgb = hex_to_rgb(palette_darkest)
+        p_light_rgb = hex_to_rgb(palette_lightest)
+        f_dark_rgb = hex_to_rgb(FALLBACK_BLACK)
+        f_light_rgb = hex_to_rgb(FALLBACK_WHITE)
     except:
-        return "#ffffff" # Fallback
-    white_rgb = (255, 255, 255)
-    black_rgb = (0, 0, 0)
+        return FALLBACK_WHITE
+
+    # Calculate contrasts
+    c_p_dark = contrast(bg_rgb, p_dark_rgb)
+    c_p_light = contrast(bg_rgb, p_light_rgb)
+    c_f_dark = contrast(bg_rgb, f_dark_rgb)
+    c_f_light = contrast(bg_rgb, f_light_rgb)
+
+    # Determine best potential contrast for dark vs light side
+    max_dark_contrast = max(c_p_dark, c_f_dark)
+    max_light_contrast = max(c_p_light, c_f_light)
+
+    if max_light_contrast > max_dark_contrast:
+        # Prefer light text
+        if c_p_light >= CONTRAST_THRESHOLD:
+            return palette_lightest
+        else:
+            return FALLBACK_WHITE
+    else:
+        # Prefer dark text
+        if c_p_dark >= CONTRAST_THRESHOLD:
+            return palette_darkest
+        else:
+            return FALLBACK_BLACK
+
+def get_palette_extremes(colors):
+    valid_colors = []
+    for c in colors:
+        c_hex = c
+        if len(c) == 9:
+            c_hex = c[:7]
+        try:
+            rgb = hex_to_rgb(c_hex)
+            lum = luminance(*rgb)
+            valid_colors.append((c_hex, lum))
+        except:
+            continue
     
-    contrast_white = contrast(bg_rgb, white_rgb)
-    contrast_black = contrast(bg_rgb, black_rgb)
-    
-    return "#ffffff" if contrast_white > contrast_black else "#000000"
+    if not valid_colors:
+        return FALLBACK_BLACK, FALLBACK_WHITE
+
+    valid_colors.sort(key=lambda x: x[1])
+    return valid_colors[0][0], valid_colors[-1][0]
 
 def process_colors(colors):
+    darkest, lightest = get_palette_extremes(colors)
     output = []
     for i, color in enumerate(colors):
-        text_color = get_best_text_color(color)
-        output.append(f"@define-color color-{i} {color};")
+        hex_color = color
+        if len(hex_color) == 9:
+            hex_color = hex_color[:7]
+            
+        text_color = get_best_text_color(hex_color, darkest, lightest)
+        output.append(f"@define-color color-{i} {hex_color};")
         output.append(f"@define-color text-color-{i} {text_color};")
     return "\n".join(output)
 
@@ -81,6 +129,8 @@ def generate_gtk_css(file_path):
     if num_colors == 0:
         return "/* No colors found in theme */"
     
+    darkest, lightest = get_palette_extremes(colors)
+    
     # Shuffle for random selection
     random.shuffle(colors)
     
@@ -92,7 +142,7 @@ def generate_gtk_css(file_path):
         if len(hex_color) == 9: # #RRGGBBAA
             hex_color = hex_color[:7]
 
-        text_color = get_best_text_color(hex_color)
+        text_color = get_best_text_color(hex_color, darkest, lightest)
         
         output.append(f"@define-color color-{i} {hex_color};")
         output.append(f"@define-color text-color-{i} {text_color};")
