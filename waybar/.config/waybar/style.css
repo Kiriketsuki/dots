@@ -3,34 +3,44 @@
 * {
     border: none;
     border-radius: 1px;
-    padding-right: 2px;
-    margin-right: 1px;
+    /* padding-right: 2px; */
+    padding-bottom: 2px;
+    margin-right: 0.1em;
     font-family: "Font Awesome 5 Free", "Roboto", sans-serif;
     font-size: 12px;
     min-height: 0;
 }
 
 window#waybar {
-    background: @color-12;
+    background-color: rgba(0, 0, 0, 0.85);
     color: @text-color-12;
 }
 
 #workspaces button {
     padding: 0 5px;
-    background: @color-0;
-    color: @text-color-0;
-    border-bottom: 3px solid transparent;
+    background: alpha(@color-0, 0.15);
+    color: #fff8f0;
+    margin-right: 1px;
+    margin-left: 1px;
+    /* border-top: 3px solid @color-0; */
+    /* border-left: 1px solid @color-1; */
+    /* border-right: 1px solid @color-1; */
+    border-bottom: 3px solid @color-0;
+    border-radius: 0;
 }
 
 #workspaces button.focused {
-    background: @color-1;
-    color: @text-color-1;
+    background: alpha(@color-1, 0.35);
+    color: #fff8f0;
+    /* border-top: 3px solid @color-5; */
     border-bottom: 3px solid @color-5;
 }
 
 #workspaces button.urgent {
-    background-color: @color-8;
-    color: @text-color-8;
+    background-color: alpha(@color-8, 0.15);
+    color: #fff8f0;
+    border-top: 3px solid @color-8;
+    border-bottom: 3px solid @color-8;
 }
 
 #clock,
@@ -48,114 +58,135 @@ window#waybar {
 #idle_inhibitor,
 #mpd,
 #custom-theme,
-#custom-power {
-    padding: 0 10px;
-    color: @text-color-0;
-    background-color: @color-0;
-    border-radius: 1px;
-    /* border-right: 1px solid @color-1; */
+#custom-power,
+#custom-notification {
+    /* padding: 0 10px; */
+    color: #fff8f0;
+    background-color: alpha(@color-0, 0.15);
+    border-radius: 0;
+    border-bottom: 3px solid @color-0;
     min-width: 30px;
 }
 
 #clock {
-    background-color: @color-9;
-    color: @text-color-9;
+    background-color: alpha(@color-9, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-9;
 }
 
 #battery {
-    background-color: @color-4;
-    color: @text-color-4;
+    background-color: alpha(@color-4, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-4;
 }
 
 #battery.charging,
 #battery.plugged {
-    color: @text-color-3;
-    background-color: @color-3;
+    color: #fff8f0;
+    background-color: alpha(@color-3, 0.15);
+    border-bottom: 3px solid @color-3;
 }
 
 #cpu {
-    background-color: @color-7;
-    color: @text-color-7;
+    background-color: alpha(@color-7, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-7;
 }
 
 #memory {
-    background-color: @color-8;
-    color: @text-color-8;
+    background-color: alpha(@color-8, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-8;
 }
 
 #disk {
-    background-color: @color-2;
-    color: @text-color-2;
+    background-color: alpha(@color-2, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-2;
 }
 
 #temperature {
-    background-color: @color-8;
-    color: @text-color-8;
+    background-color: alpha(@color-8, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-8;
 }
 
 #backlight {
-    background-color: @color-6;
-    color: @text-color-6;
+    background-color: alpha(@color-6, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-6;
 }
 
 #network {
-    background-color: @color-2;
-    color: @text-color-2;
+    background-color: alpha(@color-2, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-2;
 }
 
 #network.disconnected {
-    background-color: @color-8;
-    color: @text-color-8;
+    background-color: alpha(@color-8, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-8;
 }
 
 #pulseaudio {
-    background-color: @color-3;
-    color: @text-color-3;
+    background-color: alpha(@color-3, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-3;
 }
 
 #pulseaudio.muted {
-    background-color: @color-0;
-    color: @text-color-0;
+    background-color: alpha(@color-0, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-0;
 }
 
 #tray {
-    background-color: @color-1;
-    color: @text-color-1;
+    background-color: alpha(@color-1, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-1;
 }
 
 #idle_inhibitor {
-    background-color: @color-0;
-    color: @text-color-0;
+    background-color: alpha(@color-0, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-0;
 }
 
 #idle_inhibitor.activated {
-    background-color: @color-5;
-    color: @text-color-5;
+    background-color: alpha(@color-5, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-5;
 }
 
 #mpd {
-    background-color: @color-2;
-    color: @text-color-2;
+    background-color: alpha(@color-2, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-2;
 }
 
 #mpd.disconnected {
-    background-color: @color-8;
-    color: @text-color-8;
+    background-color: alpha(@color-8, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-8;
 }
 
 #mpd.stopped {
-    background-color: @color-2;
-    color: @text-color-2;
+    background-color: alpha(@color-2, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-2;
 }
 
 #mpd.paused {
-    background-color: @color-0;
-    color: @text-color-0;
+    background-color: alpha(@color-0, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-0;
 }
 
 #custom-theme {
-    background-color: @color-4;
-    color: @text-color-4;
+    background-color: alpha(@color-4, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-4;
 }
 
 #battery.critical:not(.charging) {
@@ -167,14 +198,16 @@ window#waybar {
 }
 
 #custom-media {
-    background-color: @color-2;
-    color: @text-color-2;
+    background-color: alpha(@color-2, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-2;
     min-width: 100px;
 }
 
 #custom-power {
-    background-color: @color-5;
-    color: @text-color-5;
+    background-color: alpha(@color-5, 0.15);
+    color: #fff8f0;
+    border-bottom: 3px solid @color-5;
     padding: 0 10px;
     margin-right: 10px;
     border-right: none;
