@@ -10,6 +10,10 @@ if [ -n "$THEME" ]; then
     # Update Hyprland colors
     python3 "$HOME/.config/hypr/scripts/update_colors.py" "$HOME/.config/theme/theme.css" "$HOME/.config/hypr/colors.conf"
 
+    # Update SwayNC colors
+    python3 "$HOME/dots/swaync/scripts/update_colors.py"
+    swaync-client -rs
+
     # Reload waybar style
     pkill -SIGUSR2 waybar
     # Signal the theme module to update (assuming signal 1 is used)
