@@ -2,44 +2,40 @@
 
 # Directory containing wallpapers
 WALLPAPER_DIR="$HOME/.config/backgrounds"
-CONFIG_FILE="$HOME/.config/hypr/hyprpaper.conf"
 
-# Kill hyprpaper if running
-pkill hyprpaper
-
-# Wait a moment to ensure it's dead
-sleep 0.5
+# Check if hyprpaper is running, start it if not
+if ! pgrep -x "hyprpaper" > /dev/null; then
+    echo "Starting hyprpaper..."
+    hyprpaper &
+    sleep 1
+fi
 
 # Get list of monitors
-# We use hyprctl to get connected monitors. 
-# If hyprctl isn't ready or returns nothing, we might need a fallback, 
-# but usually exec-once runs when hyprctl is ready.
 MONITORS=$(hyprctl monitors | grep "Monitor" | awk '{print $2}')
 
-# Start generating config
-# ipc = on allows controlling hyprpaper at runtime if needed later
-echo "ipc = on" > "$CONFIG_FILE"
-echo "splash = false" >> "$CONFIG_FILE"
-
-# Keep track of preloaded wallpapers to avoid duplicates in config
-declare -A PRELOADED
+if [ -z "$MONITORS" ]; then
+    echo "Error: No monitors found!"
+    exit 1
+fi
 
 for monitor in $MONITORS; do
     # Select random wallpaper
-    # We filter for common image formats
-    WALLPAPER=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" \) | shuf -n 1)
+    # Use -L to follow symlinks if WALLPAPER_DIR is a symlink
+    WALLPAPER=$(find -L "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" \) | shuf -n 1)
     
     if [ -n "$WALLPAPER" ]; then
-        # Preload if not already preloaded
-        if [ -z "${PRELOADED[$WALLPAPER]}" ]; then
-            echo "preload = $WALLPAPER" >> "$CONFIG_FILE"
-            PRELOADED[$WALLPAPER]=1
-        fi
+        echo "Setting wallpaper for $monitor to $WALLPAPER"
         
-        # Set wallpaper for monitor
-        echo "wallpaper = $monitor,$WALLPAPER" >> "$CONFIG_FILE"
+        # Preload the new wallpaper
+        hyprctl hyprpaper preload "$WALLPAPER"
+        
+        # Set the wallpaper
+        hyprctl hyprpaper wallpaper "$monitor,$WALLPAPER"
+    else
+        echo "Warning: No wallpapers found in $WALLPAPER_DIR"
     fi
 done
 
-# Start hyprpaper as a daemon
-hyprpaper &
+# Unload unused wallpapers to save memory
+# This removes preloads for wallpapers not currently in use
+hyprctl hyprpaper unload unused

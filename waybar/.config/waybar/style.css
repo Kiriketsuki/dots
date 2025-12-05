@@ -4,8 +4,10 @@
     border: none;
     border-radius: 1px;
     /* padding-right: 2px; */
+    /* padding: 2px; */
     padding-bottom: 2px;
-    margin-right: 0.1em;
+    margin-right: 2px;
+    margin-left: 2px;
     font-family: "Font Awesome 5 Free", "Roboto", sans-serif;
     font-size: 12px;
     min-height: 0;
@@ -33,7 +35,7 @@ window#waybar {
     background: alpha(@color-1, 0.35);
     color: #fff8f0;
     /* border-top: 3px solid @color-5; */
-    border-bottom: 3px solid @color-5;
+    border-top: 3px solid @color-5;
 }
 
 #workspaces button.urgent {
@@ -63,6 +65,7 @@ window#waybar {
     /* padding: 0 10px; */
     color: #fff8f0;
     background-color: alpha(@color-0, 0.15);
+    padding: 0 2px;
     border-radius: 0;
     border-bottom: 3px solid @color-0;
     min-width: 30px;

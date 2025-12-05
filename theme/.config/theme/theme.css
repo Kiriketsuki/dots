@@ -1,21 +1,11 @@
-/* Theme Source: /home/kiriketsuki/dots/styles/pastel.css */
-@define-color color-0 #bb729f;
-@define-color text-color-0 #2E3138;
-@define-color color-1 #a5b7e2;
-@define-color text-color-1 #2E3138;
-@define-color color-2 #f1e4fd;
+/* Theme Source: /home/kiriketsuki/dots/styles/sunny_beach_day.css */
+@define-color color-0 #264653;
+@define-color text-color-0 #e9c46a;
+@define-color color-1 #f4a261;
+@define-color text-color-1 #264653;
+@define-color color-2 #e76f51;
 @define-color text-color-2 #2E3138;
-@define-color color-3 #e4bbf7;
+@define-color color-3 #2a9d8f;
 @define-color text-color-3 #2E3138;
-@define-color color-4 #d79dd9;
-@define-color text-color-4 #2E3138;
-@define-color color-5 #bbd1ee;
-@define-color text-color-5 #2E3138;
-@define-color color-6 #748ab2;
-@define-color text-color-6 #2E3138;
-@define-color color-7 #8f9ed5;
-@define-color text-color-7 #2E3138;
-@define-color color-8 #ca7fbc;
-@define-color text-color-8 #2E3138;
-@define-color color-9 #ab6581;
-@define-color text-color-9 #FFF8F0;
+@define-color color-4 #e9c46a;
+@define-color text-color-4 #264653;
