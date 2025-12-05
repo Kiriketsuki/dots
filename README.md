@@ -8,7 +8,6 @@ My personal configuration files (dotfiles), managed with [GNU Stow](https://www.
 -   **hypr/**: Hyprland configuration
 -   **nvim/**: Neovim configuration
 -   **zsh/**: Zsh shell configuration
--   **Code/**: Visual Studio Code settings
 
 ## Requirements
 
