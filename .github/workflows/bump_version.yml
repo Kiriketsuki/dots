@@ -1,0 +1,134 @@
+name: Bump Version
+
+on:
+    push:
+        branches:
+            - main
+
+permissions:
+    contents: write
+
+jobs:
+    bump-version:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.x"
+
+            - name: Calculate new version
+              id: version
+              env:
+                  COMMITS: ${{ toJson(github.event.commits) }}
+              run: |
+                  import os
+                  import json
+                  from datetime import datetime
+
+                  # Read current version
+                  try:
+                      with open('VERSION', 'r') as f:
+                          old_version_str = f.read().strip()
+                  except FileNotFoundError:
+                      old_version_str = "00.00.0.0"
+
+                  print(f"Current version: {old_version_str}")
+
+                  try:
+                      yy, mm, major, minor = map(int, old_version_str.split('.'))
+                  except ValueError:
+                      # Handle malformed version file by resetting or defaulting
+                      print("Malformed VERSION file. Resetting.")
+                      yy, mm, major, minor = 0, 0, 0, 0
+
+                  now = datetime.now()
+                  current_yy = int(now.strftime("%y"))
+                  current_mm = int(now.strftime("%m"))
+
+                  new_yy = yy
+                  new_mm = mm
+                  new_major = major
+                  new_minor = minor
+
+                  # Date based bump/reset
+                  date_changed = False
+                  if current_yy > yy:
+                      new_yy = current_yy
+                      new_mm = current_mm
+                      new_major = 0
+                      new_minor = 0
+                      date_changed = True
+                  elif current_yy == yy and current_mm > mm:
+                      new_mm = current_mm
+                      new_major = 0
+                      new_minor = 0
+                      date_changed = True
+
+                  # If the stored version is in the future (e.g. reverted clock), we might want to stick to it or reset.
+                  # Assuming we just follow the current date if it's "newer" or different in a forward direction.
+                  # If current date is same as stored, we keep the counters.
+
+                  # Analyze commits
+                  commits = json.loads(os.environ.get('COMMITS', '[]'))
+                  bump_major = False
+                  bump_minor = False
+
+                  for commit in commits:
+                      msg = commit.get('message', '').lower()
+                      if 'feat:' in msg:
+                          bump_major = True
+                      if 'fix:' in msg:
+                          bump_minor = True
+
+                  # Apply bumps
+                  # Priority: Feat (Major) > Fix (Minor)
+                  # If we already reset due to date, we start from 0.
+
+                  if bump_major:
+                      new_major += 1
+                      new_minor = 0
+                  elif bump_minor:
+                      new_minor += 1
+
+                  new_version_str = f"{new_yy:02d}.{new_mm:02d}.{new_major}.{new_minor}"
+                  print(f"New version: {new_version_str}")
+
+                  if new_version_str != old_version_str:
+                      with open('VERSION', 'w') as f:
+                          f.write(new_version_str)
+                      
+                      # Set output for next step
+                      with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                          f.write('changed=true\n')
+                          f.write(f'new_version={new_version_str}\n')
+                          f.write(f'date_changed={str(date_changed).lower()}\n')
+                  else:
+                      with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                          f.write('changed=false\n')
+              shell: python
+
+            - name: Commit and Push
+              if: steps.version.outputs.changed == 'true'
+              run: |
+                  git config --global user.name 'github-actions[bot]'
+                  git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+                  git add VERSION
+                  git commit -m "chore: bump version to ${{ steps.version.outputs.new_version }}"
+                  git push
+
+            - name: Create Release
+              if: steps.version.outputs.changed == 'true' && steps.version.outputs.date_changed == 'true'
+              uses: softprops/action-gh-release@v1
+              with:
+                  tag_name: v${{ steps.version.outputs.new_version }}
+                  name: Release ${{ steps.version.outputs.new_version }}
+                  draft: false
+                  prerelease: false
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
