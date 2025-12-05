@@ -11,3 +11,4 @@ PS1='[\u@\h \W]\$ '
 
 . "$HOME/.local/share/../bin/env"
 alias config='/usr/bin/git --git-dir=/home/kiriketsuki/dotfiles --work-tree=/home/kiriketsuki'
+. "$HOME/.cargo/env"
