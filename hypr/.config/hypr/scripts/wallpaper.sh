@@ -31,6 +31,9 @@ for monitor in $MONITORS; do
         
         # Set the wallpaper
         hyprctl hyprpaper wallpaper "$monitor,$WALLPAPER"
+
+        # Update current wallpaper symlink for Rofi
+        ln -sf "$WALLPAPER" "$HOME/.config/backgrounds/.current_wallpaper"
     else
         echo "Warning: No wallpapers found in $WALLPAPER_DIR"
     fi

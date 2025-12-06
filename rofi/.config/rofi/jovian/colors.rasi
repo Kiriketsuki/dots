@@ -1,0 +1,13 @@
+* {
+    background:     #f1e4fd;
+    background-alt: #ca7fbc;
+    background-alpha: rgba(241, 228, 253, 0.85);
+    foreground:     #2E3138;
+    selected:       #ab6581;
+    active:         #bb729f;
+    urgent:         #e4bbf7;
+    
+    foreground-selected: #000000;
+    foreground-active:   #000000;
+    foreground-urgent:   #2E3138;
+}
