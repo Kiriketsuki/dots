@@ -1,21 +1,15 @@
-/* Theme Source: /home/kiriketsuki/dots/styles/pastel.css */
-@define-color color-0 #f1e4fd;
-@define-color text-color-0 #2E3138;
-@define-color color-1 #ca7fbc;
-@define-color text-color-1 #2E3138;
-@define-color color-2 #ab6581;
+/* Theme Source: /home/kiriketsuki/dots/styles/palette.css */
+@define-color color-0 #3e444d;
+@define-color text-color-0 #FFF8F0;
+@define-color color-1 #666871;
+@define-color text-color-1 #FFF8F0;
+@define-color color-2 #7f8291;
 @define-color text-color-2 #FFF8F0;
-@define-color color-3 #bb729f;
-@define-color text-color-3 #2E3138;
-@define-color color-4 #e4bbf7;
-@define-color text-color-4 #2E3138;
-@define-color color-5 #748ab2;
-@define-color text-color-5 #2E3138;
-@define-color color-6 #bbd1ee;
-@define-color text-color-6 #2E3138;
-@define-color color-7 #8f9ed5;
-@define-color text-color-7 #2E3138;
-@define-color color-8 #a5b7e2;
-@define-color text-color-8 #2E3138;
-@define-color color-9 #d79dd9;
-@define-color text-color-9 #2E3138;
+@define-color color-3 #444c55;
+@define-color text-color-3 #FFF8F0;
+@define-color color-4 #4d5159;
+@define-color text-color-4 #FFF8F0;
+@define-color color-5 #717380;
+@define-color text-color-5 #FFF8F0;
+@define-color color-6 #585c64;
+@define-color text-color-6 #FFF8F0;

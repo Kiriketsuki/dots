@@ -1,7 +1,7 @@
 #!/bin/bash
 DIR="$HOME/dots/styles"
-# List files in the styles directory and use wofi to select one
-THEME=$(find "$DIR" -maxdepth 1 -name "*.css" -printf "%f\n" | wofi --dmenu --prompt "Select Theme")
+# List files in the styles directory and use rofi to select one
+THEME=$(find "$DIR" -maxdepth 1 -name "*.css" -printf "%f\n" | rofi -dmenu -p "Select Theme")
 
 if [ -n "$THEME" ]; then
     # Update the theme.css by generating GTK CSS from the selected theme

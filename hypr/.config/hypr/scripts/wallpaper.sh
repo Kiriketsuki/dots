@@ -42,3 +42,7 @@ done
 # Unload unused wallpapers to save memory
 # This removes preloads for wallpapers not currently in use
 hyprctl hyprpaper unload unused
+
+# Generate and apply palette from the current wallpaper
+echo "Generating palette from wallpaper..."
+"$HOME/dots/hypr/.config/hypr/scripts/generate_and_apply_palette.sh"
