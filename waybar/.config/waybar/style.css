@@ -2,49 +2,67 @@
 
 * {
     border: none;
-    border-radius: 1px;
-    /* padding-right: 2px; */
-    /* padding: 2px; */
-    padding-bottom: 1px;
-    margin-right: 1px;
-    margin-left: 1px;
-    font-family: "Font Awesome 5 Free", "Roboto", sans-serif;
+    border-radius: 0;
+    /* Added your specific font IosevkaSlabTerm Nerd Font to the priority list */
+    font-family: "IosevkaSlabTerm Nerd Font", "Symbols Nerd Font", "JetBrainsMono Nerd Font", "Font Awesome 5 Free", "Roboto", sans-serif;
+    font-weight: bold;
     font-size: 12px;
     min-height: 0;
+    padding-bottom: 1px;
 }
 
 window#waybar {
-    background-color: rgba(0, 0, 0, 0.65);
-    color: @text-color-12;
+    background: transparent;
+    color: #fff8f0;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+/* --- Workspaces --- */
+#workspaces {
+    background-color: transparent;
+    margin: 0;
 }
 
 #workspaces button {
-    padding: 1px 0;
-    background: alpha(@color-0, 0.15);
+    padding: 0 10px;
+    padding-top: 1px;
     color: #fff8f0;
-    /* margin-right: 1px;
-    margin-left: 1px; */
+    /* TOP Border always visible (dim in default state) */
     border-top: 3px solid @color-0;
-    /* border-left: 1px solid @color-1; */
-    /* border-right: 1px solid @color-1; */
-    /* border-bottom: 3px solid @color-0; */
-    border-radius: 0;
+    border-bottom: none;
+    /* background: transparent; */
+    background: linear-gradient(to bottom, alpha(@color-0, 0.2), alpha(@color-0, 0.1));
+    transition: all 0.3s ease-in-out;
+}
+
+#workspaces button:hover {
+    /* Gradient Top -> Bottom */
+    background: linear-gradient(to bottom, alpha(@color-1, 0.8), transparent);
+    border-top: 2px solid @color-1;
 }
 
 #workspaces button.focused {
-    background: alpha(@color-1, 0.35);
+    /* Gradient Top -> Bottom */
+    background: linear-gradient(to bottom, alpha(@color-5, 0.8), transparent);
+    border-top: 2px solid @color-5;
     color: #fff8f0;
-    /* border-top: 3px solid @color-5; */
-    border-bottom: 3px solid @color-5;
 }
 
 #workspaces button.urgent {
-    background-color: alpha(@color-8, 0.15);
+    background: linear-gradient(to bottom, alpha(@color-8, 0.3), transparent);
+    border-top: 2px solid @color-8;
     color: #fff8f0;
-    border-top: 3px solid @color-8;
-    border-bottom: 3px solid @color-8;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
+/* --- Module Container Styling --- */
 #clock,
 #battery,
 #cpu,
@@ -55,151 +73,65 @@ window#waybar {
 #network,
 #pulseaudio,
 #custom-media,
-#tray,
 #mode,
 #idle_inhibitor,
 #mpd,
 #custom-theme,
+#group-tray,
 #custom-wallpaper,
 #custom-power,
-#custom-notification {
-    /* padding: 0 10px; */
-    color: #fff8f0;
-    background-color: alpha(@color-0, 0.15);
+#custom-notification,
+#window,
+#tray {
     padding: 0 5px;
-    border-radius: 0;
-    border-bottom: 3px solid @color-0;
-    min-width: 30px;
+    color: #fff8f0;
+    margin: 0 2px;
 }
 
+/* --- Specific Gradients & Colors --- */
+/* Left Side: Top Border + Top-to-Bottom Gradient */
+
+#window {
+    background: linear-gradient(90deg, alpha(@color-1, 0.3), alpha(@color-2, 0.3), alpha(@color-3, 0.3), alpha(@color-4, 0.3), alpha(@color-5, 0.3), alpha(@color-6, 0.3), alpha(@color-1, 0.3));
+    background-size: 300% 100%;
+    animation: gradient-shift 15s ease infinite;
+    margin-left: 10px;
+    padding: 0 20px;
+    font-style: italic;
+    border-radius: 2px;
+}
+
+#window.empty {
+    background: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    animation: none;
+    border-radius: 0;
+}
+
+/* Right Side: Bottom Border + Bottom-to-Top Gradient */
+
 #clock {
-    background-color: alpha(@color-9, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-9;
+    background: linear-gradient(to top, alpha(@color-9, 0.25), transparent);
+    border-bottom: 2px solid @color-9;
+    margin-right: 10px;
 }
 
 #battery {
-    background-color: alpha(@color-4, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-4;
+    background: linear-gradient(to top, alpha(@color-4, 0.25), transparent);
+    border-bottom: 2px solid @color-4;
 }
 
 #battery.charging,
 #battery.plugged {
-    color: #fff8f0;
-    background-color: alpha(@color-3, 0.15);
-    border-bottom: 3px solid @color-3;
-}
-
-#cpu {
-    background-color: alpha(@color-7, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-7;
-}
-
-#memory {
-    background-color: alpha(@color-8, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-8;
-}
-
-#disk {
-    background-color: alpha(@color-2, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-2;
-}
-
-#temperature {
-    background-color: alpha(@color-8, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-8;
-}
-
-#backlight {
-    background-color: alpha(@color-6, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-6;
-}
-
-#network {
-    background-color: alpha(@color-2, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-2;
-}
-
-#network.disconnected {
-    background-color: alpha(@color-8, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-8;
-}
-
-#pulseaudio {
-    background-color: alpha(@color-3, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-3;
-}
-
-#pulseaudio.muted {
-    background-color: alpha(@color-0, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-0;
-}
-
-#tray {
-    background-color: alpha(@color-1, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-1;
-}
-
-#idle_inhibitor {
-    background-color: alpha(@color-0, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-0;
-}
-
-#idle_inhibitor.activated {
-    background-color: alpha(@color-5, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-5;
-}
-
-#mpd {
-    background-color: alpha(@color-2, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-2;
-}
-
-#mpd.disconnected {
-    background-color: alpha(@color-8, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-8;
-}
-
-#mpd.stopped {
-    background-color: alpha(@color-2, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-2;
-}
-
-#mpd.paused {
-    background-color: alpha(@color-0, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-0;
-}
-
-#custom-theme {
-    background-color: alpha(@color-4, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-4;
-}
-
-#custom-wallpaper {
-    background-color: alpha(@color-6, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-6;
+    background: linear-gradient(to top, alpha(@color-3, 0.25), transparent);
+    border-bottom: 2px solid @color-3;
 }
 
 #battery.critical:not(.charging) {
+    background: linear-gradient(to top, alpha(@color-8, 0.25), transparent);
+    border-bottom: 2px solid @color-8;
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;
@@ -207,20 +139,111 @@ window#waybar {
     animation-direction: alternate;
 }
 
+#cpu {
+    background: linear-gradient(to top, alpha(@color-7, 0.25), transparent);
+    border-bottom: 2px solid @color-7;
+}
+
+#memory {
+    background: linear-gradient(to top, alpha(@color-8, 0.25), transparent);
+    border-bottom: 2px solid @color-8;
+}
+
+#disk {
+    background: linear-gradient(to top, alpha(@color-2, 0.25), transparent);
+    border-bottom: 2px solid @color-2;
+}
+
+#temperature {
+    background: linear-gradient(to top, alpha(@color-8, 0.25), transparent);
+    border-bottom: 2px solid @color-8;
+}
+
+#backlight {
+    background: linear-gradient(to top, alpha(@color-6, 0.25), transparent);
+    border-bottom: 2px solid @color-6;
+}
+
+#network {
+    background: linear-gradient(to top, alpha(@color-2, 0.25), transparent);
+    border-bottom: 2px solid @color-2;
+}
+
+#network.disconnected {
+    background: linear-gradient(to top, alpha(@color-8, 0.25), transparent);
+    border-bottom: 2px solid @color-8;
+}
+
+#pulseaudio {
+    background: linear-gradient(to top, alpha(@color-3, 0.25), transparent);
+    border-bottom: 2px solid @color-3;
+}
+
+#pulseaudio.muted {
+    background: linear-gradient(to top, alpha(@color-0, 0.25), transparent);
+    border-bottom: 2px solid @color-0;
+    color: #aaa;
+}
+
+#idle_inhibitor {
+    background: linear-gradient(to top, alpha(@color-0, 0.25), transparent);
+    border-bottom: 2px solid @color-0;
+}
+
+#idle_inhibitor.activated {
+    background: linear-gradient(to top, alpha(@color-5, 0.25), transparent);
+    border-bottom: 2px solid @color-5;
+}
+
+#mpd {
+    background: linear-gradient(to top, alpha(@color-2, 0.25), transparent);
+    border-bottom: 2px solid @color-2;
+}
+
+#mpd.disconnected {
+    background: transparent;
+    border-bottom: none;
+    color: alpha(@color-8, 0.5);
+}
+
+#custom-theme {
+    background: linear-gradient(to top, alpha(@color-4, 0.25), transparent);
+    border-bottom: 2px solid @color-4;
+}
+
+#custom-wallpaper {
+    background: linear-gradient(to top, alpha(@color-6, 0.25), transparent);
+    border-bottom: 2px solid @color-6;
+}
+
+#group-tray {
+    background: linear-gradient(to top, alpha(@color-5, 0.25), transparent);
+    border-bottom: 2px solid @color-5;
+}
+
 #custom-media {
-    background-color: alpha(@color-2, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-2;
+    background: linear-gradient(to top, alpha(@color-2, 0.25), transparent);
+    border-bottom: 2px solid @color-2;
     min-width: 100px;
 }
 
 #custom-power {
-    background-color: alpha(@color-5, 0.15);
-    color: #fff8f0;
-    border-bottom: 3px solid @color-5;
-    padding: 0 10px;
-    margin-right: 10px;
-    border-right: none;
+    background: linear-gradient(to top, alpha(@color-5, 0.25), transparent);
+    border-bottom: 2px solid @color-5;
+    /* Reduced padding */
+    padding-right: 5px;
+    padding-left: 10px;
+}
+
+#custom-notification {
+    background: linear-gradient(to top, alpha(@color-5, 0.25), transparent);
+    border-bottom: 2px solid @color-5;
+}
+
+/* --- Tray --- */
+#tray {
+    background: linear-gradient(to top, alpha(@color-0, 0.25), transparent);
+    border-bottom: 2px solid @color-0;
 }
 
 #tray > .passive {
@@ -229,4 +252,34 @@ window#waybar {
 
 #tray > .needs-attention {
     -gtk-icon-effect: highlight;
+}
+
+/* --- Tooltips --- */
+tooltip {
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid @color-4;
+    border-radius: 5px;
+}
+
+tooltip label {
+    color: #cdd6f4;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
