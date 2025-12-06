@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Yazi Wrapper
+Comment=Launch Yazi in Terminal
+# CHANGE 'kitty -e' to your terminal's execute flag (e.g., 'alacritty -e', 'foot -e', 'gnome-terminal --')
+Exec=alacritty -e yazi %u
+Icon=utilities-terminal
+Terminal=false
+Categories=ConsoleOnly;System;FileTools;FileManager;
+MimeType=inode/directory;

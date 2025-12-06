@@ -14,6 +14,9 @@ if [ -n "$THEME" ]; then
     python3 "$HOME/dots/swaync/scripts/update_colors.py"
     swaync-client -rs
 
+    # Update Rofi colors
+    python3 "$HOME/dots/rofi/scripts/update_colors.py"
+
     # Reload waybar style
     pkill -SIGUSR2 waybar
     # Signal the theme module to update (assuming signal 1 is used)

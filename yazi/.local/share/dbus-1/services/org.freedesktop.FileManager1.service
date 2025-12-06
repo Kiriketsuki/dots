@@ -1,0 +1,5 @@
+[D-BUS Service]
+Name=org.freedesktop.FileManager1
+# Replace 'kitty -e yazi' with your actual terminal command
+Exec=/usr/bin/alacritty -e yazi
+SystemdService=dbus-org.freedesktop.FileManager1.service
