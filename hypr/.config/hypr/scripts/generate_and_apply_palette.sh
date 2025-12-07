@@ -12,7 +12,7 @@ echo "Generating palette from current wallpaper: $(readlink -f "$CURRENT_WALLPAP
 
 # Generate palette.css using KiColour
 # Assumes KiColour binary is in PATH or provide full path
-KiColour -c "$CURRENT_WALLPAPER" "$HOME/dots/styles/palette.css"
+kilour -c "$CURRENT_WALLPAPER" "$HOME/dots/styles/palette.css"
 
 if [ $? -ne 0 ]; then
     echo "Error: Failed to generate palette"
