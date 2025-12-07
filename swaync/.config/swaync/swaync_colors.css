@@ -1,18 +1,17 @@
 
 :root {
-    --cc-bg: alpha(@color-1, 0.7);
-    --noti-border-color: alpha(@color-7, 0.5);
-    --noti-bg: @color-3;
-    --noti-bg-darker: @color-9;
-    --noti-bg-hover: @color-4;
-    --noti-bg-focus: alpha(@color-8, 0.6);
-    --noti-close-bg: @color-0;
-    --noti-close-bg-hover: @color-5;
-    --bg-selected: @color-6;
+    --cc-bg: alpha(@color-0, 0.85);
+    --noti-border-color: alpha(@color-2, 0.5);
+    --noti-bg: @color-1;
+    --noti-bg-darker: @color-0;
+    --noti-bg-hover: @color-2;
+    --noti-bg-focus: alpha(@color-2, 0.6);
+    --noti-close-bg: @color-3;
+    --noti-close-bg-hover: @color-4;
+    --bg-selected: @color-2;
     
-    /* Keep text color consistent with the main notification background if possible, 
-       or just use text-color-0 as a safe default if the theme ensures it contrasts with everything.
-       For now, let's try to match the notification background's text color. */
-    --text-color: @text-color-3;
-    --text-color-disabled: alpha(@text-color-3, 0.5);
+    --text-color: @text-color-1;
+    --text-color-disabled: alpha(@text-color-1, 0.5);
+    
+    --cc-bg-image: url("file:///home/kiriketsuki/.config/backgrounds/lights.jpg");
 }

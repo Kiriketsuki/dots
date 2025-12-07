@@ -1,9 +1,9 @@
 :root {
-    --dimgrey: #694f33;
-    --dimgrey-2: #4f402d;
-    --darkslategrey: #3a3223;
-    --darkslategrey-2: #4d4f46;
-    --dimgray: #476870;
-    --dimgray-2: #766563;
-    --cadetblue: #58b1ca;
+    --darkslategray: #3c3125;
+    --black: #30261a;
+    --darkslategray-2: #493e30;
+    --dimgrey: #594c3e;
+    --dimgray: #706253;
+    --grey: #897a6e;
+    --darkgrey: #a29dab;
 }

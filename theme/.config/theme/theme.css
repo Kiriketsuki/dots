@@ -1,15 +1,15 @@
 /* Theme Source: /home/kiriketsuki/dots/styles/palette.css */
-@define-color color-0 #3a3223;
-@define-color text-color-0 #58b1ca;
-@define-color color-1 #476870;
-@define-color text-color-1 #FFF8F0;
-@define-color color-2 #694f33;
-@define-color text-color-2 #FFF8F0;
-@define-color color-3 #766563;
+@define-color color-0 #493e30;
+@define-color text-color-0 #FFF8F0;
+@define-color color-1 #3c3125;
+@define-color text-color-1 #a29dab;
+@define-color color-2 #a29dab;
+@define-color text-color-2 #30261a;
+@define-color color-3 #594c3e;
 @define-color text-color-3 #FFF8F0;
-@define-color color-4 #58b1ca;
-@define-color text-color-4 #3a3223;
-@define-color color-5 #4d4f46;
+@define-color color-4 #30261a;
+@define-color text-color-4 #a29dab;
+@define-color color-5 #706253;
 @define-color text-color-5 #FFF8F0;
-@define-color color-6 #4f402d;
+@define-color color-6 #897a6e;
 @define-color text-color-6 #FFF8F0;
