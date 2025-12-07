@@ -1,0 +1,14 @@
+[credential]
+	helper = cache
+	user = Jovian-Aurrigo
+	email = jlim@aurrigo.com
+[init]
+	defaulBranch = main
+	defaultBranch = main
+# Load Personal Config for ~/dev and its subdirectories
+[includeIf "gitdir:~/dev/"]
+    path = ~/.gitconfig-personal
+
+# Load Work Config for ~/workdev and its subdirectories
+[includeIf "gitdir:~/workdev/"]
+    path = ~/.gitconfig-work
