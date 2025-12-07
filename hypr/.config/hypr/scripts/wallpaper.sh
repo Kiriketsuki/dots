@@ -18,10 +18,33 @@ if [ -z "$MONITORS" ]; then
     exit 1
 fi
 
+# Get all wallpapers into an array, shuffled
+mapfile -t WALLPAPERS < <(find -L "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" \) | shuf)
+
+COUNT=${#WALLPAPERS[@]}
+
+if [ "$COUNT" -eq 0 ]; then
+    echo "Warning: No wallpapers found in $WALLPAPER_DIR"
+    exit 1
+fi
+
+# Assign wallpapers for Lock and Rofi
+WP_LOCK="${WALLPAPERS[0]}"
+WP_ROFI="${WALLPAPERS[$((1 % COUNT))]}"
+
+echo "Setting Lock wallpaper: $WP_LOCK"
+ln -sf "$WP_LOCK" "$HOME/.config/backgrounds/.current_lock"
+
+echo "Setting Rofi wallpaper: $WP_ROFI"
+ln -sf "$WP_ROFI" "$HOME/.config/backgrounds/.current_rofi"
+
+# Start picking monitor wallpapers from index 2
+IDX=2
+
 for monitor in $MONITORS; do
-    # Select random wallpaper
-    # Use -L to follow symlinks if WALLPAPER_DIR is a symlink
-    WALLPAPER=$(find -L "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" \) | shuf -n 1)
+    # Select wallpaper for this monitor
+    WP_INDEX=$((IDX % COUNT))
+    WALLPAPER="${WALLPAPERS[$WP_INDEX]}"
     
     if [ -n "$WALLPAPER" ]; then
         echo "Setting wallpaper for $monitor to $WALLPAPER"
@@ -32,10 +55,10 @@ for monitor in $MONITORS; do
         # Set the wallpaper
         hyprctl hyprpaper wallpaper "$monitor,$WALLPAPER"
 
-        # Update current wallpaper symlink for Rofi
+        # Update current wallpaper symlink (will point to the last monitor processed)
         ln -sf "$WALLPAPER" "$HOME/.config/backgrounds/.current_wallpaper"
-    else
-        echo "Warning: No wallpapers found in $WALLPAPER_DIR"
+        
+        IDX=$((IDX + 1))
     fi
 done
 

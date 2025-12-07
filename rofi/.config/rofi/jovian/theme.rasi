@@ -32,7 +32,7 @@ window {
     enabled:                     true;
     border-radius:               5px;
     cursor:                      "default";
-    background-color:            @background;
+    background-color:            @background-alpha;
 }
 
 /*****----- Main Box -----*****/
@@ -40,7 +40,7 @@ mainbox {
     enabled:                     true;
     spacing:                     0px;
     background-color:            transparent;
-    background-image:            url("~/.config/backgrounds/.current_wallpaper", height);
+    background-image:            url("~/.config/backgrounds/.current_rofi", height);
     orientation:                 vertical;
     children:                    [ "inputbar", "listbox" ];
 }

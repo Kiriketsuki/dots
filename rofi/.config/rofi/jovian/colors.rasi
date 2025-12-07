@@ -1,13 +1,13 @@
 * {
-    background:     #353539;
-    background-alt: #334d5e;
-    background-alpha: rgba(53, 53, 57, 0.85);
-    foreground:     #95b4ed;
-    selected:       #95b4ed;
-    active:         #2c6d96;
-    urgent:         #4c443e;
+    background:     #3f4750;
+    background-alt: #676972;
+    background-alpha: rgba(63, 71, 80, 0.85);
+    foreground:     #FFF8F0;
+    selected:       #484c54;
+    active:         #5a5d65;
+    urgent:         #727581;
     
-    foreground-selected: #000000;
-    foreground-active:   #ffffff;
-    foreground-urgent:   #95b4ed;
+    foreground-selected: #FFF8F0;
+    foreground-active:   #FFF8F0;
+    foreground-urgent:   #ffffff;
 }

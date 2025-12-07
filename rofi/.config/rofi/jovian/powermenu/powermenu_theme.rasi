@@ -33,7 +33,7 @@ mainbox {
     enabled:                     true;
     spacing:                     0px;
     background-color:            transparent;
-    background-image:            url("~/.config/backgrounds/.current_wallpaper", width);
+    background-image:            url("~/.config/backgrounds/.current_rofi", width);
     orientation:                 horizontal;
     children:                    [ "imagebox", "listbox" ];
 }
