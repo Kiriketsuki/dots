@@ -181,7 +181,7 @@
                 ""
             ]
         },
-        "on-click": "pavucontrol"
+        "on-click": "pkill -x pavucontrol || pavucontrol"
     },
     "custom/media": {
         "format": "{icon} {text}",
