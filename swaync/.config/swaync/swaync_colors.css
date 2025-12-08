@@ -13,5 +13,5 @@
     --text-color: @text-color-1;
     --text-color-disabled: alpha(@text-color-1, 0.5);
     
-    --cc-bg-image: url("file:///home/kiriketsuki/.config/backgrounds/lights.jpg");
+    --cc-bg-image: url("file:///home/kiriketsuki/.config/backgrounds/wallhaven-v9qy9l.jpg");
 }
