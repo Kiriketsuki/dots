@@ -1,12 +1,11 @@
 import sys
 import subprocess
 import json
+import time
 
 def run_cmd(cmd):
-    try:
-        subprocess.Popen(cmd, shell=True)
-    except:
-        pass
+    # Use subprocess.run to ensure synchronous execution
+    subprocess.run(cmd, shell=True)
 
 def get_output(cmd):
     try:
@@ -32,25 +31,24 @@ def main():
     monitors.sort(key=lambda x: x['x'])
 
     # 2. Assign Workspaces to Connected Monitors
-    # Mon 0 -> Base, Mon 1 -> Base+10, Mon 2 -> Base+20
-    cmds = []
-    
     for i, mon in enumerate(monitors):
         target_ws = base + (i * 10)
-        # Focus monitor first, then switch workspace
-        # Use name instead of ID for reliability
-        cmds.append(f"hyprctl dispatch focusmonitor {mon['name']}")
-        cmds.append(f"hyprctl dispatch workspace {target_ws}")
+        name = mon['name']
+        
+        # Attempt to move the workspace to the monitor first (if it exists)
+        # This ensures that if the workspace is open elsewhere, it gets pulled here
+        run_cmd(f"hyprctl dispatch moveworkspacetomonitor {target_ws} {name}")
+        
+        # Focus monitor and switch workspace
+        run_cmd(f"hyprctl dispatch focusmonitor {name}")
+        run_cmd(f"hyprctl dispatch workspace {target_ws}")
 
-    # Ensure we end up focused on the requested base workspace (Monitor 1)
-    # We find the name of the first monitor (leftmost)
-    if monitors:
-        cmds.append(f"hyprctl dispatch focusmonitor {monitors[0]['name']}")
-        cmds.append(f"hyprctl dispatch workspace {base}")
-
-    # 3. Execute (Batch for performance)
-    full_cmd = "; ".join(cmds)
-    run_cmd(full_cmd)
+    # 3. Prioritize Middle Monitor (Index 1) if available, else Left (Index 0)
+    focus_idx = 1 if len(monitors) >= 3 else 0
+    if monitors and len(monitors) > focus_idx:
+        target_mon = monitors[focus_idx]
+        # Just focus the monitor, the workspace is already set in the loop above
+        run_cmd(f"hyprctl dispatch focusmonitor {target_mon['name']}")
 
 if __name__ == "__main__":
     main()

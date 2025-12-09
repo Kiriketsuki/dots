@@ -14,3 +14,7 @@ alias config='/usr/bin/git --git-dir=/home/kiriketsuki/dotfiles --work-tree=/hom
 . "$HOME/.cargo/env"
 
 . "$HOME/.local/bin/env"
+
+# Environment Variables
+export EDITOR='nvim'
+export VISUAL='nvim'

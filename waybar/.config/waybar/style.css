@@ -76,6 +76,7 @@ window#waybar.hidden {
 #mode,
 #idle_inhibitor,
 #mpd,
+#mpris,
 #custom-theme,
 #group-tray,
 #custom-wallpaper,
@@ -195,12 +196,14 @@ window#waybar.hidden {
     border-bottom: 2px solid @color-5;
 }
 
-#mpd {
+#mpd,
+#mpris {
     background: linear-gradient(to top, alpha(@color-2, 0.25), transparent);
     border-bottom: 2px solid @color-2;
 }
 
-#mpd.disconnected {
+#mpd.disconnected,
+#mpris.stopped {
     background: transparent;
     border-bottom: none;
     color: alpha(@color-8, 0.5);

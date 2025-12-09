@@ -87,6 +87,16 @@ function y() {
 alias ls='ls --color'
 alias vim='nvim'
 alias c='clear'
+alias checkout='git checkout'
+alias pull='git pull'
+alias push='git push'
+alias rebase='git rebase'
+alias fetch='git fetch'
+
+
+# Environment Variables
+export EDITOR='nvim'
+export VISUAL='nvim'
 
 # Shell integrations
 eval "$(fzf --zsh)"
