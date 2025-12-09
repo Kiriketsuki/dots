@@ -5,14 +5,22 @@ My personal configuration files (dotfiles), managed with [GNU Stow](https://www.
 ## Contents
 
 -   **alacritty/**: Alacritty terminal emulator configuration
+-   **backgrounds/**: Wallpapers and background images
 -   **bash/**: Bash shell configuration
--   **Code/**: VS Code configuration
+-   **Code/**: VS Code editor configuration
+-   **fontconfig/**: Font configuration files
+-   **git/**: Git configuration and settings
 -   **hypr/**: Hyprland, Hyprlock, and Hypridle configuration
--   **nvim/**: Neovim configuration
+-   **mpd/**: Music Player Daemon configuration
+-   **nvim/**: Neovim text editor configuration
+-   **rofi/**: Rofi application launcher configuration (includes powermenu scripts)
+-   **spicetify/**: Spicetify (Spotify customization) configuration
+-   **styles/**: Theme CSS files (deep ocean blue, pastel, sunny beach day)
 -   **swaync/**: Sway Notification Center configuration
--   **styles/**: Theme CSS files
--   **theme/**: Theme configuration
+-   **theme/**: System theme configuration
 -   **waybar/**: Waybar status bar configuration
+-   **xdg-desktop-portal/**: XDG Desktop Portal configuration
+-   **yazi/**: Yazi file manager configuration
 -   **zsh/**: Zsh shell configuration
 
 ## Requirements
@@ -42,6 +50,24 @@ sudo pacman -S hyprland hyprlock hypridle
 
 # Status bar and notifications
 sudo pacman -S waybar swaync
+
+# Application launcher and widgets
+sudo pacman -S rofi
+
+# File manager
+sudo pacman -S yazi
+
+# Music
+sudo pacman -S mpd
+
+# Font configuration
+sudo pacman -S fontconfig
+
+# XDG Desktop Portal
+sudo pacman -S xdg-desktop-portal xdg-desktop-portal-hyprland
+
+# Spotify customization (Spicetify - install from AUR)
+yay -S spicetify-cli
 ```
 
 ### Ubuntu
@@ -76,6 +102,24 @@ sudo apt install waybar
 
 # Sway Notification Center
 sudo apt install swaync
+
+# Rofi
+sudo apt install rofi
+
+# Yazi (file manager - may need to build from source or use cargo)
+cargo install --locked yazi-fm
+
+# MPD
+sudo apt install mpd
+
+# Font configuration
+sudo apt install fontconfig
+
+# XDG Desktop Portal
+sudo apt install xdg-desktop-portal xdg-desktop-portal-gtk
+
+# Spicetify (install manually)
+curl -fsSL https://raw.githubusercontent.com/spicetify/cli/main/install.sh | sh
 ```
 
 > **Note:** Hyprland and its related tools (hyprlock, hypridle) have limited support on Ubuntu. For the best experience with Hyprland, consider using Arch Linux or another rolling-release distribution.
@@ -96,12 +140,21 @@ sudo apt install swaync
     stow .
 
     # Or install specific packages
-    stow zsh nvim hypr waybar alacritty
+    stow zsh nvim hypr waybar alacritty rofi swaync yazi
     ```
 
     By default, stow will create symlinks in the parent directory (`../`), which should be your home directory if you cloned into `~/dots`.
 
+## Features
+
+-   **Theme System**: Multiple CSS themes available in `styles/` (deep ocean blue, pastel, sunny beach day)
+-   **Custom Scripts**: Power menu and color update scripts in `rofi/` and `swaync/`
+-   **Hyprland Setup**: Complete Wayland compositor configuration with lock screen and idle management
+-   **Modern Terminal**: Configured Alacritty with custom themes
+-   **Development Ready**: Neovim and VS Code configurations included
+
 ## Management
 
 -   **Update**: `git pull` inside the directory.
--   **Uninstall**: `stow -D <package>` (e.g., `stow -D nvim`).
+-   **Uninstall a package**: `stow -D <package>` (e.g., `stow -D nvim`).
+-   **Reinstall a package**: `stow -R <package>` (restow - useful after updates).
