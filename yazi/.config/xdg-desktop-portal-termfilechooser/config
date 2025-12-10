@@ -1,2 +1,2 @@
 [filechooser]
-cmd=/usr/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
+cmd=/home/kiriketsuki/.local/bin/yazi-wrapper.sh

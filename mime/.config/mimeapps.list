@@ -1,0 +1,12 @@
+[Added Associations]
+text/plain=nvim-2.desktop;
+
+[Default Applications]
+text/plain=nvim-2.desktop;
+x-scheme-handler/msoutlook=outlook-for-linux_outlook-for-linux.desktop
+x-scheme-handler/mailto=thunderbird_thunderbird.desktop
+x-scheme-handler/mid=thunderbird_thunderbird.desktop
+inode/directory=yazi-wrapper.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+text/html=firefox.desktop
