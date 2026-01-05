@@ -12,3 +12,6 @@
 # Load Work Config for ~/workdev and its subdirectories
 [includeIf "gitdir:~/workdev/"]
     path = ~/.gitconfig-work
+[alias]
+	gone = !bash ~/dots/git/git-gone.sh
+	track-all = !bash ~/dots/git/git-track-all.sh

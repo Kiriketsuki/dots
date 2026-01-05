@@ -15,3 +15,6 @@ sleep 2
 hyprctl dispatch exec "[workspace 10 silent] whatsapp-desktop-client"
 
 hyprctl dispatch exec "[workspace 19 silent] spotify"
+
+# Start Waybar with logging
+waybar > /tmp/waybar.log 2>&1 &

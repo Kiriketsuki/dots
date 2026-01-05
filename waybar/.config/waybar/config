@@ -6,7 +6,6 @@
         "hyprland/window"
     ],
     "modules-center": [
-        "custom/media",
         "hyprland/workspaces"
     ],
     "modules-right": [
@@ -170,17 +169,6 @@
             ]
         },
         "on-click": "pkill -x pavucontrol || pavucontrol"
-    },
-    "custom/media": {
-        "format": "{icon} {text}",
-        "return-type": "json",
-        "max-length": 40,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
-        },
-        "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null"
     },
     "custom/power": {
         "format": "⏻ ",
