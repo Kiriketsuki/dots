@@ -1,8 +1,5 @@
-[opener]
-edit = [
-	{ run = 'nvim "$@"', block = true, for = "unix" },
-]
+[[manager.prepend_keymap]]
+on   = [ "<Enter>" ]
+run  = "plugin --sync smart-enter"
+desc = "Enter the child directory, or open the file"
 
-text = [
-	{ run = 'nvim "$@"', block = true, for = "unix" },
-]

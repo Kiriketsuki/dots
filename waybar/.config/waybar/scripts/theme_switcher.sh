@@ -17,6 +17,9 @@ if [ -n "$THEME" ]; then
     # Update Rofi colors
     python3 "$HOME/dots/rofi/scripts/update_colors.py"
 
+    # Update GTK colors
+    python3 "$HOME/dots/gtk/scripts/update_colors.py"
+
     # Reload waybar style
     pkill -SIGUSR2 waybar
     # Signal the theme module to update (assuming signal 1 is used)

@@ -13,3 +13,8 @@ Status:children_add(function()
 		ui.Span(" | "),
 	}
 end, 1000, Status.LEFT)
+
+require("smart-enter"):setup {
+	open_multi = true,
+}
+

@@ -40,9 +40,12 @@ swaync-client -rs
 # Update Rofi colors
 python3 "$HOME/dots/rofi/scripts/update_colors.py"
 
-# Reload waybar style
-pkill -SIGUSR2 waybar
-# Signal the theme module to update (assuming signal 1 is used)
-pkill -RTMIN+1 waybar
+# Update GTK colors
+python3 "$HOME/dots/gtk/scripts/update_colors.py"
+
+# Restart waybar to ensure GTK theme is picked up
+pkill waybar
+sleep 0.5
+waybar > /tmp/waybar.log 2>&1 &
 
 echo "Theme applied successfully!"

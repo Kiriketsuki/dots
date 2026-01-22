@@ -1,7 +1,7 @@
 # yazi.toml
 [opener]
 edit = [
-	{ run = 'nvim "$@"', orphan = true, desc = "Edit with nvim" },
+	{ run = 'nvim "$@"', block = true, desc = "Edit with nvim" },
 ]
 
 [mgr]
