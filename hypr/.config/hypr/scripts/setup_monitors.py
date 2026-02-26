@@ -22,7 +22,7 @@ EXTERNAL_ORDER = ["W270", "X300"]
 
 # Per-hostname scale for the built-in laptop display (keys lowercased for matching)
 LAPTOP_SCALE = {
-    "kinovo": 1.5,
+    "kinovo": 2.0,
     "kiwork-arch": 1.0,
 }
 
