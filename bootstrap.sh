@@ -24,7 +24,7 @@ fi
 # ─── 3. All packages ──────────────────────────────────────────────────────────
 info "Installing packages..."
 yay -S --needed --noconfirm \
-    zsh alacritty neovim code \
+    zsh alacritty neovim visual-studio-code-bin \
     hyprland hyprlock hypridle hyprpaper \
     waybar swaync rofi-wayland \
     yazi thunar mpd \
@@ -35,11 +35,20 @@ yay -S --needed --noconfirm \
     brightnessctl playerctl \
     pipewire wireplumber \
     github-cli \
+    nvm \
+    kilour \
+    firefox pavucontrol thunderbird \
+    snapd \
     spicetify-cli
 
 # ─── 4. Services ──────────────────────────────────────────────────────────────
 info "Enabling NetworkManager..."
 sudo systemctl enable --now NetworkManager
+
+# ─── 4b. snapd: enable socket + symlink so snap commands work ─────────────────
+info "Enabling snapd..."
+sudo systemctl enable --now snapd.socket
+sudo ln -sf /var/lib/snapd/snap /snap 2>/dev/null || true
 
 # ─── 5. uv (Python toolchain) ─────────────────────────────────────────────────
 if ! command -v uv &>/dev/null; then
@@ -48,6 +57,26 @@ if ! command -v uv &>/dev/null; then
 else
     success "uv already installed, skipping"
 fi
+
+# ─── 5b. nvm: install latest LTS node + npm ───────────────────────────────────
+if [ -s /usr/share/nvm/init-nvm.sh ]; then
+    info "Installing Node.js LTS via nvm..."
+    # nvm is a shell function, must be sourced in a subshell
+    bash -c 'source /usr/share/nvm/init-nvm.sh && nvm install --lts'
+else
+    warn "nvm init script not found; run manually: source /usr/share/nvm/init-nvm.sh && nvm install --lts"
+fi
+
+# ─── 5c. User / startup applications ──────────────────────────────────────────
+info "Installing user applications (used by startup_apps.sh)..."
+yay -S --needed --noconfirm \
+    slack-desktop \
+    teams-for-linux \
+    spotify \
+    obsidian
+
+info "Installing WhatsApp (snap)..."
+snap install whatsapp-desktop-client
 
 # ─── 6. Back up conflicting files ─────────────────────────────────────────────
 info "Backing up conflicting files..."

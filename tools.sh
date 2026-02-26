@@ -23,6 +23,12 @@ TOOLS=(
     glow        # render markdown in the terminal
     tmux        # terminal multiplexer
     tailscale   # mesh VPN
+    wget        # HTTP/FTP downloader
+    unzip       # archive extraction
+    tree        # directory tree viewer
+    neofetch    # system info display
+    btop        # resource monitor (alternative to bottom)
+    xclip       # X11 clipboard (for scripts that pipe to clipboard)
 )
 
 yay -S --needed --noconfirm "${TOOLS[@]}"
