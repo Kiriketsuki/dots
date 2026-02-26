@@ -50,11 +50,39 @@ yay -S --needed --noconfirm \
     kilour \
     firefox thunderbird \
     snapd \
-    spicetify-cli
+    spicetify-cli \
+    aylurs-gtk-shell-git libastal-meta \
+    resvg \
+    lan-mouse \
+    docker \
+    python-pip \
+    postgresql pgbouncer pgloader \
+    qgis \
+    mongodb-compass-bin \
+    dbeaver
 
 # ─── 4. Services ──────────────────────────────────────────────────────────────
-info "Enabling NetworkManager..."
+# NetworkManager: disable competing WiFi daemons so NM has sole control
+info "Configuring NetworkManager as sole WiFi manager..."
+sudo systemctl disable --now iwd wpa_supplicant 2>/dev/null || true
 sudo systemctl enable --now NetworkManager
+
+# Bluetooth
+sudo systemctl enable --now bluetooth
+
+# Power management
+sudo systemctl enable --now tlp
+
+# Docker: enable daemon and add current user to docker group
+sudo systemctl enable --now docker
+sudo usermod -aG docker "$USER"
+
+# PostgreSQL: init data directory if not already done, then enable
+if [ ! -f /var/lib/postgres/data/PG_VERSION ]; then
+    info "Initialising PostgreSQL data directory..."
+    sudo -u postgres initdb --locale=en_US.UTF-8 -D /var/lib/postgres/data
+fi
+sudo systemctl enable --now postgresql
 
 # ─── 4b. snapd: enable socket + symlink so snap commands work ─────────────────
 info "Enabling snapd..."
@@ -139,7 +167,8 @@ echo ""
 success "Bootstrap complete. Reboot to start Hyprland."
 echo ""
 echo "  Next steps:"
-echo "    1. Reboot"
+echo "    1. Reboot  (required: docker group, TTY autologin, kernel modules)"
 echo "    2. Set wallpaper:       ~/.config/hypr/scripts/wallpaper.sh"
 echo "    3. Set up GitHub accounts (interactive):"
 echo "                            ~/dots/git/gh-setup.sh"
+echo "    4. Install optional CLI tools: bash ~/dots/tools.sh"
