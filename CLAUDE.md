@@ -4,71 +4,67 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a GNU Stow-based dotfiles repository for a Hyprland/Wayland desktop setup on Arch Linux. Configuration files are organized into modules (one per application), each structured so `stow .` or `stow <module>` symlinks them into `~/`.
+Personal dotfiles repository for a Wayland-based Linux desktop (Arch Linux) centered on the Hyprland compositor. Configurations are managed with **GNU Stow** — each top-level directory is a stow package that symlinks into `~/.config/`, `~/.local/`, etc.
 
 ## Stow Commands
 
-```sh
-# Symlink everything to ~/
-stow .
+```bash
+# Install all configs
+cd ~/dots && stow .
 
-# Symlink a specific module
-stow zsh hypr waybar
+# Install a single package
+stow <package>     # e.g. stow hypr
 
-# Remove symlinks for a module
-stow -D <module>
-
-# Restow (remove + re-symlink, useful after updates)
-stow -R <module>
+# Uninstall a package
+stow -D <package>
 ```
 
-## Module Structure
+## Architecture
 
-Each module directory mirrors the target path relative to `~/`. For example:
-- `hypr/.config/hypr/hyprland.conf` → `~/.config/hypr/hyprland.conf`
-- `zsh/.zshrc` → `~/.zshrc`
+### Wallpaper-Driven Theme Pipeline
 
-## Theme System
+The central architectural pattern is a color pipeline that derives the entire desktop theme from the current wallpaper:
 
-Themes are CSS files in `styles/.config/styles/`:
-- `deep_ocean_blue.css`
-- `pastel.css`
-- `sunny_beach_day.css`
+```
+Wallpaper → kilour (color extraction) → styles/palette.css
+  → hypr/scripts/generate_and_apply_palette.sh
+    → waybar/scripts/ensure_contrast.py → theme/theme.css (central hub, @define-color vars)
+      → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css
+      → rofi/scripts/update_colors.py   → rofi colors.rasi
+      → swaync/scripts/update_colors.py → swaync CSS
+      → hypr/scripts/update_colors.py   → hypr/colors.conf
+```
 
-The active theme is referenced by `theme/.config/theme/theme` (plain text file with theme name). Multiple Python scripts read from the active theme CSS and regenerate component-specific color configs:
+- `styles/palette.css` — raw extracted colors as CSS `:root` variables (`--color-N: #HEX`)
+- `theme/theme.css` — central color definitions with contrast-safe text colors (`@define-color color-N` / `@define-color text-color-N`), enforcing WCAG AA 4.5:1 ratio
+- Per-app `update_colors.py` scripts read theme.css and emit app-specific formats
 
-- `rofi/scripts/update_colors.py` — generates Rofi color scheme (reads theme CSS, calculates contrast ratios)
-- `hypr/.config/hypr/scripts/update_colors.py` — updates Hyprland border/decoration colors
-- `swaync/scripts/update_colors.py` — generates SwayNC colors + background image compositing
-- `waybar/.config/waybar/scripts/ensure_contrast.py` — validates text contrast compliance in Waybar
-- `waybar/.config/waybar/scripts/theme_switcher.sh` — orchestrates full theme switch (calls Python scripts, reloads services)
+### Color Variable Convention
 
-Theme switching flow: `theme_switcher.sh` → writes theme name → calls update_colors scripts → reloads hyprland/waybar/swaync.
+All theme scripts use indexed color names: `color-0` through `color-N` with matching `text-color-N` for accessible text on each background.
+
+### Git Conditional Config
+
+`git/.config/git/config` uses `includeIf` for different identities: `~/dev/` (personal) vs `~/workdev/` (work).
+
+### Shell
+
+Zsh with Zinit plugin manager and Powerlevel10k prompt. Plugins loaded via Zinit turbo mode.
+
+### Neovim
+
+LazyVim-based configuration under `nvim/.config/nvim/` with modular Lua structure (`config/`, `plugins/`).
+
+## Versioning
+
+Automated via GitHub Actions. Scheme: `YY.MM.MAJOR.MINOR`. Commit prefixes `feat:` and `fix:` trigger version bumps.
 
 ## Key Scripts
 
 | Script | Purpose |
 |--------|---------|
-| `hypr/.config/hypr/scripts/wallpaper.sh` | Set wallpaper and trigger palette generation |
-| `hypr/.config/hypr/scripts/generate_and_apply_palette.sh` | Generate color palette from wallpaper |
-| `hypr/.config/hypr/scripts/smart_spawn.py` | Spawn app or focus existing instance |
-| `hypr/.config/hypr/scripts/sync_workspaces.py` | Sync workspaces across monitors |
-| `hypr/.config/hypr/scripts/move_window.py` | Move windows with smart boundary logic |
-| `rofi/scripts/powermenu.sh` | Power menu (shutdown/reboot/suspend/lock/logout) |
-| `git/git-gone.sh` | Remove local branches deleted on remote |
-| `git/git-track-all.sh` | Create local tracking branches for all remotes |
-
-## Versioning
-
-Version format: `YY.MM.MAJOR.MINOR` stored in `VERSION` file. GitHub Actions (`.github/workflows/bump_version.yml`) auto-bumps on push to main:
-- `feat:` commits → bump MAJOR
-- `fix:` commits → bump MINOR
-- Date change (new YY.MM) → reset MAJOR/MINOR, create a release
-
-## Architecture Notes
-
-- **Wayland-native stack**: Hyprland → Waybar → Rofi → SwayNC → Hyprlock/Hypridle
-- **No build step**: This is pure configuration; no compilation or package management needed
-- **Python scripts** use only stdlib (no pip dependencies) — they process CSS color values and call external binaries (hyprctl, notify-send, etc.)
-- **Spicetify module** (`spicetify/`) is the largest module (~189 files) and contains Spotify theming assets; it's self-contained and rarely edited
-- `git/.gitconfig` uses conditional includes (`includeIf`) to switch between personal and work Git identities based on directory path
+| `hypr/scripts/generate_and_apply_palette.sh` | Master palette generator — orchestrates the full theme pipeline |
+| `waybar/scripts/ensure_contrast.py` | Generates theme.css with WCAG-compliant text colors |
+| `hypr/scripts/sync_workspaces.py` | Multi-monitor workspace synchronization |
+| `hypr/scripts/smart_spawn.py` | Intelligent window spawning |
+| `rofi/scripts/powermenu.sh` | System power menu (lock/suspend/shutdown/logout) |

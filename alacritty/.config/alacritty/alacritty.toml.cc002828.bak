@@ -36,8 +36,3 @@ chars = "\u001Bf"
 key = "Back"
 mods = "Control"
 chars = "\u0017"
-
-[[keyboard.bindings]]
-key = "Return"
-mods = "Shift"
-chars = "\u001b\r"
