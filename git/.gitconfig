@@ -1,17 +1,25 @@
+[user]
+    name = kiriketsuki
+    email = kiriketsuki@gmail.com
+
 [credential]
-	helper = cache
-	user = Jovian-Aurrigo
-	email = jlim@aurrigo.com
+    helper = cache
+
 [init]
-	defaulBranch = main
-	defaultBranch = main
-# Load Personal Config for ~/dev and its subdirectories
+    defaultBranch = main
+
+# ~/dev → personal
 [includeIf "gitdir:~/dev/"]
     path = ~/.gitconfig-personal
 
-# Load Work Config for ~/workdev and its subdirectories
+# ~/workdev → personal by default
 [includeIf "gitdir:~/workdev/"]
+    path = ~/.gitconfig-personal
+
+# ~/workdev/Aurrigo → work (overrides personal above)
+[includeIf "gitdir:~/workdev/Aurrigo/"]
     path = ~/.gitconfig-work
+
 [alias]
-	gone = !bash ~/dots/git/git-gone.sh
-	track-all = !bash ~/dots/git/git-track-all.sh
+    gone = !bash ~/dots/git/git-gone.sh
+    track-all = !bash ~/dots/git/git-track-all.sh

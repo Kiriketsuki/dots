@@ -7,154 +7,173 @@ My personal configuration files (dotfiles), managed with [GNU Stow](https://www.
 -   **alacritty/**: Alacritty terminal emulator configuration
 -   **backgrounds/**: Wallpapers and background images
 -   **bash/**: Bash shell configuration
--   **Code/**: VS Code editor configuration
 -   **fontconfig/**: Font configuration files
--   **git/**: Git configuration and settings
--   **hypr/**: Hyprland, Hyprlock, and Hypridle configuration
+-   **git/**: Git configuration and custom scripts (`git-gone`, `git-track-all`)
+-   **gtk/**: GTK3 theme configuration
+-   **hypr/**: Hyprland, Hyprlock, and Hypridle configuration + scripts
+-   **mime/**: MIME type associations
 -   **mpd/**: Music Player Daemon configuration
--   **nvim/**: Neovim text editor configuration
--   **rofi/**: Rofi application launcher configuration (includes powermenu scripts)
+-   **rofi/**: Rofi launcher configuration and power menu script
 -   **spicetify/**: Spicetify (Spotify customization) configuration
 -   **styles/**: Theme CSS files (deep ocean blue, pastel, sunny beach day)
 -   **swaync/**: Sway Notification Center configuration
--   **theme/**: System theme configuration
--   **waybar/**: Waybar status bar configuration
+-   **theme/**: Active theme pointer
+-   **waybar/**: Waybar status bar configuration and theme switcher
 -   **xdg-desktop-portal/**: XDG Desktop Portal configuration
 -   **yazi/**: Yazi file manager configuration
--   **zsh/**: Zsh shell configuration
+-   **zsh/**: Zsh shell configuration (Zinit, Powerlevel10k, fzf, zoxide)
 
-## Requirements
-
--   [GNU Stow](https://www.gnu.org/software/stow/)
--   git
-
-## Installing Applications
-
-### Arch Linux
+## Quick Install (Arch Linux)
 
 ```sh
-# Core dependencies
-sudo pacman -S git stow
-
-# Shell
-sudo pacman -S bash zsh
-
-# Terminal
-sudo pacman -S alacritty
-
-# Editors
-sudo pacman -S neovim code
-
-# Hyprland ecosystem (Wayland compositor)
-sudo pacman -S hyprland hyprlock hypridle
-
-# Status bar and notifications
-sudo pacman -S waybar swaync
-
-# Application launcher and widgets
-sudo pacman -S rofi
-
-# File manager
-sudo pacman -S yazi
-
-# Music
-sudo pacman -S mpd
-
-# Font configuration
-sudo pacman -S fontconfig
-
-# XDG Desktop Portal
-sudo pacman -S xdg-desktop-portal xdg-desktop-portal-hyprland
-
-# Spotify customization (Spicetify - install from AUR)
-yay -S spicetify-cli
+git clone https://github.com/Kiriketsuki/dots.git ~/dots
+cd ~/dots && bash bootstrap.sh
 ```
 
-### Ubuntu
+Then reboot. Hyprland will start automatically via TTY autologin.
 
-```sh
-# Core dependencies
-sudo apt update
-sudo apt install git stow
+## What the Bootstrap Script Does
 
-# Shell
-sudo apt install bash zsh
+1. Installs `git`, `stow`, `base-devel` via pacman
+2. Builds and installs `yay` (AUR helper) if not present
+3. Installs all required packages (see list below)
+4. Enables NetworkManager
+5. Installs `uv` (Python toolchain, required by `.zshrc`)
+6. Backs up any conflicting existing config files
+7. Stows all dotfile modules into `~/`
+8. Sets `zsh` as the default shell
+9. Disables any active display manager and sets up TTY autologin on tty1
+10. Refreshes the font cache
 
-# Terminal
-sudo apt install alacritty
+## Packages Installed
 
-# Editors
-sudo apt install neovim
-# VS Code - install via Microsoft's official repository
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
-rm -f packages.microsoft.gpg
-sudo apt update
-sudo apt install code
+| Category | Packages |
+|----------|----------|
+| Shell & Terminal | `zsh`, `alacritty` |
+| Editors | `neovim`, `code` |
+| Hyprland ecosystem | `hyprland`, `hyprlock`, `hypridle`, `hyprpaper` |
+| Status & notifications | `waybar`, `swaync` |
+| Launcher & file managers | `rofi-wayland`, `yazi`, `thunar` |
+| Audio & media | `mpd`, `pipewire`, `wireplumber`, `playerctl` |
+| Fonts | `ttf-iosevka-nerd` |
+| Portals | `xdg-desktop-portal`, `xdg-desktop-portal-hyprland` |
+| System tray | `network-manager-applet` |
+| Screenshots | `hyprshot` |
+| Shell tools | `fzf`, `zoxide`, `brightnessctl` |
+| Spotify | `spicetify-cli` |
 
-# Hyprland ecosystem (requires additional repositories on Ubuntu)
-# Note: Hyprland is not officially supported on Ubuntu. Consider using a PPA or building from source.
-# See: https://wiki.hyprland.org/Getting-Started/Installation/
+## Manual Installation
 
-# Waybar
-sudo apt install waybar
+If you prefer to run steps manually:
 
-# Sway Notification Center
-sudo apt install swaync
-
-# Rofi
-sudo apt install rofi
-
-# Yazi (file manager - may need to build from source or use cargo)
-cargo install --locked yazi-fm
-
-# MPD
-sudo apt install mpd
-
-# Font configuration
-sudo apt install fontconfig
-
-# XDG Desktop Portal
-sudo apt install xdg-desktop-portal xdg-desktop-portal-gtk
-
-# Spicetify (install manually)
-curl -fsSL https://raw.githubusercontent.com/spicetify/cli/main/install.sh | sh
-```
-
-> **Note:** Hyprland and its related tools (hyprlock, hypridle) have limited support on Ubuntu. For the best experience with Hyprland, consider using Arch Linux or another rolling-release distribution.
-
-## Installation
-
-1. Clone this repository:
+1.  Clone this repository:
 
     ```sh
     git clone https://github.com/Kiriketsuki/dots.git ~/dots
     cd ~/dots
     ```
 
-2. Install configurations using stow:
+2.  Install packages (see table above), then enable services:
 
     ```sh
-    # Install everything
-    stow .
-
-    # Or install specific packages
-    stow zsh nvim hypr waybar alacritty rofi swaync yazi
+    sudo systemctl enable --now NetworkManager
+    curl -LsSf https://astral.sh/uv/install.sh | sh
     ```
 
-    By default, stow will create symlinks in the parent directory (`../`), which should be your home directory if you cloned into `~/dots`.
+3.  Back up any pre-existing configs that would conflict:
+
+    ```sh
+    mv ~/.bashrc ~/.bashrc.bak
+    mv ~/.gitconfig ~/.gitconfig.bak
+    mv ~/.config/hypr/hyprland.conf ~/.config/hypr/hyprland.conf.bak  # if hyprland was already set up
+    ```
+
+4.  Stow each package (do **not** use `stow .`):
+
+    ```sh
+    stow alacritty backgrounds bash fontconfig git gtk hypr mime mpd \
+         rofi spicetify styles swaync theme waybar xdg-desktop-portal yazi zsh
+    ```
+
+    > **Note:** `rofi/`, `swaync/`, and `gtk/` each have a `scripts/` directory intentionally excluded from stow — those scripts are called directly from `~/dots/` by the theme system. `.stow-local-ignore` files in each module handle this.
+
+5.  Set zsh as your default shell:
+
+    ```sh
+    chsh -s $(which zsh)
+    ```
+
+6.  Disable your display manager and enable TTY autologin:
+
+    ```sh
+    sudo systemctl disable lightdm  # or sddm/gdm
+    sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
+    sudo tee /etc/systemd/system/getty@tty1.service.d/autologin.conf << 'EOF'
+    [Service]
+    ExecStart=
+    ExecStart=-/sbin/agetty --autologin YOUR_USERNAME --noclear %I $TERM
+    EOF
+    ```
+
+    Hyprland is launched automatically from `~/.zprofile` when you log into tty1.
+
+7.  Refresh font cache:
+
+    ```sh
+    fc-cache -fv
+    ```
+
+## After First Boot
+
+Set your wallpaper (this also generates the colour palette):
+
+```sh
+~/.config/hypr/scripts/wallpaper.sh
+```
+
+## GitHub / Git Setup
+
+Run the interactive setup script to authenticate both GitHub accounts and configure SSH:
+
+```sh
+~/dots/git/gh-setup.sh
+```
+
+This will:
+1. Log in to both GitHub accounts via `gh auth login` (browser-based, interactive)
+2. Generate separate SSH keys (`~/.ssh/id_personal`, `~/.ssh/id_work`) and upload them to GitHub
+3. Write `~/.ssh/config` with host aliases (`github.com-personal`, `github.com-work`)
+
+Git identity and SSH key are then applied automatically per directory:
+
+| Directory | Identity | SSH key |
+|-----------|----------|---------|
+| `~/dev/` | kiriketsuki | `id_personal` |
+| `~/workdev/` | kiriketsuki (default) | `id_personal` |
+| `~/workdev/Aurrigo/` | Jovian-Aurrigo | `id_work` |
+
+When cloning work repos into the Aurrigo context, use the work SSH host alias so the right key is used:
+
+```sh
+git clone git@github.com-work:Aurrigo/repo.git ~/workdev/Aurrigo/repo
+```
+
+Personal repos clone normally:
+
+```sh
+git clone git@github.com:kiriketsuki/repo.git ~/dev/repo
+```
 
 ## Features
 
--   **Theme System**: Multiple CSS themes available in `styles/` (deep ocean blue, pastel, sunny beach day)
--   **Custom Scripts**: Power menu and color update scripts in `rofi/` and `swaync/`
--   **Hyprland Setup**: Complete Wayland compositor configuration with lock screen and idle management
--   **Modern Terminal**: Configured Alacritty with custom themes
--   **Development Ready**: Neovim and VS Code configurations included
+-   **Theme System**: Multiple CSS themes in `styles/` — switch with `waybar/.config/waybar/scripts/theme_switcher.sh`
+-   **Wallpaper-driven palette**: Wallpaper script generates a colour palette and applies it across Hyprland, Rofi, SwayNC, and GTK
+-   **Hyprland Setup**: Full Wayland compositor with lock screen, idle management, and multi-monitor support
+-   **IosevkaTermSlab Nerd Font**: Used in Alacritty
 
 ## Management
 
--   **Update**: `git pull` inside the directory.
--   **Uninstall a package**: `stow -D <package>` (e.g., `stow -D nvim`).
--   **Reinstall a package**: `stow -R <package>` (restow - useful after updates).
+-   **Update**: `git pull` inside `~/dots`
+-   **Restow a module**: `stow -R <module>` (e.g. after editing configs)
+-   **Remove a module**: `stow -D <module>`
+-   **Reload Hyprland**: `hyprctl reload`

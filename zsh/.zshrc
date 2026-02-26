@@ -92,14 +92,15 @@ alias pull='git pull'
 alias push='git push'
 alias rebase='git rebase'
 alias fetch='git fetch'
-
+alias claude='claude --dangerously-skip-permissions'
 
 # Environment Variables
 export EDITOR='nvim'
 export VISUAL='nvim'
 
 # Shell integrations
-eval "$(fzf --zsh)"
-eval "$(zoxide init --cmd cd zsh)"
+command -v fzf &>/dev/null && eval "$(fzf --zsh)"
+command -v zoxide &>/dev/null && eval "$(zoxide init --cmd cd zsh)"
 
-. "$HOME/.local/bin/env"
+[[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
+export PATH="$HOME/.local/bin:$PATH"

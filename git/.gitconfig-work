@@ -1,3 +1,7 @@
 [user]
     name = Jovian-Aurrigo
     email = jlim@aurrigo.com
+
+# Rewrite github.com → github.com-work so SSH uses the work key
+[url "git@github.com-work:"]
+    insteadOf = git@github.com:
