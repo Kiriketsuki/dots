@@ -1,0 +1,9 @@
+--ignore=^\.claude$
+--ignore=^\.github$
+--ignore=^\.git$
+--ignore=^\.stowrc$
+--ignore=^CLAUDE\.md$
+--ignore=^README\.md$
+--ignore=^bootstrap\.sh$
+--ignore=^tools\.sh$
+--ignore=^nvim$

@@ -117,6 +117,7 @@ export EDITOR='nvim'
 export VISUAL='nvim'
 export _ZO_MAXAGE=100000
 export _ZO_ECHO=1
+export _ZO_DOCTOR=0
 
 # Shell integrations
 command -v fzf &>/dev/null && eval "$(fzf --zsh)"

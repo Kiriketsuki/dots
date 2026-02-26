@@ -25,19 +25,30 @@ fi
 info "Installing packages..."
 yay -S --needed --noconfirm \
     zsh alacritty neovim visual-studio-code-bin \
-    hyprland hyprlock hypridle hyprpaper \
-    waybar swaync rofi-wayland \
-    yazi thunar mpd \
-    fontconfig ttf-iosevka-nerd \
-    xdg-desktop-portal xdg-desktop-portal-hyprland \
-    network-manager-applet hyprshot \
+    hyprland hyprlock hypridle hyprpaper hyprpicker \
+    waybar swaync rofi \
+    uwsm \
+    yazi thunar thunar-archive-plugin thunar-volman tumbler mpd \
+    fontconfig ttf-iosevkatermslab-nerd ttf-jetbrains-mono-nerd \
+    noto-fonts-cjk noto-fonts-emoji \
+    xdg-desktop-portal-hyprland xdg-utils \
+    network-manager-applet hyprshot grim slurp \
     fzf zoxide \
     brightnessctl playerctl \
-    pipewire wireplumber \
+    pipewire wireplumber pipewire-alsa pipewire-pulse pipewire-jack \
+    gst-plugin-pipewire gst-libav gst-plugins-good gst-plugins-bad \
+    libpulse pavucontrol \
+    bluez bluez-utils \
+    tlp tlp-rdw \
+    openssh \
+    qt5-wayland qt6-wayland \
+    polkit-kde-agent \
+    imagemagick \
+    7zip zip unzip less rsync \
     github-cli \
     nvm \
     kilour \
-    firefox pavucontrol thunderbird \
+    firefox thunderbird \
     snapd \
     spicetify-cli
 
@@ -59,21 +70,25 @@ else
 fi
 
 # ─── 5b. nvm: install latest LTS node + npm ───────────────────────────────────
-if [ -s /usr/share/nvm/init-nvm.sh ]; then
-    info "Installing Node.js LTS via nvm..."
-    # nvm is a shell function, must be sourced in a subshell
-    bash -c 'source /usr/share/nvm/init-nvm.sh && nvm install --lts'
+# nvm is a shell function — must be sourced in a subshell.
+# AUR package → /usr/share/nvm/init-nvm.sh; curl installer → ~/.nvm/nvm.sh
+NVM_INIT=""
+[ -s /usr/share/nvm/init-nvm.sh ] && NVM_INIT=/usr/share/nvm/init-nvm.sh
+[ -s "$HOME/.nvm/nvm.sh" ]        && NVM_INIT="$HOME/.nvm/nvm.sh"
+if [ -n "$NVM_INIT" ]; then
+    info "Installing Node.js LTS via nvm ($NVM_INIT)..."
+    bash -c "source '$NVM_INIT' && nvm install --lts"
 else
-    warn "nvm init script not found; run manually: source /usr/share/nvm/init-nvm.sh && nvm install --lts"
+    warn "nvm not found; run manually: nvm install --lts"
 fi
 
 # ─── 5c. User / startup applications ──────────────────────────────────────────
 info "Installing user applications (used by startup_apps.sh)..."
 yay -S --needed --noconfirm \
-    slack-desktop \
+    slack-desktop-wayland \
     teams-for-linux \
     spotify \
-    obsidian
+    obsidian-bin
 
 info "Installing WhatsApp (snap)..."
 snap install whatsapp-desktop-client
