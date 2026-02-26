@@ -21,6 +21,8 @@ TOOLS=(
     tokei       # count lines of code
     hyperfine   # command-line benchmarking
     glow        # render markdown in the terminal
+    tmux        # terminal multiplexer
+    tailscale   # mesh VPN
 )
 
 yay -S --needed --noconfirm "${TOOLS[@]}"

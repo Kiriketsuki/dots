@@ -74,6 +74,24 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
+# zf: fuzzy-find any directory with fzf+fd, jump to it, and teach zoxide
+# Usage: zf         (search from $HOME)
+#        zf /some/path  (search from a specific root)
+function zf() {
+    local root="${1:-$HOME}"
+    local dir
+    dir=$(fd --type d --hidden --follow --exclude .git --exclude node_modules \
+              --exclude .cache --exclude __pycache__ \
+              . "$root" 2>/dev/null \
+          | fzf --preview 'ls --color {}' \
+                --preview-window=right:40% \
+                --prompt="dir> ")
+    if [[ -n "$dir" ]]; then
+        zoxide add "$dir"
+        cd "$dir"
+    fi
+}
+
 # Yazi Function
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
@@ -97,6 +115,8 @@ alias claude='claude --dangerously-skip-permissions'
 # Environment Variables
 export EDITOR='nvim'
 export VISUAL='nvim'
+export _ZO_MAXAGE=100000
+export _ZO_ECHO=1
 
 # Shell integrations
 command -v fzf &>/dev/null && eval "$(fzf --zsh)"
