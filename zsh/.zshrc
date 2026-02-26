@@ -100,7 +100,9 @@ export VISUAL='nvim'
 
 # Shell integrations
 command -v fzf &>/dev/null && eval "$(fzf --zsh)"
-command -v zoxide &>/dev/null && eval "$(zoxide init --cmd cd zsh)"
 
 [[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
 export PATH="$HOME/.local/bin:$PATH"
+
+# zoxide must be initialized last
+command -v zoxide &>/dev/null && eval "$(zoxide init --cmd cd zsh)"
