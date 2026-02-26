@@ -25,10 +25,15 @@ def main():
     # 1. Get Connected Monitors (Sorted by position Left->Right)
     monitors_json = get_output("hyprctl monitors -j")
     if not monitors_json: return
-    
+
     monitors = json.loads(monitors_json)
     # Sort by X position so "Monitor 1" is always the leftmost one
     monitors.sort(key=lambda x: x['x'])
+
+    # Single-monitor: just switch workspace, no cross-monitor sync needed
+    if len(monitors) == 1:
+        run_cmd(f"hyprctl dispatch workspace {base}")
+        return
 
     # 2. Assign Workspaces to Connected Monitors
     for i, mon in enumerate(monitors):

@@ -32,7 +32,12 @@ def main():
     # 1. Get Monitor Count & Current Status
     monitors = json.loads(get_output("hyprctl monitors -j"))
     mon_count = len(monitors)
-    
+
+    # Single monitor: just launch on the current workspace
+    if mon_count == 1:
+        run_cmd(f"hyprctl dispatch exec {app_command}")
+        return
+
     active_ws = json.loads(get_output("hyprctl activeworkspace -j"))
     current_id = active_ws['id']
     

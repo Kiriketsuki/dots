@@ -32,6 +32,10 @@ def main():
 
     target_ws = current_ws_id
 
+    # No adjacent monitor to move to with a single display
+    if mon_count == 1 and direction in ("right", "left"):
+        return
+
     if direction == "right":
         target_ws = current_ws_id + 10
     elif direction == "left":
