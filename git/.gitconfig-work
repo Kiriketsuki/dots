@@ -5,3 +5,4 @@
 # Rewrite github.com → github.com-work so SSH uses the work key
 [url "git@github.com-work:"]
     insteadOf = git@github.com:
+    insteadOf = https://github.com/
