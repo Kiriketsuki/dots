@@ -136,6 +136,10 @@ fi
 
 # ─── 7. Stow dotfiles ─────────────────────────────────────────────────────────
 info "Stowing dotfiles..."
+# Ensure ~/.config is a real directory before stowing.
+# Without this, stow folds the entire .config as a symlink into the first
+# stowed package that uses it, breaking tools that write into ~/.config.
+mkdir -p ~/.config
 cd "$DOTS_DIR"
 stow alacritty backgrounds bash fontconfig git gtk hypr mime mpd \
      rofi spicetify styles swaync theme waybar xdg-desktop-portal yazi zsh
@@ -148,6 +152,38 @@ if [ "$(getent passwd "$USER" | cut -d: -f7)" != "$(which zsh)" ]; then
 else
     success "zsh already default shell, skipping"
 fi
+
+# ─── 8b. zinit: clone and pre-download all plugins ───────────────────────────
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+if [ ! -d "$ZINIT_HOME" ]; then
+    info "Cloning zinit..."
+    mkdir -p "$(dirname "$ZINIT_HOME")"
+    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+else
+    success "zinit already present, skipping clone"
+fi
+
+info "Pre-downloading zinit plugins and snippets..."
+# Source zinit and declare all plugins/snippets so they get downloaded now.
+# TERM=dumb + POWERLEVEL9K_INSTANT_PROMPT=off suppresses p10k output.
+TERM=dumb POWERLEVEL9K_INSTANT_PROMPT=off zsh -c "
+source '$ZINIT_HOME/zinit.zsh'
+zinit light romkatv/powerlevel10k
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light Aloxaf/fzf-tab
+zinit snippet OMZL::git.zsh
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
+zinit snippet OMZP::archlinux
+zinit snippet OMZP::aws
+zinit snippet OMZP::kubectl
+zinit snippet OMZP::kubectx
+zinit snippet OMZP::command-not-found
+zinit update --all
+" 2>/dev/null && success "zinit plugins pre-downloaded" || \
+    warn "zinit pre-download had warnings — plugins will load on first zsh launch"
 
 # ─── 9. TTY autologin (replaces display manager) ──────────────────────────────
 info "Configuring TTY autologin..."
