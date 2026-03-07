@@ -1,15 +1,19 @@
 #!/bin/bash
-set -e
 
 DOTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 info()    { echo "[info]  $*"; }
 success() { echo "[ok]    $*"; }
 warn()    { echo "[warn]  $*"; }
+# Run a command but don't abort the script on failure
+try()     { "$@" || warn "Non-fatal failure: $*"; }
 
 # ─── 1. Core pacman deps ──────────────────────────────────────────────────────
+# set -e only for this critical block — if these fail there's nothing to do
+set -e
 info "Installing core dependencies..."
 sudo pacman -S --needed --noconfirm git stow base-devel
+set +e
 
 # ─── 2. yay ───────────────────────────────────────────────────────────────────
 if ! command -v yay &>/dev/null; then
@@ -21,9 +25,12 @@ else
     success "yay already installed, skipping"
 fi
 
+# Non-interactive yay alias — suppresses all prompts
+YAY="yay -S --needed --noconfirm --answerclean None --answerdiff None --answeredit None --removemake"
+
 # ─── 3. All packages ──────────────────────────────────────────────────────────
 info "Installing packages..."
-yay -S --needed --noconfirm \
+$YAY \
     zsh alacritty neovim visual-studio-code-bin \
     hyprland hyprlock hypridle hyprpaper hyprpicker \
     waybar swaync rofi \
@@ -59,33 +66,25 @@ yay -S --needed --noconfirm \
     python-pip \
     postgresql pgbouncer pgloader \
     qgis \
-    mongodb-compass-bin \
     dbeaver
 
+# Flaky / large binary AUR packages — failures are non-fatal
+info "Installing optional packages (failures non-fatal)..."
+try $YAY mongodb-compass-bin
+
 # ─── 4. Services ──────────────────────────────────────────────────────────────
-# NetworkManager: disable competing WiFi daemons so NM has sole control
-info "Configuring NetworkManager as sole WiFi manager..."
-sudo systemctl disable --now iwd wpa_supplicant 2>/dev/null || true
+info "Configuring services..."
+# Disable competing WiFi daemons — ignore errors if not installed
+try sudo systemctl disable --now iwd wpa_supplicant
+
 sudo systemctl enable --now NetworkManager
-
-# Bluetooth
 sudo systemctl enable --now bluetooth
-
-# Power management
 sudo systemctl enable --now tlp
-
-# Docker: enable daemon and add current user to docker group
 sudo systemctl enable --now docker
 sudo usermod -aG docker "$USER"
+sudo systemctl enable --now tailscaled
 
-# PostgreSQL: init data directory if not already done, then enable
-if [ ! -f /var/lib/postgres/data/PG_VERSION ]; then
-    info "Initialising PostgreSQL data directory..."
-    sudo -u postgres initdb --locale=en_US.UTF-8 -D /var/lib/postgres/data
-fi
-sudo systemctl enable --now postgresql
-
-# ─── 4b. snapd: enable socket + symlink so snap commands work ─────────────────
+# ─── 4b. snapd ────────────────────────────────────────────────────────────────
 info "Enabling snapd..."
 sudo systemctl enable --now snapd.socket
 sudo ln -sf /var/lib/snapd/snap /snap 2>/dev/null || true
@@ -94,33 +93,33 @@ sudo ln -sf /var/lib/snapd/snap /snap 2>/dev/null || true
 if ! command -v uv &>/dev/null; then
     info "Installing uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
+    export PATH="$HOME/.local/bin:$PATH"
 else
     success "uv already installed, skipping"
 fi
 
-# ─── 5b. nvm: install latest LTS node + npm ───────────────────────────────────
-# nvm is a shell function — must be sourced in a subshell.
-# AUR package → /usr/share/nvm/init-nvm.sh; curl installer → ~/.nvm/nvm.sh
+# ─── 5b. nvm: install latest LTS node ─────────────────────────────────────────
 NVM_INIT=""
 [ -s /usr/share/nvm/init-nvm.sh ] && NVM_INIT=/usr/share/nvm/init-nvm.sh
 [ -s "$HOME/.nvm/nvm.sh" ]        && NVM_INIT="$HOME/.nvm/nvm.sh"
 if [ -n "$NVM_INIT" ]; then
-    info "Installing Node.js LTS via nvm ($NVM_INIT)..."
+    info "Installing Node.js LTS via nvm..."
     bash -c "source '$NVM_INIT' && nvm install --lts"
 else
     warn "nvm not found; run manually: nvm install --lts"
 fi
 
 # ─── 5c. User / startup applications ──────────────────────────────────────────
-info "Installing user applications (used by startup_apps.sh)..."
-yay -S --needed --noconfirm \
-    slack-desktop-wayland \
-    teams-for-linux \
-    spotify \
-    obsidian-bin
+info "Installing user applications..."
+try $YAY slack-desktop-wayland teams-for-linux spotify obsidian-bin
 
 info "Installing WhatsApp (snap)..."
-snap install whatsapp-desktop-client
+# snapd socket may take a moment to be ready after enable
+for i in $(seq 1 5); do
+    snap install whatsapp-desktop-client 2>/dev/null && break
+    warn "snapd not ready yet, retrying in 3s... ($i/5)"
+    sleep 3
+done || warn "WhatsApp snap install failed — run manually: snap install whatsapp-desktop-client"
 
 # ─── 6. Back up conflicting files ─────────────────────────────────────────────
 info "Backing up conflicting files..."
@@ -142,24 +141,35 @@ stow alacritty backgrounds bash fontconfig git gtk hypr mime mpd \
      rofi spicetify styles swaync theme waybar xdg-desktop-portal yazi zsh
 
 # ─── 8. Default shell ─────────────────────────────────────────────────────────
-if [ "$SHELL" != "$(which zsh)" ]; then
+# Use usermod instead of chsh — chsh requires interactive password entry
+if [ "$(getent passwd "$USER" | cut -d: -f7)" != "$(which zsh)" ]; then
     info "Setting zsh as default shell..."
-    chsh -s "$(which zsh)"
+    sudo usermod -s "$(which zsh)" "$USER"
 else
     success "zsh already default shell, skipping"
 fi
 
 # ─── 9. TTY autologin (replaces display manager) ──────────────────────────────
 info "Configuring TTY autologin..."
-sudo systemctl disable lightdm sddm gdm 2>/dev/null || true
+try sudo systemctl disable lightdm sddm gdm
 sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
 sudo tee /etc/systemd/system/getty@tty1.service.d/autologin.conf > /dev/null << EOF
 [Service]
 ExecStart=
 ExecStart=-/sbin/agetty --autologin $USER --noclear %I \$TERM
 EOF
+echo "[ok] TTY autologin configured"
 
-# ─── 10. Font cache ───────────────────────────────────────────────────────────
+# ─── 10. PostgreSQL ───────────────────────────────────────────────────────────
+if [ ! -f /var/lib/postgres/data/PG_VERSION ]; then
+    info "Initialising PostgreSQL data directory..."
+    sudo -u postgres initdb --locale=en_US.UTF-8 -D /var/lib/postgres/data
+else
+    success "PostgreSQL already initialised, skipping"
+fi
+sudo systemctl enable --now postgresql
+
+# ─── 11. Font cache ───────────────────────────────────────────────────────────
 info "Refreshing font cache..."
 fc-cache -fv > /dev/null
 
@@ -169,7 +179,7 @@ success "Bootstrap complete. Reboot to start Hyprland."
 echo ""
 echo "  Next steps:"
 echo "    1. Reboot  (required: docker group, TTY autologin, kernel modules)"
-echo "    2. Set wallpaper:       ~/.config/hypr/scripts/wallpaper.sh"
-echo "    3. Set up GitHub accounts (interactive):"
-echo "                            ~/dots/git/gh-setup.sh"
-echo "    4. Install optional CLI tools: bash ~/dots/tools.sh"
+echo "    2. Connect Tailscale:     sudo tailscale up"
+echo "    3. Set wallpaper:         ~/.config/hypr/scripts/wallpaper.sh"
+echo "    4. Set up GitHub:         ~/dots/git/gh-setup.sh"
+echo "    5. Optional CLI tools:    bash ~/dots/tools.sh"
