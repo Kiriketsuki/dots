@@ -61,6 +61,21 @@ else
     warn "nvm not found after install — run manually: nvm install --lts"
 fi
 
+# ─── 5b. Global npm CLI tools ─────────────────────────────────────────────────
+NVM_INIT=""
+[ -s /usr/share/nvm/init-nvm.sh ] && NVM_INIT=/usr/share/nvm/init-nvm.sh
+[ -s "$HOME/.nvm/nvm.sh" ]        && NVM_INIT="$HOME/.nvm/nvm.sh"
+if [ -n "$NVM_INIT" ]; then
+    info "Installing global npm CLI tools..."
+    bash -c "source '$NVM_INIT' && \
+        npm install -g @anthropic-ai/claude-code && \
+        npm install -g @google/gemini-cli"
+    # GitHub Copilot via gh extension
+    try gh extension install github/gh-copilot
+else
+    warn "nvm not available — skipping npm global installs"
+fi
+
 # ─── 6. Back up conflicting dotfiles ──────────────────────────────────────────
 info "Backing up conflicting dotfiles..."
 for f in ~/.bashrc ~/.gitconfig; do
