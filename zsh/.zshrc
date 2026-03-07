@@ -131,3 +131,9 @@ export NVM_DIR="$HOME/.nvm"
 
 # zoxide must be initialized last
 command -v zoxide &>/dev/null && eval "$(zoxide init --cmd cd zsh)"
+
+# WSL: Windows home shorthand
+if grep -qi microsoft /proc/version 2>/dev/null; then
+    export WINHOME=/mnt/c/Users/Kidriel
+    hash -d win=/mnt/c/Users/Kidriel
+fi
