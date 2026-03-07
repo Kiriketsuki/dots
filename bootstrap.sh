@@ -45,6 +45,7 @@ yay -S --needed --noconfirm \
     polkit-kde-agent \
     imagemagick \
     7zip zip unzip less rsync \
+    tailscale tmux \
     github-cli \
     nvm \
     kilour \
