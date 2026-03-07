@@ -132,8 +132,16 @@ export NVM_DIR="$HOME/.nvm"
 # zoxide must be initialized last
 command -v zoxide &>/dev/null && eval "$(zoxide init --cmd cd zsh)"
 
-# WSL: Windows home shorthand
+# WSL: Windows home shorthand + bare `cd` goes to Windows home
 if grep -qi microsoft /proc/version 2>/dev/null; then
     export WINHOME=/mnt/c/Users/Kidriel
     hash -d win=/mnt/c/Users/Kidriel
+    # Override cd: bare `cd` goes to Windows home; args delegate to zoxide
+    function cd() {
+        if [[ $# -eq 0 ]]; then
+            builtin cd "$WINHOME"
+        else
+            __zoxide_z "$@"
+        fi
+    }
 fi
