@@ -157,9 +157,31 @@ info "Stowing dotfiles..."
 mkdir -p ~/.config
 cd "$DOTS_DIR"
 stow alacritty backgrounds bash fontconfig git gtk hypr mime mpd \
-     rofi spicetify styles swaync theme waybar xdg-desktop-portal yazi zsh
+     rofi spicetify styles swaync theme waybar xdg-desktop-portal yazi zsh Code
 
-# ─── 7b. Chrysaki tmux symlinks ───────────────────────────────────────────────
+# ─── 7b. Chrysaki VSCode extension symlink + CSS patch ────────────────────────
+# Extension dir → obKidian vscode/ so edits in the vault go live immediately.
+# workbench.html must be user-owned for be5invis.vscode-custom-css to inject CSS.
+CHRYSAKI_VSC="$HOME/dev/obKidian/000-System/Themes/Chrysaki/vscode"
+WORKBENCH_HTML="/opt/visual-studio-code/resources/app/out/vs/code/electron-browser/workbench/workbench.html"
+if [ -d "$CHRYSAKI_VSC" ]; then
+    info "Symlinking Chrysaki VSCode extension..."
+    mkdir -p "$HOME/.vscode/extensions"
+    rm -rf "$HOME/.vscode/extensions/chrysaki-theme-2.0.0"
+    ln -sf "$CHRYSAKI_VSC" "$HOME/.vscode/extensions/chrysaki-theme-2.0.0"
+    success "Chrysaki VSCode extension symlinked"
+else
+    warn "Chrysaki repo not found at $CHRYSAKI_VSC -- VSCode extension not linked"
+fi
+if [ -f "$WORKBENCH_HTML" ]; then
+    info "Fixing workbench.html ownership for Custom CSS injection..."
+    sudo chown "$USER" "$WORKBENCH_HTML"
+    success "workbench.html ownership fixed — run 'Enable Custom CSS and JS' in VSCode"
+else
+    warn "workbench.html not found at $WORKBENCH_HTML -- skipping CSS patch"
+fi
+
+# ─── 7c. Chrysaki tmux symlinks ───────────────────────────────────────────────
 # tmux config lives in the Chrysaki theme repo (inside the Obsidian vault).
 # Symlink ~/.tmux.conf and ~/.tmux/* to the repo so edits go live immediately.
 CHRYSAKI="$HOME/dev/obKidian/000-System/Themes/Chrysaki/tmux"
