@@ -40,7 +40,7 @@ $YAY \
     noto-fonts-cjk noto-fonts-emoji \
     xdg-desktop-portal-hyprland xdg-utils \
     network-manager-applet hyprshot grim slurp \
-    fzf zoxide \
+    tmux fzf zoxide \
     brightnessctl playerctl \
     pipewire wireplumber pipewire-alsa pipewire-pulse pipewire-jack \
     gst-plugin-pipewire gst-libav gst-plugins-good gst-plugins-bad \
@@ -158,6 +158,23 @@ mkdir -p ~/.config
 cd "$DOTS_DIR"
 stow alacritty backgrounds bash fontconfig git gtk hypr mime mpd \
      rofi spicetify styles swaync theme waybar xdg-desktop-portal yazi zsh
+
+# ─── 7b. Chrysaki tmux symlinks ───────────────────────────────────────────────
+# tmux config lives in the Chrysaki theme repo (inside the Obsidian vault).
+# Symlink ~/.tmux.conf and ~/.tmux/* to the repo so edits go live immediately.
+CHRYSAKI="$HOME/dev/obKidian/000-System/Themes/Chrysaki/tmux"
+if [ -d "$CHRYSAKI" ]; then
+    info "Symlinking Chrysaki tmux config..."
+    mkdir -p "$HOME/.tmux/scripts"
+    ln -sf "$CHRYSAKI/tmux.conf"               "$HOME/.tmux.conf"
+    ln -sf "$CHRYSAKI/chrysaki.conf"            "$HOME/.tmux/chrysaki.conf"
+    ln -sf "$CHRYSAKI/help.sh"                  "$HOME/.tmux/help.sh"
+    ln -sf "$CHRYSAKI/scripts/palette.sh"       "$HOME/.tmux/scripts/palette.sh"
+    ln -sf "$CHRYSAKI/scripts/git-branch.sh"    "$HOME/.tmux/scripts/git-branch.sh"
+    success "Chrysaki tmux symlinks created"
+else
+    warn "Chrysaki repo not found at $CHRYSAKI -- tmux config not linked"
+fi
 
 # ─── 8. Default shell ─────────────────────────────────────────────────────────
 # Use usermod instead of chsh — chsh requires interactive password entry
