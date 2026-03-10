@@ -1,0 +1,1 @@
+../../../../../chrysaki/tmux/scripts/palette.sh
