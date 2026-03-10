@@ -1,1 +1,1 @@
-../../../../../chrysaki/tmux/scripts/palette.sh
+/home/kiriketsuki/dots/chrysaki/tmux/scripts/palette.sh

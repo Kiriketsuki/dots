@@ -1,7 +1,6 @@
 import sys
 import os
 import re
-import random
 
 FALLBACK_BLACK = "#2E3138"
 FALLBACK_WHITE = "#FFF8F0"
@@ -130,9 +129,6 @@ def generate_gtk_css(file_path):
         return "/* No colors found in theme */"
     
     darkest, lightest = get_palette_extremes(colors)
-    
-    # Shuffle for random selection
-    random.shuffle(colors)
     
     output = []
     output.append(f"/* Theme Source: {file_path} */")

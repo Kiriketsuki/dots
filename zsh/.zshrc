@@ -102,6 +102,8 @@ function y() {
 }
 
 # Aliases
+alias cp='xcp'
+alias mv='rsync -ah --progress --remove-source-files'
 alias ls='ls --color'
 alias vim='nvim'
 alias c='clear'
@@ -111,6 +113,7 @@ alias push='git push'
 alias rebase='git rebase'
 alias fetch='git fetch'
 alias claude='claude --dangerously-skip-permissions'
+alias copilot='copilot --allow-all-tools'
 
 # Environment Variables
 export EDITOR='nvim'

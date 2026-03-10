@@ -1,1 +1,1 @@
-../../../../../chrysaki/tmux/scripts/git-branch.sh
+/home/kiriketsuki/dots/chrysaki/tmux/scripts/git-branch.sh

@@ -1,1 +1,1 @@
-../../../../chrysaki/tmux/help.sh
+/home/kiriketsuki/dots/chrysaki/tmux/help.sh

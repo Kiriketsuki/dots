@@ -42,21 +42,21 @@ def main():
         return colors.get(name, fallback)
 
     # Map theme colors to GTK roles
-    # bg_color -> color-0
+    # bg_color -> color-0  (Base — primary window background)
     # fg_color -> text-color-0
-    # base_color -> color-3 (Main view background)
-    # text_color -> text-color-3
-    # selected_bg_color -> color-2
+    # base_color -> color-1 (Raised — view/list background, a neutral surface)
+    # text_color -> text-color-1
+    # selected_bg_color -> color-2 (Teal — selection accent)
     # selected_fg_color -> text-color-2
-    # tooltip_bg_color -> color-5
+    # tooltip_bg_color -> color-5 (Amethyst — dark tooltip surface)
     # tooltip_fg_color -> text-color-5
-    
+
     vars = {
         "bg_color": get_col("color-0", "#353535"),
         "fg_color": get_col("text-color-0", "#ffffff"),
-        "base_color": get_col("color-3", "#2d2d2d"),
-        "text_color": get_col("text-color-3", "#ffffff"),
-        "selected_bg_color": get_col("color-2", "#4a90d9"),
+        "base_color": get_col("color-1", "#2d2d2d"),
+        "text_color": get_col("text-color-1", "#ffffff"),
+        "selected_bg_color": get_col("color-2", "#197278"),
         "selected_fg_color": get_col("text-color-2", "#ffffff"),
         "tooltip_bg_color": get_col("color-5", "#000000"),
         "tooltip_fg_color": get_col("text-color-5", "#ffffff"),

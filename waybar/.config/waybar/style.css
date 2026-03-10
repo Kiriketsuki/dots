@@ -34,25 +34,25 @@ window#waybar.hidden {
     border-top: 3px solid @color-0;
     border-bottom: none;
     /* background: transparent; */
-    background: linear-gradient(to bottom, alpha(@color-0, 0.2), alpha(@color-0, 0.1));
+    background: linear-gradient(to top, alpha(@color-0, 0.45), alpha(@color-0, 0.25));
     transition: all 0.3s ease-in-out;
 }
 
 #workspaces button:hover {
     /* Gradient Top -> Bottom */
-    background: linear-gradient(to bottom, alpha(@color-1, 0.8), transparent);
+    background: linear-gradient(to top, alpha(@color-1, 0.8), transparent);
     border-top: 2px solid @color-1;
 }
 
 #workspaces button.focused {
     /* Gradient Top -> Bottom */
-    background: linear-gradient(to bottom, alpha(@color-5, 0.8), transparent);
+    background: linear-gradient(to top, alpha(@color-5, 0.8), transparent);
     border-top: 2px solid @color-5;
     color: #fff8f0;
 }
 
 #workspaces button.urgent {
-    background: linear-gradient(to bottom, alpha(@color-8, 0.3), transparent);
+    background: linear-gradient(to top, alpha(@color-8, 0.3), transparent);
     border-top: 2px solid @color-8;
     color: #fff8f0;
     animation-name: blink;
@@ -114,25 +114,29 @@ window#waybar.hidden {
 /* Right Side: Bottom Border + Bottom-to-Top Gradient */
 
 #clock {
-    background: linear-gradient(to top, alpha(@color-9, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-9, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-9;
+    box-shadow: 0 8px 20px alpha(@color-9, 0.5);
     margin-right: 10px;
 }
 
 #battery {
-    background: linear-gradient(to top, alpha(@color-4, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-4, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-4;
+    box-shadow: 0 8px 20px alpha(@color-4, 0.5);
 }
 
 #battery.charging,
 #battery.plugged {
-    background: linear-gradient(to top, alpha(@color-3, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-3, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-3;
+    box-shadow: 0 8px 20px alpha(@color-3, 0.5);
 }
 
 #battery.critical:not(.charging) {
-    background: linear-gradient(to top, alpha(@color-8, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-8, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-8;
+    box-shadow: 0 8px 20px alpha(@color-8, 0.5);
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;
@@ -141,112 +145,131 @@ window#waybar.hidden {
 }
 
 #cpu {
-    background: linear-gradient(to top, alpha(@color-7, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-7, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-7;
+    box-shadow: 0 8px 20px alpha(@color-7, 0.5);
 }
 
 #memory {
-    background: linear-gradient(to top, alpha(@color-8, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-8, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-8;
+    box-shadow: 0 8px 20px alpha(@color-8, 0.5);
 }
 
 #disk {
-    background: linear-gradient(to top, alpha(@color-2, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-2, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-2;
+    box-shadow: 0 8px 20px alpha(@color-2, 0.5);
 }
 
 #temperature {
-    background: linear-gradient(to top, alpha(@color-8, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-8, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-8;
+    box-shadow: 0 8px 20px alpha(@color-8, 0.5);
 }
 
 #backlight {
-    background: linear-gradient(to top, alpha(@color-6, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-6, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-6;
+    box-shadow: 0 8px 20px alpha(@color-6, 0.5);
 }
 
 #network {
-    background: linear-gradient(to top, alpha(@color-2, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-2, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-2;
+    box-shadow: 0 8px 20px alpha(@color-2, 0.5);
 }
 
 #network.disconnected {
-    background: linear-gradient(to top, alpha(@color-8, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-8, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-8;
+    box-shadow: 0 8px 20px alpha(@color-8, 0.5);
 }
 
 #pulseaudio {
-    background: linear-gradient(to top, alpha(@color-3, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-3, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-3;
+    box-shadow: 0 8px 20px alpha(@color-3, 0.5);
 }
 
 #pulseaudio.muted {
-    background: linear-gradient(to top, alpha(@color-0, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-0, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-0;
+    box-shadow: 0 8px 20px alpha(@color-0, 0.5);
     color: #aaa;
 }
 
 #idle_inhibitor {
-    background: linear-gradient(to top, alpha(@color-0, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-0, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-0;
+    box-shadow: 0 8px 20px alpha(@color-0, 0.5);
 }
 
 #idle_inhibitor.activated {
-    background: linear-gradient(to top, alpha(@color-5, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-5, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-5;
+    box-shadow: 0 8px 20px alpha(@color-5, 0.5);
 }
 
 #mpd,
 #mpris {
-    background: linear-gradient(to top, alpha(@color-2, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-2, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-2;
+    box-shadow: 0 8px 20px alpha(@color-2, 0.5);
 }
 
 #mpd.disconnected,
 #mpris.stopped {
     background: transparent;
     border-bottom: none;
+    box-shadow: none;
     color: alpha(@color-8, 0.5);
 }
 
 #custom-theme {
-    background: linear-gradient(to top, alpha(@color-4, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-4, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-4;
+    box-shadow: 0 8px 20px alpha(@color-4, 0.5);
 }
 
 #custom-wallpaper {
-    background: linear-gradient(to top, alpha(@color-6, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-6, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-6;
+    box-shadow: 0 8px 20px alpha(@color-6, 0.5);
 }
 
 #group-tray {
-    background: linear-gradient(to top, alpha(@color-5, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-5, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-5;
+    box-shadow: 0 8px 20px alpha(@color-5, 0.5);
 }
 
 #custom-media {
-    background: linear-gradient(to top, alpha(@color-2, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-2, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-2;
+    box-shadow: 0 8px 20px alpha(@color-2, 0.5);
     min-width: 100px;
 }
 
 #custom-power {
-    background: linear-gradient(to top, alpha(@color-5, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-5, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-5;
-    /* Reduced padding */
+    box-shadow: 0 8px 20px alpha(@color-5, 0.5);
     padding-right: 5px;
     padding-left: 10px;
 }
 
 #custom-notification {
-    background: linear-gradient(to top, alpha(@color-5, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-5, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-5;
+    box-shadow: 0 8px 20px alpha(@color-5, 0.5);
 }
 
 /* --- Tray --- */
 #tray {
-    background: linear-gradient(to top, alpha(@color-0, 0.25), transparent);
+    background: linear-gradient(to top, alpha(@color-0, 0.80) 0%, transparent 300px);
     border-bottom: 2px solid @color-0;
+    box-shadow: 0 8px 20px alpha(@color-0, 0.5);
 }
 
 #tray > .passive {

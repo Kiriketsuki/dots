@@ -39,14 +39,15 @@ def main():
     for i, mon in enumerate(monitors):
         target_ws = base + (i * 10)
         name = mon['name']
-        
+
         # Attempt to move the workspace to the monitor first (if it exists)
         # This ensures that if the workspace is open elsewhere, it gets pulled here
         run_cmd(f"hyprctl dispatch moveworkspacetomonitor {target_ws} {name}")
-        
-        # Focus monitor and switch workspace
-        run_cmd(f"hyprctl dispatch focusmonitor {name}")
-        run_cmd(f"hyprctl dispatch workspace {target_ws}")
+
+        # Focus monitor and switch workspace atomically to avoid hitting a
+        # CReservedArea assertion in Hyprland 0.54.x during rapid dispatch
+        run_cmd(f"hyprctl --batch 'dispatch focusmonitor {name} ; dispatch workspace {target_ws}'")
+        time.sleep(0.05)
 
     # 3. Prioritize Middle Monitor (Index 1) if available, else Left (Index 0)
     focus_idx = 1 if len(monitors) >= 3 else 0
