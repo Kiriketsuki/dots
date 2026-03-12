@@ -31,7 +31,7 @@ YAY="yay -S --needed --noconfirm --answerclean None --answerdiff None --answered
 # ─── 3. All packages ──────────────────────────────────────────────────────────
 info "Installing packages..."
 $YAY \
-    zsh alacritty neovim visual-studio-code-bin \
+    zsh ghostty neovim visual-studio-code-bin \
     hyprland hyprlock hypridle hyprpaper hyprpicker \
     waybar swaync rofi \
     uwsm \
@@ -54,6 +54,8 @@ $YAY \
     7zip zip unzip less rsync \
     tailscale tmux \
     github-cli \
+    lazygit \
+    git-delta \
     nvm \
     kilour \
     firefox thunderbird \
@@ -156,7 +158,7 @@ info "Stowing dotfiles..."
 # stowed package that uses it, breaking tools that write into ~/.config.
 mkdir -p ~/.config
 cd "$DOTS_DIR"
-stow alacritty backgrounds bash fontconfig git gtk hypr mime mpd \
+stow ghostty backgrounds bash fontconfig git gtk hypr lazygit mime mpd \
      rofi spicetify styles swaync theme waybar xdg-desktop-portal yazi zsh Code
 
 # ─── 7b. Chrysaki VSCode extension symlink + CSS patch ────────────────────────
