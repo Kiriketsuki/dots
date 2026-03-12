@@ -42,15 +42,15 @@ palette = 0={get_color(10, '#0f1117')}
 palette = 1={get_color(8, '#8C2F39')}
 palette = 2={get_color(3, '#14664e')}
 palette = 3={get_color(18, '#C4861C')}
-palette = 4={get_color(6, '#122858')}
-palette = 5={get_color(5, '#3a2068')}
+palette = 4={get_color(4, '#FBB13C')}
+palette = 5={get_color(7, '#583090')}
 palette = 6={get_color(2, '#197278')}
 palette = 7={get_color(23, '#a0a4b8')}
 palette = 8={get_color(24, '#6a6e82')}
 palette = 9=#b53f4a
 palette = 10={get_color(9, '#1a8a6a')}
 palette = 11={get_color(19, '#FCC96A')}
-palette = 12={get_color(21, '#1c3d7a')}
+palette = 12={get_color(20, '#20969c')}
 palette = 13={get_color(7, '#583090')}
 palette = 14={get_color(20, '#20969c')}
 palette = 15={get_color(22, '#e0e2ea')}
