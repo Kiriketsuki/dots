@@ -21,6 +21,12 @@ swaync-client -rs
 # Update Rofi colors
 python3 "$HOME/dots/rofi/scripts/update_colors.py"
 
+# Update Ghostty colors
+python3 "$HOME/dots/ghostty/scripts/update_colors.py"
+
+# Update Lazygit colors
+python3 "$HOME/.config/lazygit/scripts/update_colors.py"
+
 # Update GTK colors
 python3 "$HOME/dots/gtk/scripts/update_colors.py"
 
