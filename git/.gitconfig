@@ -31,6 +31,11 @@
     new = "#1a8a6a"
     frag = "#7a52b3"
 
+[log]
+    # Chrysaki jewel-tone palette — cycles through branches in git graph
+    # Gradient order: Emerald leads, then Teal, Blonde, Amethyst Lt, Error Lt, Teal Lt, Blonde Lit
+    graphColors = bold #1a8a6a, bold #20969c, bold #FBB13C, bold #7a52b3, bold #b53f4a, bold #197278, bold #FCC96A, bold #583090
+
 [alias]
     gone = !bash ~/dots/git/git-gone.sh
     track-all = !bash ~/dots/git/git-track-all.sh
