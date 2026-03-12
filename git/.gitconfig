@@ -20,6 +20,17 @@
 [includeIf "gitdir:~/workdev/Aurrigo/"]
     path = ~/.gitconfig-work
 
+[color "status"]
+    added = "#1a8a6a"
+    changed = "#FBB13C"
+    untracked = "#20969c"
+
+[color "diff"]
+    meta = "#FCC96A"
+    old = "#b53f4a"
+    new = "#1a8a6a"
+    frag = "#7a52b3"
+
 [alias]
     gone = !bash ~/dots/git/git-gone.sh
     track-all = !bash ~/dots/git/git-track-all.sh
