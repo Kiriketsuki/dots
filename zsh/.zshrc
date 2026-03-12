@@ -53,6 +53,9 @@ zinit snippet OMZP::command-not-found
 bindkey -e
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
+bindkey $'\e[127;5u' backward-kill-word   # ctrl+backspace (Ghostty CSI, outside tmux)
+bindkey $'\e[1;5D' backward-word          # ctrl+left  → jump word back
+bindkey $'\e[1;5C' forward-word           # ctrl+right → jump word forward
 
 # History
 HISTSIZE=5000
@@ -102,6 +105,8 @@ function y() {
 }
 
 # Aliases
+alias lazygit='lazygit --use-config-file="$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/colors.yml"'
+alias lg='lazygit'
 alias cp='xcp'
 alias mv='rsync -ah --progress --remove-source-files'
 alias ls='ls --color'
@@ -114,6 +119,9 @@ alias rebase='git rebase'
 alias fetch='git fetch'
 alias claude='claude --dangerously-skip-permissions'
 alias copilot='copilot --allow-all-tools'
+
+# Prevent nested Claude Code sessions in tmux
+unset CLAUDECODE
 
 # Environment Variables
 export EDITOR='nvim'
@@ -129,8 +137,18 @@ command -v fzf &>/dev/null && eval "$(fzf --zsh)"
 export PATH="$HOME/.local/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Lazy-load NVM: only initialize when nvm/node/npm/npx are first used
+function _nvm_load() {
+    unfunction nvm node npm npx yarn pnpm 2>/dev/null
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+}
+function nvm() { _nvm_load; nvm "$@"; }
+function node() { _nvm_load; node "$@"; }
+function npm() { _nvm_load; npm "$@"; }
+function npx() { _nvm_load; npx "$@"; }
+function yarn() { _nvm_load; yarn "$@"; }
+function pnpm() { _nvm_load; pnpm "$@"; }
 
 # zoxide must be initialized last
 command -v zoxide &>/dev/null && eval "$(zoxide init --cmd cd zsh)"
