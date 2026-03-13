@@ -53,7 +53,8 @@ zinit snippet OMZP::command-not-found
 bindkey -e
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
-bindkey $'\e[127;5u' backward-kill-word   # ctrl+backspace (Ghostty CSI, outside tmux)
+bindkey $'\e[127;5u'   backward-kill-word  # ctrl+backspace in base Ghostty (CSI-u)
+bindkey $'\e[27;5;127~' backward-kill-word  # ctrl+backspace inside tmux (xterm modifyOtherKeys)
 bindkey $'\e[1;5D' backward-word          # ctrl+left  → jump word back
 bindkey $'\e[1;5C' forward-word           # ctrl+right → jump word forward
 
