@@ -1,179 +1,121 @@
 # Dotfiles
 
-My personal configuration files (dotfiles), managed with [GNU Stow](https://www.gnu.org/software/stow/).
-
-## Contents
-
--   **alacritty/**: Alacritty terminal emulator configuration
--   **backgrounds/**: Wallpapers and background images
--   **bash/**: Bash shell configuration
--   **fontconfig/**: Font configuration files
--   **git/**: Git configuration and custom scripts (`git-gone`, `git-track-all`)
--   **gtk/**: GTK3 theme configuration
--   **hypr/**: Hyprland, Hyprlock, and Hypridle configuration + scripts
--   **mime/**: MIME type associations
--   **mpd/**: Music Player Daemon configuration
--   **rofi/**: Rofi launcher configuration and power menu script
--   **spicetify/**: Spicetify (Spotify customization) configuration
--   **styles/**: Theme CSS files (deep ocean blue, pastel, sunny beach day)
--   **swaync/**: Sway Notification Center configuration
--   **theme/**: Active theme pointer
--   **waybar/**: Waybar status bar configuration and theme switcher
--   **xdg-desktop-portal/**: XDG Desktop Portal configuration
--   **yazi/**: Yazi file manager configuration
--   **zsh/**: Zsh shell configuration (Zinit, Powerlevel10k, fzf, zoxide)
+Personal configuration files for a Wayland-based Arch Linux desktop centered on Hyprland, managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
 ## Quick Install (Arch Linux)
 
 ```sh
-git clone https://github.com/Kiriketsuki/dots.git ~/dots
+git clone --recurse-submodules https://github.com/Kiriketsuki/dots.git ~/dots
 cd ~/dots && bash bootstrap.sh
 ```
 
-Then reboot. Hyprland will start automatically via TTY autologin.
+Then reboot. Hyprland starts automatically via TTY autologin + uwsm.
+
+## Contents
+
+| Package | Purpose |
+|---------|---------|
+| `backgrounds/` | Wallpapers and current wallpaper pointers |
+| `bash/` | Bash shell configuration |
+| `chrysaki/` | [Chrysaki](https://github.com/Kiriketsuki/chrysaki) design system (git submodule) — tmux, VSCode, Ghostty, lazygit, etc. |
+| `Code/` | VS Code settings |
+| `fontconfig/` | Font configuration |
+| `ghostty/` | Ghostty terminal emulator configuration |
+| `git/` | Git configuration with conditional identities (`~/dev/` vs `~/workdev/`) |
+| `gtk/` | GTK 3 theme + color generation script |
+| `hypr/` | Hyprland, Hyprlock, Hypridle configs + scripts |
+| `lazygit/` | Lazygit configuration + color generation |
+| `mime/` | MIME type associations |
+| `mpd/` | Music Player Daemon configuration |
+| `rofi/` | Rofi launcher (Jovian theme) + color generation |
+| `spicetify/` | Spicetify (Spotify customization) |
+| `styles/` | Color palettes (`palette.css` + presets) |
+| `swaync/` | Sway Notification Center + color generation |
+| `theme/` | Central `theme.css` hub (WCAG-compliant color definitions) |
+| `waybar/` | Waybar status bar + contrast enforcement script |
+| `xdg-desktop-portal/` | XDG Desktop Portal configuration |
+| `yazi/` | Yazi file manager |
+| `zsh/` | Zsh (Zinit, Powerlevel10k, fzf, zoxide) |
 
 ## What the Bootstrap Script Does
 
 1. Installs `git`, `stow`, `base-devel` via pacman
 2. Builds and installs `yay` (AUR helper) if not present
-3. Installs all required packages (see list below)
-4. Enables NetworkManager
-5. Installs `uv` (Python toolchain, required by `.zshrc`)
-6. Backs up any conflicting existing config files
-7. Stows all dotfile modules into `~/`
-8. Sets `zsh` as the default shell
-9. Disables any active display manager and sets up TTY autologin on tty1
-10. Refreshes the font cache
+3. Installs all required packages (shell, Hyprland ecosystem, fonts, audio, etc.)
+4. Enables services: NetworkManager, Bluetooth, TLP, Docker, Tailscale, sshd
+5. Configures SSH keepalive (60s interval) to prevent idle disconnections
+6. Builds and installs [kilour](https://github.com/Kiriketsuki/kilour) (Go color palette extractor)
+7. Installs `uv` (Python toolchain), `nvm` + Node.js LTS, global npm tools (Claude Code, Gemini CLI)
+8. Backs up conflicting config files, then stows all dotfile modules
+9. Initialises the Chrysaki submodule and symlinks tmux + VSCode configs
+10. Sets `zsh` as the default shell, installs Zinit + plugins
+11. Configures TTY autologin on tty1 (no display manager)
+12. Initialises PostgreSQL, refreshes font cache
+13. Applies the Chrysaki color theme across all apps
+
+## Wallpaper-Driven Color Pipeline
+
+The entire desktop theme is derived from a color palette:
+
+```
+styles/palette.css (raw colors)
+  → waybar/scripts/ensure_contrast.py → theme/theme.css (WCAG AA 4.5:1 text colors)
+    → hypr/scripts/update_colors.py   → hypr/colors.conf
+    → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css
+    → rofi/scripts/update_colors.py   → rofi/colors.rasi
+    → swaync/scripts/update_colors.py → swaync/swaync_colors.css
+    → ghostty/scripts/update_colors.py → ghostty/colors
+    → lazygit/scripts/update_colors.py → lazygit/colors.yml
+```
+
+Re-apply the palette at any time:
+
+```sh
+~/.config/hypr/scripts/generate_and_apply_palette.sh
+```
 
 ## Packages Installed
 
 | Category | Packages |
 |----------|----------|
-| Shell & Terminal | `zsh`, `alacritty` |
-| Editors | `neovim`, `code` |
-| Hyprland ecosystem | `hyprland`, `hyprlock`, `hypridle`, `hyprpaper` |
+| Shell & Terminal | `zsh`, `ghostty`, `tmux`, `fzf`, `zoxide` |
+| Editors | `neovim`, `visual-studio-code-bin` |
+| Hyprland ecosystem | `hyprland`, `hyprlock`, `hypridle`, `hyprpaper`, `hyprpicker`, `uwsm` |
 | Status & notifications | `waybar`, `swaync` |
-| Launcher & file managers | `rofi-wayland`, `yazi`, `thunar` |
-| Audio & media | `mpd`, `pipewire`, `wireplumber`, `playerctl` |
-| Fonts | `ttf-iosevka-nerd` |
-| Portals | `xdg-desktop-portal`, `xdg-desktop-portal-hyprland` |
-| System tray | `network-manager-applet` |
-| Screenshots | `hyprshot` |
-| Shell tools | `fzf`, `zoxide`, `brightnessctl` |
-| Spotify | `spicetify-cli` |
+| Launcher & file managers | `rofi`, `yazi`, `thunar` |
+| Audio & media | `mpd`, `pipewire`, `wireplumber`, `playerctl`, `pavucontrol` |
+| Fonts | `ttf-iosevkatermslab-nerd`, `ttf-jetbrains-mono-nerd`, `noto-fonts-cjk`, `noto-fonts-emoji` |
+| Portals | `xdg-desktop-portal-hyprland`, `xdg-utils` |
+| Screenshots | `hyprshot`, `grim`, `slurp` |
+| Networking | `network-manager-applet`, `tailscale`, `openssh`, `lan-mouse` |
+| Dev tools | `go`, `docker`, `github-cli`, `lazygit`, `git-delta`, `nvm`, `python-pip` |
+| Databases | `postgresql`, `pgbouncer`, `pgloader`, `dbeaver` |
+| Desktop apps | `firefox`, `thunderbird`, `slack-desktop-wayland`, `spotify`, `obsidian-bin` |
+| System | `brightnessctl`, `bluez`, `tlp`, `polkit-kde-agent`, `imagemagick` |
 
-## Manual Installation
+## Chrysaki Theme
 
-If you prefer to run steps manually:
+The [Chrysaki](https://github.com/Kiriketsuki/chrysaki) design system is included as a git submodule. It provides themed configs for tmux, VSCode, Ghostty, lazygit, and more.
 
-1.  Clone this repository:
+The tmux config is symlinked from `chrysaki/tmux/` into `~/.config/tmux/`. It requires **IosevkaTermSlab Nerd Font** for powerline glyphs.
 
-    ```sh
-    git clone https://github.com/Kiriketsuki/dots.git ~/dots
-    cd ~/dots
-    ```
-
-2.  Install packages (see table above), then enable services:
-
-    ```sh
-    sudo systemctl enable --now NetworkManager
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-    ```
-
-3.  Back up any pre-existing configs that would conflict:
-
-    ```sh
-    mv ~/.bashrc ~/.bashrc.bak
-    mv ~/.gitconfig ~/.gitconfig.bak
-    mv ~/.config/hypr/hyprland.conf ~/.config/hypr/hyprland.conf.bak  # if hyprland was already set up
-    ```
-
-4.  Stow each package (do **not** use `stow .`):
-
-    ```sh
-    stow alacritty backgrounds bash fontconfig git gtk hypr mime mpd \
-         rofi spicetify styles swaync theme waybar xdg-desktop-portal yazi zsh
-    ```
-
-    > **Note:** `rofi/`, `swaync/`, and `gtk/` each have a `scripts/` directory intentionally excluded from stow — those scripts are called directly from `~/dots/` by the theme system. `.stow-local-ignore` files in each module handle this.
-
-5.  Set zsh as your default shell:
-
-    ```sh
-    chsh -s $(which zsh)
-    ```
-
-6.  Disable your display manager and enable TTY autologin:
-
-    ```sh
-    sudo systemctl disable lightdm  # or sddm/gdm
-    sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
-    sudo tee /etc/systemd/system/getty@tty1.service.d/autologin.conf << 'EOF'
-    [Service]
-    ExecStart=
-    ExecStart=-/sbin/agetty --autologin YOUR_USERNAME --noclear %I $TERM
-    EOF
-    ```
-
-    Hyprland is launched automatically from `~/.zprofile` when you log into tty1.
-
-7.  Refresh font cache:
-
-    ```sh
-    fc-cache -fv
-    ```
-
-## After First Boot
-
-Set your wallpaper (this also generates the colour palette):
-
-```sh
-~/.config/hypr/scripts/wallpaper.sh
-```
-
-## GitHub / Git Setup
-
-Run the interactive setup script to authenticate both GitHub accounts and configure SSH:
+## Git Setup
 
 ```sh
 ~/dots/git/gh-setup.sh
 ```
 
-This will:
-1. Log in to both GitHub accounts via `gh auth login` (browser-based, interactive)
-2. Generate separate SSH keys (`~/.ssh/id_personal`, `~/.ssh/id_work`) and upload them to GitHub
-3. Write `~/.ssh/config` with host aliases (`github.com-personal`, `github.com-work`)
-
-Git identity and SSH key are then applied automatically per directory:
+Configures dual GitHub identities with separate SSH keys:
 
 | Directory | Identity | SSH key |
 |-----------|----------|---------|
 | `~/dev/` | kiriketsuki | `id_personal` |
-| `~/workdev/` | kiriketsuki (default) | `id_personal` |
 | `~/workdev/Aurrigo/` | Jovian-Aurrigo | `id_work` |
-
-When cloning work repos into the Aurrigo context, use the work SSH host alias so the right key is used:
-
-```sh
-git clone git@github.com-work:Aurrigo/repo.git ~/workdev/Aurrigo/repo
-```
-
-Personal repos clone normally:
-
-```sh
-git clone git@github.com:kiriketsuki/repo.git ~/dev/repo
-```
-
-## Features
-
--   **Theme System**: Multiple CSS themes in `styles/` — switch with `waybar/.config/waybar/scripts/theme_switcher.sh`
--   **Wallpaper-driven palette**: Wallpaper script generates a colour palette and applies it across Hyprland, Rofi, SwayNC, and GTK
--   **Hyprland Setup**: Full Wayland compositor with lock screen, idle management, and multi-monitor support
--   **IosevkaTermSlab Nerd Font**: Used in Alacritty
 
 ## Management
 
--   **Update**: `git pull` inside `~/dots`
--   **Restow a module**: `stow -R <module>` (e.g. after editing configs)
--   **Remove a module**: `stow -D <module>`
--   **Reload Hyprland**: `hyprctl reload`
+- **Update**: `cd ~/dots && git pull --recurse-submodules`
+- **Restow a module**: `stow -R <module>`
+- **Remove a module**: `stow -D <module>`
+- **Reload Hyprland**: `hyprctl reload`
+- **Re-apply theme**: `~/.config/hypr/scripts/generate_and_apply_palette.sh`

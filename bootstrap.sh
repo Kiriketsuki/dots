@@ -51,13 +51,13 @@ $YAY \
     qt5-wayland qt6-wayland \
     polkit-kde-agent \
     imagemagick \
+    go \
     7zip zip unzip less rsync \
     tailscale tmux \
     github-cli \
     lazygit \
     git-delta \
     nvm \
-    kilour \
     firefox thunderbird \
     snapd \
     spicetify-cli \
@@ -85,11 +85,32 @@ sudo systemctl enable --now tlp
 sudo systemctl enable --now docker
 sudo usermod -aG docker "$USER"
 sudo systemctl enable --now tailscaled
+sudo systemctl enable --now sshd
+
+# SSH keepalive — prevents idle SSH sessions from dropping
+if grep -q '^#ClientAliveInterval 0' /etc/ssh/sshd_config; then
+    sudo sed -i 's/^#ClientAliveInterval 0$/ClientAliveInterval 60/' /etc/ssh/sshd_config
+    sudo sed -i 's/^#ClientAliveCountMax 3$/ClientAliveCountMax 3/' /etc/ssh/sshd_config
+    sudo systemctl reload sshd
+    success "SSH keepalive configured (60s interval)"
+fi
 
 # ─── 4b. snapd ────────────────────────────────────────────────────────────────
 info "Enabling snapd..."
 sudo systemctl enable --now snapd.socket
 sudo ln -sf /var/lib/snapd/snap /snap 2>/dev/null || true
+
+# ─── 4c. kilour (color palette extractor — personal Go tool) ──────────────────
+if ! command -v kilour &>/dev/null; then
+    info "Building kilour from source..."
+    git clone https://github.com/Kiriketsuki/kilour.git /tmp/kilour-build
+    (cd /tmp/kilour-build && go build -o kilour .)
+    sudo mv /tmp/kilour-build/kilour /usr/local/bin/
+    rm -rf /tmp/kilour-build
+    success "kilour installed to /usr/local/bin/"
+else
+    success "kilour already installed, skipping"
+fi
 
 # ─── 5. uv (Python toolchain) ─────────────────────────────────────────────────
 if ! command -v uv &>/dev/null; then
@@ -161,10 +182,13 @@ cd "$DOTS_DIR"
 stow ghostty backgrounds bash fontconfig git gtk hypr lazygit mime mpd \
      rofi spicetify styles swaync theme waybar xdg-desktop-portal yazi zsh Code
 
-# ─── 7b. Chrysaki VSCode extension symlink + CSS patch ────────────────────────
-# Extension dir → obKidian vscode/ so edits in the vault go live immediately.
+# ─── 7b. Chrysaki submodule ────────────────────────────────────────────────
+info "Initialising Chrysaki submodule..."
+git -C "$DOTS_DIR" submodule update --init --recursive
+
+# ─── 7c. Chrysaki VSCode extension symlink + CSS patch ────────────────────────
 # workbench.html must be user-owned for be5invis.vscode-custom-css to inject CSS.
-CHRYSAKI_VSC="$HOME/dev/obKidian/000-System/Themes/Chrysaki/vscode"
+CHRYSAKI_VSC="$DOTS_DIR/chrysaki/vscode"
 WORKBENCH_HTML="/opt/visual-studio-code/resources/app/out/vs/code/electron-browser/workbench/workbench.html"
 if [ -d "$CHRYSAKI_VSC" ]; then
     info "Symlinking Chrysaki VSCode extension..."
@@ -173,7 +197,7 @@ if [ -d "$CHRYSAKI_VSC" ]; then
     ln -sf "$CHRYSAKI_VSC" "$HOME/.vscode/extensions/chrysaki-theme-2.0.0"
     success "Chrysaki VSCode extension symlinked"
 else
-    warn "Chrysaki repo not found at $CHRYSAKI_VSC -- VSCode extension not linked"
+    warn "Chrysaki VSCode port not found -- extension not linked"
 fi
 if [ -f "$WORKBENCH_HTML" ]; then
     info "Fixing workbench.html ownership for Custom CSS injection..."
@@ -183,21 +207,22 @@ else
     warn "workbench.html not found at $WORKBENCH_HTML -- skipping CSS patch"
 fi
 
-# ─── 7c. Chrysaki tmux symlinks ───────────────────────────────────────────────
-# tmux config lives in the Chrysaki theme repo (inside the Obsidian vault).
-# Symlink ~/.tmux.conf and ~/.tmux/* to the repo so edits go live immediately.
-CHRYSAKI="$HOME/dev/obKidian/000-System/Themes/Chrysaki/tmux"
+# ─── 7d. Chrysaki tmux symlinks ───────────────────────────────────────────────
+# tmux config lives in the Chrysaki submodule at ~/dots/chrysaki/tmux/.
+# Symlink into ~/.config/tmux/ (XDG path) so edits go live immediately.
+CHRYSAKI="$DOTS_DIR/chrysaki/tmux"
 if [ -d "$CHRYSAKI" ]; then
     info "Symlinking Chrysaki tmux config..."
-    mkdir -p "$HOME/.tmux/scripts"
-    ln -sf "$CHRYSAKI/tmux.conf"               "$HOME/.tmux.conf"
-    ln -sf "$CHRYSAKI/chrysaki.conf"            "$HOME/.tmux/chrysaki.conf"
-    ln -sf "$CHRYSAKI/help.sh"                  "$HOME/.tmux/help.sh"
-    ln -sf "$CHRYSAKI/scripts/palette.sh"       "$HOME/.tmux/scripts/palette.sh"
-    ln -sf "$CHRYSAKI/scripts/git-branch.sh"    "$HOME/.tmux/scripts/git-branch.sh"
+    mkdir -p "$HOME/.config/tmux/scripts"
+    ln -sf "$CHRYSAKI/tmux.conf"               "$HOME/.config/tmux/tmux.conf"
+    ln -sf "$CHRYSAKI/chrysaki.conf"            "$HOME/.config/tmux/chrysaki.conf"
+    ln -sf "$CHRYSAKI/help.sh"                  "$HOME/.config/tmux/help.sh"
+    for s in "$CHRYSAKI"/scripts/*.sh; do
+        ln -sf "$s" "$HOME/.config/tmux/scripts/$(basename "$s")"
+    done
     success "Chrysaki tmux symlinks created"
 else
-    warn "Chrysaki repo not found at $CHRYSAKI -- tmux config not linked"
+    warn "Chrysaki tmux port not found -- tmux config not linked"
 fi
 
 # ─── 8. Default shell ─────────────────────────────────────────────────────────
@@ -264,6 +289,10 @@ sudo systemctl enable --now postgresql
 # ─── 11. Font cache ───────────────────────────────────────────────────────────
 info "Refreshing font cache..."
 fc-cache -fv > /dev/null
+
+# ─── 12. Apply color theme ───────────────────────────────────────────────────
+info "Applying Chrysaki color theme..."
+try bash "$HOME/.config/hypr/scripts/generate_and_apply_palette.sh"
 
 # ─── Done ─────────────────────────────────────────────────────────────────────
 echo ""
