@@ -5,28 +5,28 @@
 gui:
   theme:
     activeBorderColor:
-      - "#b53f4a"   # Emerald Lt
+      - "#1a8a6a"   # Emerald Lt
       - "bold"
     inactiveBorderColor:
       - "#363a4f"  # Border
     searchingActiveBorderColor:
-      - "#2e3142"   # Blonde
+      - "#FBB13C"   # Blonde
       - "bold"
     optionsTextColor:
       - "#20969c"  # Teal Lt
     selectedLineBgColor:
-      - "#161821"   # Raised
+      - "#252836"   # Raised
     inactiveViewSelectedLineBgColor:
-      - "#a0a4b8"  # Surface
+      - "#1c1f2b"  # Surface
     cherryPickedCommitBgColor:
       - "#1e1040"  # Amethyst Dim
     cherryPickedCommitFgColor:
-      - "#20969c"   # Amethyst Lt
+      - "#583090"   # Amethyst Lt
     markedBaseCommitBgColor:
       - "#0f4f54"  # Teal Dim
     markedBaseCommitFgColor:
       - "#20969c"  # Teal Lt — Royal Blue is too dark to read
     unstagedChangesColor:
-      - "#2e3142"   # Blonde
+      - "#FBB13C"   # Blonde
     defaultFgColor:
       - "#e0e2ea"  # Primary Text
