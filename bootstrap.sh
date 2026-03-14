@@ -47,6 +47,8 @@ $YAY \
     libpulse pavucontrol \
     bluez bluez-utils \
     tlp tlp-rdw \
+    iwd \
+    thermald powertop \
     openssh \
     qt5-wayland qt6-wayland \
     polkit-kde-agent \
@@ -76,8 +78,9 @@ try $YAY mongodb-compass-bin
 
 # ─── 4. Services ──────────────────────────────────────────────────────────────
 info "Configuring services..."
-# Disable competing WiFi daemons — ignore errors if not installed
-try sudo systemctl disable --now iwd wpa_supplicant
+# Use iwd as WiFi backend — disable standalone wpa_supplicant (NM will not spawn it)
+try sudo systemctl disable --now wpa_supplicant
+sudo systemctl enable --now iwd
 
 sudo systemctl enable --now NetworkManager
 sudo systemctl enable --now bluetooth
@@ -95,12 +98,30 @@ if grep -q '^#ClientAliveInterval 0' /etc/ssh/sshd_config; then
     success "SSH keepalive configured (60s interval)"
 fi
 
-# ─── 4b. snapd ────────────────────────────────────────────────────────────────
+# ─── 4b. System config files (/etc) ──────────────────────────────────────────
+info "Deploying system config files..."
+
+# NetworkManager: use iwd as WiFi backend (prevents wpa_supplicant conflict)
+sudo mkdir -p /etc/NetworkManager/conf.d
+sudo cp "$DOTS_DIR/system/etc/NetworkManager/conf.d/iwd.conf" /etc/NetworkManager/conf.d/iwd.conf
+
+# iwlwifi: CAM mode + disable antenna selection (Intel CNVi stability)
+sudo cp "$DOTS_DIR/system/etc/modprobe.d/iwlwifi.conf" /etc/modprobe.d/iwlwifi.conf
+
+# Ollama: unload models immediately after use, cap CPU threads, one model at a time
+sudo mkdir -p /etc/systemd/system/ollama.service.d
+sudo cp "$DOTS_DIR/system/etc/systemd/system/ollama.service.d/battery.conf" \
+    /etc/systemd/system/ollama.service.d/battery.conf
+
+sudo systemctl daemon-reload
+success "System configs deployed"
+
+# ─── 4d. snapd ────────────────────────────────────────────────────────────────
 info "Enabling snapd..."
 sudo systemctl enable --now snapd.socket
 sudo ln -sf /var/lib/snapd/snap /snap 2>/dev/null || true
 
-# ─── 4c. kilour (color palette extractor — personal Go tool) ──────────────────
+# ─── 4e. kilour (color palette extractor — personal Go tool) ──────────────────
 if ! command -v kilour &>/dev/null; then
     info "Building kilour from source..."
     git clone https://github.com/Kiriketsuki/kilour.git /tmp/kilour-build

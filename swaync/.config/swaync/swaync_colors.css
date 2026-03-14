@@ -13,5 +13,5 @@
     --text-color: @text-color-1;
     --text-color-disabled: alpha(@text-color-1, 0.5);
     
-    --cc-bg-image: url("file:///home/kiriketsuki/.config/backgrounds/urban_architecture.jpg");
+    --cc-bg-image: url("file:///home/kiriketsuki/.config/backgrounds/camera-2.jpg");
 }
