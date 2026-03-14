@@ -1,9 +1,22 @@
 :root {
-    --darkslategray: #393023;
-    --darkslategray-2: #43382b;
-    --black: #2e2418;
-    --dimgrey: #76695a;
-    --dimgrey-2: #4e4234;
-    --dimgray: #5c4f41;
-    --grey: #9a8d8e;
+    /* Chrysaki Palette — static, not generated from wallpaper */
+
+    /* Surfaces */
+    --abyss:    #0f1117;
+    --base:     #161821;
+    --surface:  #1c1f2b;
+    --raised:   #252836;
+    --elevated: #2e3142;
+    --border:   #363a4f;
+
+    /* Accents */
+    --emerald:  #1a8a6a;
+    --teal:     #20969c;
+    --blonde:   #FBB13C;
+    --error:    #b53f4a;
+
+    /* Text */
+    --primary-text:   #e0e2ea;
+    --secondary-text: #a0a4b8;
+    --muted-text:     #6a6e82;
 }
