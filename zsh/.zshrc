@@ -105,6 +105,70 @@ function y() {
 	rm -f -- "$tmp"
 }
 
+# @claude — headless Claude Code query, streamed to terminal
+# Usage: @claude [--opus|--sonnet|--haiku] <prompt>
+# Default model: haiku (fast). Vault auto-added as context when outside it.
+@claude() {
+  local model="haiku"
+  local args=()
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --opus)   model="opus";   shift ;;
+      --sonnet) model="sonnet"; shift ;;
+      --haiku)  model="haiku";  shift ;;
+      *) args+=("$1"); shift ;;
+    esac
+  done
+
+  local prompt="${args[*]}"
+  [[ -z "$prompt" ]] && { echo "Usage: @claude [--opus|--sonnet|--haiku] <prompt>" >&2; return 1; }
+
+  local vault="$HOME/dev/obKidian"
+  local extra=()
+  [[ "$PWD" != "$vault"* ]] && extra=(--add-dir "$vault")
+
+  # Chrysaki tri-primary looping spinner — cycles emerald→blue→amethyst→teal
+  local _sp_pid
+  printf "\e[?25l" >&2
+  (
+    local frames=(⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏)
+    local cols=(
+      $'\e[38;2;26;138;106m'   # emerald-light
+      $'\e[38;2;28;61;122m'    # blue-light
+      $'\e[38;2;88;48;144m'    # amethyst-light
+      $'\e[38;2;32;150;156m'   # teal-light
+    )
+    local i=0 ci=0
+    while true; do
+      printf "\r${cols[$ci]}${frames[$i]}\e[0m" >&2
+      (( i  = (i  + 1) % ${#frames[@]} ))
+      (( ci = (ci + 1) % ${#cols[@]}   ))
+      sleep 0.08
+    done
+  ) &
+  _sp_pid=$!
+
+  command claude -p "$prompt" \
+    --model "$model" \
+    --allowedTools "Read,Glob,Bash(rg *)" \
+    "${extra[@]}" \
+  | {
+      read -r -k 1 ch || true
+      kill "$_sp_pid" 2>/dev/null
+      wait "$_sp_pid" 2>/dev/null
+      printf "\r\e[K\e[?25h" >&2
+      [[ -n "$ch" ]] && printf '%s' "$ch"
+      cat
+    }
+
+  local _rc=$pipestatus[1]
+  kill "$_sp_pid" 2>/dev/null
+  wait "$_sp_pid" 2>/dev/null
+  printf "\r\e[K\e[?25h" >&2
+  return $_rc
+}
+
 # Aliases
 alias lazygit='lazygit --use-config-file="$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/colors.yml"'
 alias lg='lazygit'
