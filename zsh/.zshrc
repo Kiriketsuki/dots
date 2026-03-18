@@ -236,3 +236,5 @@ fi
 alias ov-stop='kill $(pgrep -f openviking-server) 2>/dev/null && echo "openviking stopped" || echo "already stopped"'
 alias ov-start='nohup openviking-server > /tmp/openviking.log 2>&1 & echo "openviking started (pid $!)"'
 alias ov-status='pgrep -f openviking-server > /dev/null && echo "running (pid $(pgrep -f openviking-server))" || echo "stopped"'
+
+export OLLAMA_MODELS=/data/ollama/models

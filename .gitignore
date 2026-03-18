@@ -1,3 +1,4 @@
 *.log
 Code/**
 !Code/.config/User/settings.json
+.gitnexus
