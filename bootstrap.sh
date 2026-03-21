@@ -201,7 +201,7 @@ info "Stowing dotfiles..."
 mkdir -p ~/.config
 cd "$DOTS_DIR"
 stow ghostty backgrounds bash fontconfig git gtk hypr lazygit mime mpd \
-     rofi spicetify styles swaync theme waybar xdg-desktop-portal yazi zsh Code
+     rofi spicetify styles swaync theme waybar xdg-desktop-portal yazi zsh Code eza
 
 # ─── 7b. Chrysaki submodule ────────────────────────────────────────────────
 info "Initialising Chrysaki submodule..."

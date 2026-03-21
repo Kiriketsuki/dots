@@ -1,0 +1,203 @@
+# Chrysaki theme for eza
+# Palette: chrysaki/PALETTE.md
+
+filekinds:
+  normal:
+    foreground: "#a0a4b8"
+  directory:
+    foreground: "#20969c"
+    is_bold: true
+  symlink:
+    foreground: "#583090"
+  pipe:
+    foreground: "#6a6e82"
+  block_device:
+    foreground: "#FBB13C"
+    is_bold: true
+  char_device:
+    foreground: "#FBB13C"
+  socket:
+    foreground: "#1c3d7a"
+  special:
+    foreground: "#6a6e82"
+  executable:
+    foreground: "#1a8a6a"
+    is_bold: true
+  mount_point:
+    foreground: "#20969c"
+    is_underline: true
+
+perms:
+  user_read:
+    foreground: "#14664e"
+  user_write:
+    foreground: "#FBB13C"
+  user_execute_file:
+    foreground: "#8C2F39"
+  user_execute_other:
+    foreground: "#8C2F39"
+  group_read:
+    foreground: "#14664e"
+  group_write:
+    foreground: "#FBB13C"
+  group_execute:
+    foreground: "#8C2F39"
+  other_read:
+    foreground: "#14664e"
+  other_write:
+    foreground: "#FBB13C"
+  other_execute:
+    foreground: "#8C2F39"
+  special_user_file:
+    foreground: "#b53f4a"
+  special_other:
+    foreground: "#b53f4a"
+  attribute:
+    foreground: "#6a6e82"
+
+size:
+  major:
+    foreground: "#FBB13C"
+  minor:
+    foreground: "#C4861C"
+  number_byte:
+    foreground: "#FBB13C"
+  number_kilo:
+    foreground: "#FBB13C"
+  number_mega:
+    foreground: "#FBB13C"
+  number_giga:
+    foreground: "#FBB13C"
+  number_huge:
+    foreground: "#b53f4a"
+    is_bold: true
+  unit_byte:
+    foreground: "#C4861C"
+  unit_kilo:
+    foreground: "#C4861C"
+  unit_mega:
+    foreground: "#C4861C"
+  unit_giga:
+    foreground: "#C4861C"
+  unit_huge:
+    foreground: "#b53f4a"
+
+users:
+  user_you:
+    foreground: "#197278"
+  user_root:
+    foreground: "#8C2F39"
+    is_bold: true
+  user_other:
+    foreground: "#6a6e82"
+  group_yours:
+    foreground: "#197278"
+  group_other:
+    foreground: "#6a6e82"
+  group_root:
+    foreground: "#8C2F39"
+
+links:
+  normal:
+    foreground: "#6a6e82"
+  multi_link_file:
+    foreground: "#FBB13C"
+
+git:
+  new:
+    foreground: "#1a8a6a"
+  modified:
+    foreground: "#FBB13C"
+  deleted:
+    foreground: "#8C2F39"
+  renamed:
+    foreground: "#20969c"
+  ignored:
+    foreground: "#6a6e82"
+  conflicted:
+    foreground: "#b53f4a"
+    is_bold: true
+
+git_repo:
+  branch_main:
+    foreground: "#1a8a6a"
+    is_bold: true
+  branch_other:
+    foreground: "#583090"
+  git_clean:
+    foreground: "#1a8a6a"
+  git_dirty:
+    foreground: "#FBB13C"
+
+punctuation:
+  foreground: "#6a6e82"
+
+date:
+  foreground: "#6a6e82"
+
+inode:
+  foreground: "#6a6e82"
+
+blocks:
+  foreground: "#6a6e82"
+
+header:
+  foreground: "#e0e2ea"
+  is_bold: true
+
+octal:
+  foreground: "#a0a4b8"
+
+broken_symlink:
+  foreground: "#8C2F39"
+  is_italic: true
+
+broken_path_overlay:
+  foreground: "#b53f4a"
+  is_underline: true
+
+control_char:
+  foreground: "#8C2F39"
+
+file_type:
+  image:
+    foreground: "#583090"
+  video:
+    foreground: "#583090"
+    is_bold: true
+  music:
+    foreground: "#1c3d7a"
+  crypto:
+    foreground: "#1a8a6a"
+  document:
+    foreground: "#14664e"
+  compressed:
+    foreground: "#8C2F39"
+  temp:
+    foreground: "#6a6e82"
+    is_dimmed: true
+  compiled:
+    foreground: "#C4861C"
+  build:
+    foreground: "#FBB13C"
+    is_underline: true
+  source:
+    foreground: "#FCC96A"
+
+# Icon overrides for common dotfiles/dev files
+filenames:
+  CLAUDE.md: {icon: {glyph: "\uf085"}}
+  Dockerfile: {icon: {glyph: "\uf308"}}
+  docker-compose.yml: {icon: {glyph: "\uf308"}}
+  docker-compose.yaml: {icon: {glyph: "\uf308"}}
+  Makefile: {icon: {glyph: "\uf085"}}
+  Justfile: {icon: {glyph: "\uf085"}}
+  flake.nix: {icon: {glyph: "\uf313"}}
+  flake.lock: {icon: {glyph: "\uf313"}}
+
+extensions:
+  astro: {filename: {foreground: "#FBB13C"}, icon: {glyph: "\uf005"}}
+  svelte: {filename: {foreground: "#8C2F39"}, icon: {glyph: "\ue697"}}
+  vue: {filename: {foreground: "#1a8a6a"}, icon: {glyph: "󰡄"}}
+  tsx: {filename: {foreground: "#20969c"}, icon: {glyph: "\ue7ba"}}
+  jsx: {filename: {foreground: "#20969c"}, icon: {glyph: "\ue7ba"}}
