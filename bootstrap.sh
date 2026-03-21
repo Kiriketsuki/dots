@@ -40,7 +40,7 @@ $YAY \
     noto-fonts-cjk noto-fonts-emoji \
     xdg-desktop-portal-hyprland xdg-utils \
     network-manager-applet hyprshot grim slurp \
-    tmux fzf zoxide \
+    tmux fzf zoxide eza \
     brightnessctl playerctl \
     pipewire wireplumber pipewire-alsa pipewire-pulse pipewire-jack \
     gst-plugin-pipewire gst-libav gst-plugins-good gst-plugins-bad \
