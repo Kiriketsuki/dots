@@ -6,7 +6,7 @@
     selected:       #197278;
     active:         #14664e;
     urgent:         #FBB13C;
-    
+
     foreground-selected: #ffffff;
     foreground-active:   #e0e2ea;
     foreground-urgent:   #000000;

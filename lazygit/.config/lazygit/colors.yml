@@ -25,7 +25,7 @@ gui:
     markedBaseCommitBgColor:
       - "#0f4f54"  # Teal Dim
     markedBaseCommitFgColor:
-      - "#20969c"  # Teal Lt — Royal Blue is too dark to read
+      - "#20969c"  # Teal Lt
     unstagedChangesColor:
       - "#FBB13C"   # Blonde
     defaultFgColor:
