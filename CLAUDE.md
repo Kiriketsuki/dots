@@ -36,6 +36,7 @@ chrysaki/ags/.config/ags/styles/_palette.scss  (single source of truth)
       → hypr/scripts/update_colors.py   → hypr/colors.conf
       → ghostty/scripts/update_colors.py → ghostty/colors
       → lazygit/scripts/update_colors.py → lazygit/colors.yml
+      → btop/scripts/update_colors.py   → btop/themes/chrysaki.theme
 ```
 
 - `_palette.scss` — Chrysaki canonical tokens as SCSS variables (`$name: #HEX;`)

@@ -1,0 +1,47 @@
+## procs config — managed by dots/procs stow package
+
+[style]
+color = "Dark"
+
+[pager]
+mode = "Auto"
+
+[[columns]]
+kind = "Pid"
+style = "BrightCyan"
+align = "Right"
+
+[[columns]]
+kind = "User"
+style = "BrightYellow"
+align = "Left"
+
+[[columns]]
+kind = "State"
+style = "ByState"
+align = "Center"
+
+[[columns]]
+kind = "CpuTime"
+style = "BrightGreen"
+align = "Center"
+
+[[columns]]
+kind = "UsageCpu"
+style = "ByPercentage"
+align = "Right"
+
+[[columns]]
+kind = "UsageMem"
+style = "ByPercentage"
+align = "Right"
+
+[[columns]]
+kind = "VmRss"
+style = "ByUnit"
+align = "Right"
+
+[[columns]]
+kind = "Command"
+style = "BrightWhite"
+align = "Left"

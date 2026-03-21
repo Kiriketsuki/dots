@@ -172,6 +172,9 @@ function y() {
   return $_rc
 }
 
+# Tool aliases (dust, duf, hexyl)
+[[ -f "$HOME/.config/zsh/tool-aliases.zsh" ]] && source "$HOME/.config/zsh/tool-aliases.zsh"
+
 # Aliases
 alias lazygit='lazygit --use-config-file="$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/colors.yml"'
 alias lg='lazygit'
