@@ -1,0 +1,45 @@
+name: Version Validation
+
+on:
+    pull_request:
+        branches:
+            - main
+            - "epic/**"
+        types: [opened, synchronize, reopened]
+
+jobs:
+    validate-version:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+              with:
+                  fetch-depth: 0
+
+            - name: Validate VERSION file exists and format
+              id: check_version
+              run: |
+                  if [ ! -f VERSION ]; then
+                    echo "Error: No VERSION file found."
+                    exit 1
+                  fi
+
+                  VERSION=$(cat VERSION | tr -d '[:space:]')
+                  echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+                  # Validate format: YY.Major.Minor.Patch[Suffix]
+                  if ! echo "$VERSION" | grep -qE '^[0-9]{2}\.[0-9]+\.[0-9]+\.[0-9]+[a-zA-Z]*$'; then
+                    echo "Error: Version '$VERSION' does not match YY.Major.Minor.Patch[Suffix]"
+                    echo "Examples: 26.0.0.0, 26.3.2.1, 26.3.2.1a"
+                    exit 1
+                  fi
+
+                  echo "VERSION file valid: $VERSION"
+
+            - name: Summary
+              run: |
+                  echo "## Version Validation Summary" >> $GITHUB_STEP_SUMMARY
+                  echo "" >> $GITHUB_STEP_SUMMARY
+                  echo "- **Target Branch**: ${{ github.base_ref }}" >> $GITHUB_STEP_SUMMARY
+                  echo "- **Version**: ${{ steps.check_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+                  echo "- **Status**: Passed" >> $GITHUB_STEP_SUMMARY
