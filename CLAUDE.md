@@ -23,11 +23,11 @@ stow -D <package>
 
 ### Chrysaki Single-Source Theme Pipeline
 
-The desktop theme is derived from Chrysaki's canonical palette. Wallpaper rotation is purely cosmetic and does not affect theming.
+The desktop theme is derived from Chrysaki's canonical palette. Wallpaper rotation is purely cosmetic and does not affect theming. All theme outputs are committed — no runtime generation needed.
 
 ```
 chrysaki/ags/.config/ags/styles/_palette.scss  (single source of truth)
-  → theme/scripts/generate_theme_css.py        (bridge: SCSS → CSS, WCAG text colors)
+  → theme/scripts/generate_theme_css.py        (dev-time bridge: SCSS → CSS, WCAG text colors)
     → theme/theme.css                           (@define-color chrysaki-<name> / text-chrysaki-<name>)
       → waybar/style.css      (direct @import)
       → swaync/style.css      (direct @import + swaync/scripts/update_colors.py)
@@ -41,6 +41,7 @@ chrysaki/ags/.config/ags/styles/_palette.scss  (single source of truth)
 - `_palette.scss` — Chrysaki canonical tokens as SCSS variables (`$name: #HEX;`)
 - `theme/theme.css` — central color definitions with WCAG AA contrast-safe text colors (`@define-color chrysaki-<name>` / `@define-color text-chrysaki-<name>`)
 - Per-app `update_colors.py` scripts read theme.css named tokens and emit app-specific formats
+- All outputs are committed; run the bridge + individual scripts only after bumping the Chrysaki submodule
 
 ### Color Variable Convention
 
@@ -67,7 +68,6 @@ Automated via GitHub Actions. Scheme: `YY.MM.MAJOR.MINOR`. Commit prefixes `feat
 | Script | Purpose |
 |--------|---------|
 | `theme/scripts/generate_theme_css.py` | Bridge: reads Chrysaki _palette.scss → generates theme.css with WCAG text colors |
-| `hypr/scripts/generate_and_apply_palette.sh` | Master orchestrator — runs bridge + all per-app update_colors.py scripts |
 | `hypr/scripts/sync_workspaces.py` | Multi-monitor workspace synchronization |
 | `hypr/scripts/smart_spawn.py` | Intelligent window spawning |
 | `rofi/scripts/powermenu.sh` | System power menu (lock/suspend/shutdown/logout) |

@@ -1,10 +1,8 @@
 #!/bin/bash
 
-# Re-apply the Chrysaki theme to all apps.
-# With a single palette, there's nothing to "switch" — just regenerate.
+# Reload apps that cache theme CSS.
+# All theme outputs are committed — no generation needed.
 
-"$HOME/dots/hypr/.config/hypr/scripts/generate_and_apply_palette.sh"
-
-# Reload waybar style
-pkill -SIGUSR2 waybar
-pkill -RTMIN+1 waybar
+swaync-client -rs 2>/dev/null || true
+pkill -SIGUSR2 waybar 2>/dev/null || true
+pkill -RTMIN+1 waybar 2>/dev/null || true
