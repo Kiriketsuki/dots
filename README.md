@@ -18,21 +18,31 @@ Then reboot. Hyprland starts automatically via TTY autologin + uwsm.
 | `backgrounds/` | Wallpapers and current wallpaper pointers |
 | `bash/` | Bash shell configuration |
 | `chrysaki/` | [Chrysaki](https://github.com/Kiriketsuki/chrysaki) design system (git submodule) — tmux, VSCode, Ghostty, lazygit, etc. |
+| `btop/` | btop++ system monitor (Chrysaki theme) |
 | `Code/` | VS Code settings |
 | `fontconfig/` | Font configuration |
+| `eza/` | eza (modern ls) configuration |
 | `ghostty/` | Ghostty terminal emulator configuration |
 | `git/` | Git configuration with conditional identities (`~/dev/` vs `~/workdev/`) |
 | `gtk/` | GTK 3 theme + color generation script |
 | `hypr/` | Hyprland, Hyprlock, Hypridle configs + scripts |
+| `kitty/` | Kitty terminal emulator configuration |
 | `lazygit/` | Lazygit configuration + color generation |
 | `mime/` | MIME type associations |
 | `mpd/` | Music Player Daemon configuration |
+| `nvim/` | Neovim (LazyVim-based) configuration |
+| `procs/` | procs (modern ps) configuration |
+| `atuin/` | Atuin shell history configuration |
+| `alacritty/` | Alacritty terminal emulator configuration |
 | `rofi/` | Rofi launcher (Jovian theme) + color generation |
 | `spicetify/` | Spicetify (Spotify customization) |
 | `styles/` | Color palettes (`palette.css` + presets) |
 | `swaync/` | Sway Notification Center + color generation |
+| `system/` | Systemd and system-level configuration |
+| `tealdeer/` | tldr pages client configuration |
 | `theme/` | Central `theme.css` hub (WCAG-compliant color definitions) |
-| `waybar/` | Waybar status bar + contrast enforcement script |
+| `tmux/` | tmux terminal multiplexer configuration |
+| `waybar/` | Waybar status bar |
 | `xdg-desktop-portal/` | XDG Desktop Portal configuration |
 | `yazi/` | Yazi file manager |
 | `zsh/` | Zsh (Zinit, Powerlevel10k, fzf, zoxide) |
@@ -53,25 +63,29 @@ Then reboot. Hyprland starts automatically via TTY autologin + uwsm.
 12. Initialises PostgreSQL, refreshes font cache
 13. Applies the Chrysaki color theme across all apps
 
-## Wallpaper-Driven Color Pipeline
+## Chrysaki Single-Source Theme Pipeline
 
-The entire desktop theme is derived from a color palette:
+The entire desktop theme is derived from the Chrysaki canonical palette. Wallpaper rotation is cosmetic and does not affect theming.
 
 ```
-styles/palette.css (raw colors)
-  → waybar/scripts/ensure_contrast.py → theme/theme.css (WCAG AA 4.5:1 text colors)
-    → hypr/scripts/update_colors.py   → hypr/colors.conf
-    → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css
-    → rofi/scripts/update_colors.py   → rofi/colors.rasi
-    → swaync/scripts/update_colors.py → swaync/swaync_colors.css
-    → ghostty/scripts/update_colors.py → ghostty/colors
-    → lazygit/scripts/update_colors.py → lazygit/colors.yml
+chrysaki/ags/.config/ags/styles/_palette.scss  (single source of truth)
+  → theme/scripts/generate_theme_css.py        (SCSS → CSS, WCAG text colors)
+    → theme/theme.css                           (@define-color chrysaki-<name>)
+      → waybar/style.css        (direct @import)
+      → swaync/style.css        (direct @import)
+      → rofi/scripts/update_colors.py   → rofi/colors.rasi
+      → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css
+      → hypr/scripts/update_colors.py   → hypr/colors.conf
+      → ghostty/scripts/update_colors.py → ghostty/colors
+      → lazygit/scripts/update_colors.py → lazygit/colors.yml
+      → btop/scripts/update_colors.py   → btop/themes/chrysaki.theme
 ```
 
-Re-apply the palette at any time (after bumping the Chrysaki submodule):
+Re-apply after bumping the Chrysaki submodule:
 
 ```sh
 python3 ~/dots/theme/scripts/generate_theme_css.py
+# Then run each per-app update_colors.py script (see CLAUDE.md for full list)
 ```
 
 ## Packages Installed
@@ -111,6 +125,34 @@ Configures dual GitHub identities with separate SSH keys:
 |-----------|----------|---------|
 | `~/dev/` | kiriketsuki | `id_personal` |
 | `~/workdev/Aurrigo/` | Jovian-Aurrigo | `id_work` |
+
+## Versioning
+
+`YY.Major.Minor.Patch[Suffix]` (e.g. `26.3.2.1`, `26.3.2.1a`).
+
+| Digit | Meaning | Bumped by |
+|-------|---------|-----------|
+| **YY** | Calendar year | Year rollover (resets all) |
+| **Major** | Epic count | `epic/*` merge to `main` |
+| **Minor** | Feature count | `feature/*` merge |
+| **Patch** | Task/Bug count | `task/*` or `bug/*` merge |
+| **Suffix** | Hotfix letter | `hotfix/*` merge (a, b, c...) |
+
+Automated via GitHub Actions on PR merge.
+
+## Issue & PR Workflow
+
+Issues use structured templates: **Epic**, **Feature**, **Task**, **Bug**, and **Hotfix**. When an issue is labeled, a branch and draft PR are created automatically.
+
+| Label | Branch prefix | PR title prefix | Version bump | Targets |
+|-------|---------------|-----------------|--------------|---------|
+| `epic` | `epic/` | `epic:` | +Major | `main` |
+| `feature` | `feature/` | `feat:` | +Minor | parent epic or `main` |
+| `task` | `task/` | `chore:` | +Patch | parent feature/epic or `main` |
+| `bug` | `bug/` | `fix:` | +Patch | `main` |
+| `hotfix` | `hotfix/` | `hotfix:` | +Suffix | `main` |
+
+Features nest inside Epics. Tasks nest inside Features or Epics. Bugs and Hotfixes always target `main`. All PRs are squash-merged to keep history linear.
 
 ## Management
 
