@@ -68,10 +68,10 @@ styles/palette.css (raw colors)
     → lazygit/scripts/update_colors.py → lazygit/colors.yml
 ```
 
-Re-apply the palette at any time:
+Re-apply the palette at any time (after bumping the Chrysaki submodule):
 
 ```sh
-~/.config/hypr/scripts/generate_and_apply_palette.sh
+python3 ~/dots/theme/scripts/generate_theme_css.py
 ```
 
 ## Packages Installed
@@ -118,4 +118,4 @@ Configures dual GitHub identities with separate SSH keys:
 - **Restow a module**: `stow -R <module>`
 - **Remove a module**: `stow -D <module>`
 - **Reload Hyprland**: `hyprctl reload`
-- **Re-apply theme**: `~/.config/hypr/scripts/generate_and_apply_palette.sh`
+- **Re-apply theme**: `python3 ~/dots/theme/scripts/generate_theme_css.py`
