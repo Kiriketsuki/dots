@@ -24,19 +24,19 @@
 }
 
 /* Fallback for older CSS themes */
-@define-color cc-bg alpha(@color-0, 0.7);
-@define-color noti-border-color alpha(@color-2, 0.5);
-@define-color noti-bg @color-1;
-@define-color noti-bg-opaque @color-1;
-@define-color noti-bg-darker @color-2;
-@define-color noti-bg-hover @color-3;
-@define-color noti-bg-hover-opaque @color-3;
-@define-color noti-bg-focus alpha(@color-4, 0.6);
-@define-color noti-close-bg @color-5;
-@define-color noti-close-bg-hover @color-6;
-@define-color text-color @text-color-0;
-@define-color text-color-disabled alpha(@text-color-0, 0.5);
-@define-color bg-selected @color-9;
+@define-color cc-bg alpha(@chrysaki-base, 0.7);
+@define-color noti-border-color alpha(@chrysaki-teal, 0.5);
+@define-color noti-bg @chrysaki-raised;
+@define-color noti-bg-opaque @chrysaki-raised;
+@define-color noti-bg-darker @chrysaki-teal;
+@define-color noti-bg-hover @chrysaki-emerald;
+@define-color noti-bg-hover-opaque @chrysaki-emerald;
+@define-color noti-bg-focus alpha(@chrysaki-blonde, 0.6);
+@define-color noti-close-bg @chrysaki-blue;
+@define-color noti-close-bg-hover @chrysaki-amethyst;
+@define-color text-color @text-chrysaki-base;
+@define-color text-color-disabled alpha(@text-chrysaki-base, 0.5);
+@define-color bg-selected @chrysaki-emerald-light;
 notificationwindow,
 blankwindow,
 blankwindow {

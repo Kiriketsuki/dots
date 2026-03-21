@@ -21,27 +21,31 @@ stow -D <package>
 
 ## Architecture
 
-### Wallpaper-Driven Theme Pipeline
+### Chrysaki Single-Source Theme Pipeline
 
-The central architectural pattern is a color pipeline that derives the entire desktop theme from the current wallpaper:
+The desktop theme is derived from Chrysaki's canonical palette. Wallpaper rotation is purely cosmetic and does not affect theming. All theme outputs are committed — no runtime generation needed.
 
 ```
-Wallpaper → kilour (color extraction) → styles/palette.css
-  → hypr/scripts/generate_and_apply_palette.sh
-    → waybar/scripts/ensure_contrast.py → theme/theme.css (central hub, @define-color vars)
+chrysaki/ags/.config/ags/styles/_palette.scss  (single source of truth)
+  → theme/scripts/generate_theme_css.py        (dev-time bridge: SCSS → CSS, WCAG text colors)
+    → theme/theme.css                           (@define-color chrysaki-<name> / text-chrysaki-<name>)
+      → waybar/style.css      (direct @import)
+      → swaync/style.css      (direct @import + swaync/scripts/update_colors.py)
+      → rofi/scripts/update_colors.py   → rofi colors.rasi (uses text-chrysaki-* tokens directly)
       → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css
-      → rofi/scripts/update_colors.py   → rofi colors.rasi
-      → swaync/scripts/update_colors.py → swaync CSS
       → hypr/scripts/update_colors.py   → hypr/colors.conf
+      → ghostty/scripts/update_colors.py → ghostty/colors
+      → lazygit/scripts/update_colors.py → lazygit/colors.yml
 ```
 
-- `styles/palette.css` — raw extracted colors as CSS `:root` variables (`--color-N: #HEX`)
-- `theme/theme.css` — central color definitions with contrast-safe text colors (`@define-color color-N` / `@define-color text-color-N`), enforcing WCAG AA 4.5:1 ratio
-- Per-app `update_colors.py` scripts read theme.css and emit app-specific formats
+- `_palette.scss` — Chrysaki canonical tokens as SCSS variables (`$name: #HEX;`)
+- `theme/theme.css` — central color definitions with WCAG AA contrast-safe text colors (`@define-color chrysaki-<name>` / `@define-color text-chrysaki-<name>`)
+- Per-app `update_colors.py` scripts read theme.css named tokens and emit app-specific formats
+- All outputs are committed; run the bridge + individual scripts only after bumping the Chrysaki submodule
 
 ### Color Variable Convention
 
-All theme scripts use indexed color names: `color-0` through `color-N` with matching `text-color-N` for accessible text on each background.
+All theme scripts use named Chrysaki tokens: `chrysaki-<name>` with matching `text-chrysaki-<name>` for accessible text on each background.
 
 ### Git Conditional Config
 
@@ -63,8 +67,7 @@ Automated via GitHub Actions. Scheme: `YY.MM.MAJOR.MINOR`. Commit prefixes `feat
 
 | Script | Purpose |
 |--------|---------|
-| `hypr/scripts/generate_and_apply_palette.sh` | Master palette generator — orchestrates the full theme pipeline |
-| `waybar/scripts/ensure_contrast.py` | Generates theme.css with WCAG-compliant text colors |
+| `theme/scripts/generate_theme_css.py` | Bridge: reads Chrysaki _palette.scss → generates theme.css with WCAG text colors |
 | `hypr/scripts/sync_workspaces.py` | Multi-monitor workspace synchronization |
 | `hypr/scripts/smart_spawn.py` | Intelligent window spawning |
 | `rofi/scripts/powermenu.sh` | System power menu (lock/suspend/shutdown/logout) |
@@ -72,7 +75,7 @@ Automated via GitHub Actions. Scheme: `YY.MM.MAJOR.MINOR`. Commit prefixes `feat
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 
-This project is indexed by GitNexus as **dots** (134 symbols, 189 relationships, 8 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
+This project is indexed by GitNexus as **dots** (154 symbols, 207 relationships, 8 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
 
 > If any GitNexus tool warns the index is stale, run `npx gitnexus analyze` in terminal first.
 

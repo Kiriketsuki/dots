@@ -6,8 +6,8 @@
     selected:       #197278;
     active:         #14664e;
     urgent:         #FBB13C;
-    
-    foreground-selected: #ffffff;
+
+    foreground-selected: #FFF8F0;
     foreground-active:   #e0e2ea;
-    foreground-urgent:   #000000;
+    foreground-urgent:   #0f1117;
 }

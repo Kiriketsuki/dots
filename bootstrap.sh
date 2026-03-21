@@ -133,6 +133,40 @@ else
     success "kilour already installed, skipping"
 fi
 
+# ─── 4f. Rust toolchain (rustup) ─────────────────────────────────────────────
+if ! command -v cargo &>/dev/null; then
+    info "Installing Rust via rustup..."
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
+    export PATH="$HOME/.cargo/bin:$PATH"
+    success "Rust installed"
+else
+    success "cargo already available, skipping rustup"
+fi
+
+# ─── 4g. RTK (Rust Token Killer — LLM token compression for Claude Code) ─────
+if ! command -v rtk &>/dev/null; then
+    info "Installing RTK from crates.io..."
+    cargo install rtk
+    # Disable telemetry
+    rtk config --create > /dev/null 2>&1 || true
+    RTK_CONFIG="$HOME/.config/rtk/config.toml"
+    if [ -f "$RTK_CONFIG" ]; then
+        sed -i 's/^enabled = true$/enabled = false/' "$RTK_CONFIG"
+        success "RTK telemetry disabled"
+    fi
+    # Install Claude Code hook (skips settings.json patch — handled by vault setup)
+    if [ -f "$HOME/.claude/settings.json" ]; then
+        rtk init -g --hook-only --no-patch > /dev/null 2>&1 && \
+            success "RTK Claude Code hook installed" || \
+            warn "RTK hook setup failed — run: rtk init -g --hook-only --no-patch"
+    else
+        warn "Claude Code not configured yet — run after vault setup: rtk init -g --hook-only --no-patch"
+    fi
+    success "RTK installed"
+else
+    success "rtk already installed, skipping"
+fi
+
 # ─── 5. uv (Python toolchain) ─────────────────────────────────────────────────
 if ! command -v uv &>/dev/null; then
     info "Installing uv..."
@@ -310,10 +344,6 @@ sudo systemctl enable --now postgresql
 # ─── 11. Font cache ───────────────────────────────────────────────────────────
 info "Refreshing font cache..."
 fc-cache -fv > /dev/null
-
-# ─── 12. Apply color theme ───────────────────────────────────────────────────
-info "Applying Chrysaki color theme..."
-try bash "$HOME/.config/hypr/scripts/generate_and_apply_palette.sh"
 
 # ─── Done ─────────────────────────────────────────────────────────────────────
 echo ""
