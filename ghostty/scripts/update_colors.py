@@ -41,7 +41,7 @@ palette = 1={get('error', '#8C2F39')}
 palette = 2={get('emerald', '#14664e')}
 palette = 3={get('blonde-dim', '#C4861C')}
 palette = 4={get('blue', '#122858')}
-palette = 5={get('amethyst-light', '#583090')}
+palette = 5={get('amethyst', '#3a2068')}
 palette = 6={get('teal', '#197278')}
 palette = 7={get('text-secondary', '#a0a4b8')}
 palette = 8={get('text-muted', '#6a6e82')}
