@@ -1,0 +1,29 @@
+## Atuin config — managed by dots/atuin stow package
+
+## Search
+search_mode = "fuzzy"
+filter_mode = "global"
+
+## UI style: compact keeps the TUI small
+style = "compact"
+inline_height = 30
+
+## Accept selection on Enter
+enter_accept = true
+
+## Show preview of selected command
+show_preview = true
+max_preview_height = 4
+
+## Show help row
+show_help = true
+
+## Disable auto sync (local only)
+auto_sync = false
+
+## Disable update checks
+update_check = false
+
+## Theme: Chrysaki (custom named-color theme)
+[theme]
+name = "chrysaki"

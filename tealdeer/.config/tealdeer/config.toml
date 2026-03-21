@@ -1,0 +1,23 @@
+## tealdeer config — managed by dots/tealdeer stow package
+
+[updates]
+auto_update = true
+auto_update_interval_hours = 168
+
+[style.command_name]
+foreground = "green"
+bold = true
+
+[style.example_text]
+foreground = "white"
+
+[style.example_code]
+foreground = "cyan"
+
+[style.example_variable]
+foreground = "yellow"
+bold = true
+underline = true
+
+[style.description_text]
+foreground = "white"

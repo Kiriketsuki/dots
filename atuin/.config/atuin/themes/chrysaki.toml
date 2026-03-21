@@ -1,0 +1,24 @@
+# Atuin Chrysaki theme — closest named CSS colors to Chrysaki palette
+# Note: atuin only accepts named colors from the palette crate, not hex values
+# See: https://ogeon.github.io/docs/palette/master/palette/named/index.html
+
+# Base UI text — light gray on dark background
+Base = "lightslategray"
+
+# Important elements (selection highlights) — teal/emerald accent
+Important = "lightseagreen"
+
+# Informational alerts — cerulean/blue accent
+AlertInfo = "steelblue"
+
+# Warning alerts — blonde/gold accent
+AlertWarn = "goldenrod"
+
+# Error alerts — error red accent
+AlertError = "indianred"
+
+# Annotations / secondary info — amethyst accent
+Annotation = "mediumpurple"
+
+# Guidance text — muted/secondary
+Guidance = "slategray"
