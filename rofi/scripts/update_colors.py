@@ -8,34 +8,6 @@ def hex_to_rgb(hex_color):
         hex_color = ''.join([c*2 for c in hex_color])
     return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
 
-def relative_luminance(rgb):
-    rs, gs, bs = [x / 255.0 for x in rgb]
-    rs = rs / 12.92 if rs <= 0.03928 else ((rs + 0.055) / 1.055) ** 2.4
-    gs = gs / 12.92 if gs <= 0.03928 else ((gs + 0.055) / 1.055) ** 2.4
-    bs = bs / 12.92 if bs <= 0.03928 else ((bs + 0.055) / 1.055) ** 2.4
-    return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs
-
-def contrast_ratio(c1, c2):
-    l1 = relative_luminance(hex_to_rgb(c1))
-    l2 = relative_luminance(hex_to_rgb(c2))
-    if l1 > l2:
-        return (l1 + 0.05) / (l2 + 0.05)
-    else:
-        return (l2 + 0.05) / (l1 + 0.05)
-
-def get_best_text_color(bg_color, preferred_text_color="#ffffff"):
-    if contrast_ratio(bg_color, preferred_text_color) >= 4.5:
-        return preferred_text_color
-    white_contrast = contrast_ratio(bg_color, "#ffffff")
-    black_contrast = contrast_ratio(bg_color, "#000000")
-
-    if white_contrast >= 4.5 and white_contrast > black_contrast:
-        return "#ffffff"
-    if black_contrast >= 4.5 and black_contrast > white_contrast:
-        return "#000000"
-
-    return "#ffffff" if white_contrast > black_contrast else "#000000"
-
 def main():
     theme_path = os.path.expanduser("~/.config/theme/theme.css")
     output_path = os.path.expanduser("~/.config/rofi/jovian/colors.rasi")
@@ -74,10 +46,10 @@ def main():
     active = get_color("emerald")
     urgent = get_color("blonde")
 
-    fg = get_best_text_color(bg, fg_pref)
-    fg_selected = get_best_text_color(selected, fg_pref)
-    fg_active = get_best_text_color(active, fg_pref)
-    fg_urgent = get_best_text_color(urgent, fg_pref)
+    fg = fg_pref
+    fg_selected = get_text_color("teal")
+    fg_active = get_text_color("emerald")
+    fg_urgent = get_text_color("blonde")
 
     bg_rgb = hex_to_rgb(bg)
     bg_alpha = f"rgba({bg_rgb[0]}, {bg_rgb[1]}, {bg_rgb[2]}, 0.85)"

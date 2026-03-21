@@ -40,7 +40,7 @@ palette = 0={get('abyss', '#0f1117')}
 palette = 1={get('error', '#8C2F39')}
 palette = 2={get('emerald', '#14664e')}
 palette = 3={get('blonde-dim', '#C4861C')}
-palette = 4={get('blonde', '#FBB13C')}
+palette = 4={get('blue', '#122858')}
 palette = 5={get('amethyst-light', '#583090')}
 palette = 6={get('teal', '#197278')}
 palette = 7={get('text-secondary', '#a0a4b8')}
@@ -48,7 +48,7 @@ palette = 8={get('text-muted', '#6a6e82')}
 palette = 9={get('error-light', '#b53f4a')}
 palette = 10={get('emerald-light', '#1a8a6a')}
 palette = 11={get('blonde-light', '#FCC96A')}
-palette = 12={get('teal-light', '#20969c')}
+palette = 12={get('cerulean', '#3d95e0')}
 palette = 13={get('amethyst-light', '#583090')}
 palette = 14={get('teal-light', '#20969c')}
 palette = 15={get('text-primary', '#e0e2ea')}

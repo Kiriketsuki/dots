@@ -31,7 +31,7 @@ chrysaki/ags/.config/ags/styles/_palette.scss  (single source of truth)
     → theme/theme.css                           (@define-color chrysaki-<name> / text-chrysaki-<name>)
       → waybar/style.css      (direct @import)
       → swaync/style.css      (direct @import + swaync/scripts/update_colors.py)
-      → rofi/scripts/update_colors.py   → rofi colors.rasi
+      → rofi/scripts/update_colors.py   → rofi colors.rasi (uses text-chrysaki-* tokens directly)
       → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css
       → hypr/scripts/update_colors.py   → hypr/colors.conf
       → ghostty/scripts/update_colors.py → ghostty/colors
