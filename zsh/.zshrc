@@ -29,8 +29,13 @@ zinit light zsh-users/zsh-completions
 # Set the directory we want to store zinit and plugins
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 
-# Load completions
-autoload -U compinit && compinit
+# Load completions (full rebuild once per day; cached on re-source)
+autoload -U compinit
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
 
 zinit cdreplay -q
 
