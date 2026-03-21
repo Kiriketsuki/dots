@@ -1,3 +1,6 @@
+# Silence direnv output before p10k instant prompt fires (must come first)
+export DIRENV_LOG_FORMAT=
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -173,8 +176,19 @@ function y() {
 alias lazygit='lazygit --use-config-file="$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/colors.yml"'
 alias lg='lazygit'
 alias cp='xcp'
-alias mv='rsync -ah --progress --remove-source-files'
-alias ls='ls --color'
+unalias mv 2>/dev/null
+mv() {
+  local has_dir=0
+  for arg in "${@[1,-2]}"; do
+    [[ -d "$arg" ]] && has_dir=1 && break
+  done
+  if (( has_dir )); then
+    /bin/mv "$@"
+  else
+    rsync -ah --progress --remove-source-files "$@"
+  fi
+}
+alias ls='eza --color=always --icons=always --group-directories-first'
 alias vim='nvim'
 alias c='clear'
 alias checkout='git checkout'
@@ -182,7 +196,19 @@ alias pull='git pull'
 alias push='git push'
 alias rebase='git rebase'
 alias fetch='git fetch'
-alias claude='claude --dangerously-skip-permissions'
+# Smart Claude account switcher.
+# Detects workspace from $PWD and sets CLAUDE_CONFIG_DIR inline at invocation.
+# ~/.claude-aurrigo/ contains Aurrigo credentials; shared config (agents, hooks,
+# skills, settings) is symlinked from ~/.claude/ into ~/.claude-aurrigo/.
+# See vault: 000-System/Agents/Claude/rules/common/claude-accounts.md
+unalias claude 2>/dev/null
+function claude {
+  if [[ "$PWD" == */workdev/Aurrigo* ]]; then
+    CLAUDE_CONFIG_DIR="$HOME/.claude-aurrigo" command claude --dangerously-skip-permissions "$@"
+  else
+    command claude --dangerously-skip-permissions "$@"
+  fi
+}
 alias copilot='copilot --allow-all-tools'
 
 # Prevent nested Claude Code sessions in tmux
@@ -232,9 +258,23 @@ if grep -qi microsoft /proc/version 2>/dev/null; then
     }
 fi
 
+# ags
+alias sags='ags run ~/.config/ags/app.ts &'
+alias kags='pkill -f "gjs -m /run/user/1000/ags.js" 2>/dev/null; true'
+alias rags='pkill -f "gjs -m /run/user/1000/ags.js" 2>/dev/null; sleep 1 && ags run ~/.config/ags/app.ts &'
+
 # openviking toggle
 alias ov-stop='kill $(pgrep -f openviking-server) 2>/dev/null && echo "openviking stopped" || echo "already stopped"'
 alias ov-start='nohup openviking-server > /tmp/openviking.log 2>&1 & echo "openviking started (pid $!)"'
 alias ov-status='pgrep -f openviking-server > /dev/null && echo "running (pid $(pgrep -f openviking-server))" || echo "stopped"'
 
 export OLLAMA_MODELS=/data/ollama/models
+
+# bun completions
+[ -s "/home/kiriketsuki/.bun/_bun" ] && source "/home/kiriketsuki/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+eval "$(direnv hook zsh)"
