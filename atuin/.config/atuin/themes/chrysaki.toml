@@ -1,24 +1,33 @@
 # Atuin Chrysaki theme — closest named CSS colors to Chrysaki palette
 # Note: atuin only accepts named colors from the palette crate, not hex values
 # See: https://ogeon.github.io/docs/palette/master/palette/named/index.html
+#
+# Chrysaki token -> named color mapping (review on palette bump):
+#   chrysaki-text-muted (#6a6e82)    -> lightslategray (#778899)
+#   chrysaki-emerald-light (#1a8a6a) -> lightseagreen (#20B2AA)
+#   chrysaki-cerulean (#3d95e0)      -> steelblue (#4682B4)
+#   chrysaki-blonde (#FBB13C)        -> goldenrod (#DAA520)
+#   chrysaki-error (#8C2F39)         -> indianred (#CD5C5C)
+#   chrysaki-amethyst (#3a2068)      -> mediumpurple (#9370DB)
+#   chrysaki-text-secondary (#545868)-> slategray (#708090)
 
-# Base UI text — light gray on dark background
+# Base UI text — chrysaki-text-muted
 Base = "lightslategray"
 
-# Important elements (selection highlights) — teal/emerald accent
+# Important elements (selection highlights) — chrysaki-emerald-light
 Important = "lightseagreen"
 
-# Informational alerts — cerulean/blue accent
+# Informational alerts — chrysaki-cerulean
 AlertInfo = "steelblue"
 
-# Warning alerts — blonde/gold accent
+# Warning alerts — chrysaki-blonde
 AlertWarn = "goldenrod"
 
-# Error alerts — error red accent
+# Error alerts — chrysaki-error
 AlertError = "indianred"
 
-# Annotations / secondary info — amethyst accent
+# Annotations / secondary info — chrysaki-amethyst
 Annotation = "mediumpurple"
 
-# Guidance text — muted/secondary
+# Guidance text — chrysaki-text-secondary
 Guidance = "slategray"
