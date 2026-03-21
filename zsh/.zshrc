@@ -191,7 +191,7 @@ mv() {
     rsync -ah --progress --remove-source-files "$@"
   fi
 }
-alias ls='eza --color=always --icons=always --group-directories-first --git --hyperlink --classify'
+alias ls='eza --color=always --icons=always --group-directories-first --git --hyperlink --classify -l'
 alias vim='nvim'
 alias c='clear'
 alias checkout='git checkout'
