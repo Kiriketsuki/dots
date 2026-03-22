@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neovim Setup Guide — Chrysaki Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'SF Mono', Consolas, monospace;
+
+    /* Chrysaki palette */
+    --bg: #0f1117;
+    --surface: #161821;
+    --raised: #1c1f2b;
+    --elevated: #252836;
+    --border: #363a4f;
+
+    --emerald: #14664e;
+    --emerald-lt: #1a8a6a;
+    --amethyst: #3a2068;
+    --amethyst-lt: #583090;
+    --teal: #197278;
+    --teal-lt: #20969c;
+    --blonde: #FBB13C;
+    --blonde-lt: #FCC96A;
+    --blue: #122858;
+    --blue-lt: #1c3d7a;
+    --error: #8C2F39;
+
+    --text: #e0e2ea;
+    --text-dim: #a0a4b8;
+    --text-muted: #6a6e82;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .a { animation: fadeUp 0.5s ease-out both; animation-delay: calc(var(--i, 0) * 0.07s); }
+  @media (prefers-reduced-motion: reduce) { .a { animation: none; opacity: 1; } }
+
+  /* === HERO === */
+  .hero {
+    padding: 60px 40px 40px;
+    background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; }
+  .hero h1 {
+    font-size: 42px; font-weight: 700; letter-spacing: -1.5px;
+    background: linear-gradient(135deg, var(--emerald-lt), var(--teal-lt));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 8px;
+  }
+  .hero .tagline {
+    font-family: var(--font-mono); font-size: 13px; color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+  .hero .lead {
+    font-size: 16px; color: var(--text-dim); max-width: 680px; line-height: 1.7;
+  }
+
+  /* === MAIN === */
+  .main { max-width: 1100px; margin: 0 auto; padding: 40px; }
+
+  /* === SECTION HEADERS === */
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin: 48px 0 24px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-header .num {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    color: var(--emerald-lt); background: rgba(26, 138, 106, 0.12);
+    padding: 3px 8px; border-radius: 3px; letter-spacing: 1px;
+  }
+  .section-header h2 { font-size: 24px; font-weight: 600; }
+
+  /* === WHAT IS LAZYVIM === */
+  .explainer-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  .explainer-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 24px;
+  }
+  .explainer-card h3 {
+    font-size: 14px; font-weight: 600; margin-bottom: 12px;
+    color: var(--blonde);
+  }
+  .explainer-card p { font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+  .explainer-card code {
+    font-family: var(--font-mono); font-size: 11px;
+    background: rgba(251, 177, 60, 0.1); color: var(--blonde);
+    padding: 1px 5px; border-radius: 3px;
+  }
+
+  /* === ARCHITECTURE DIAGRAM === */
+  .arch-container {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 32px; overflow-x: auto;
+  }
+
+  .arch-flow {
+    display: flex; flex-direction: column; gap: 24px;
+    min-width: 700px;
+  }
+
+  .arch-layer {
+    display: flex; gap: 12px; align-items: stretch;
+  }
+
+  .arch-label {
+    writing-mode: vertical-rl; text-orientation: mixed;
+    font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 12px 8px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    min-width: 36px;
+  }
+
+  .arch-label.entry { background: rgba(26, 138, 106, 0.15); color: var(--emerald-lt); }
+  .arch-label.core { background: rgba(88, 48, 144, 0.15); color: var(--amethyst-lt); }
+  .arch-label.plugins { background: rgba(32, 150, 156, 0.15); color: var(--teal-lt); }
+  .arch-label.output { background: rgba(251, 177, 60, 0.12); color: var(--blonde); }
+
+  .arch-nodes {
+    display: flex; gap: 10px; flex-wrap: wrap; flex: 1;
+  }
+
+  .arch-node {
+    background: var(--raised); border: 1px solid var(--border);
+    border-radius: 6px; padding: 12px 16px; min-width: 120px;
+    flex: 1;
+  }
+  .arch-node .name {
+    font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .arch-node .desc {
+    font-size: 11px; color: var(--text-muted); line-height: 1.5;
+  }
+
+  .arch-arrow {
+    text-align: center; color: var(--text-muted); font-size: 18px;
+    margin: -8px 0;
+  }
+
+  /* === PLUGIN MAP === */
+  .plugin-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;
+  }
+
+  .plugin-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px;
+    border-left: 3px solid var(--border);
+    transition: border-color 0.2s;
+  }
+  .plugin-card:hover { border-left-color: var(--emerald-lt); }
+  .plugin-card.cat-editor { border-left-color: var(--emerald-lt); }
+  .plugin-card.cat-lsp { border-left-color: var(--amethyst-lt); }
+  .plugin-card.cat-ui { border-left-color: var(--teal-lt); }
+  .plugin-card.cat-git { border-left-color: var(--blonde); }
+  .plugin-card.cat-format { border-left-color: var(--blue-lt); }
+
+  .plugin-card .plugin-name {
+    font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .plugin-card .plugin-role {
+    font-size: 12px; color: var(--text-dim); margin-bottom: 8px;
+  }
+  .plugin-card .plugin-vscode {
+    font-size: 11px; color: var(--text-muted);
+    background: var(--raised); padding: 4px 8px; border-radius: 4px;
+    display: inline-block;
+  }
+
+  /* === KEYBOARD REFERENCE === */
+  .kb-section { margin-bottom: 32px; }
+  .kb-section h3 {
+    font-size: 13px; font-weight: 600; color: var(--teal-lt);
+    font-family: var(--font-mono); margin-bottom: 12px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+
+  .kb-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px;
+  }
+  .kb-table th {
+    text-align: left; font-weight: 500; color: var(--text-muted);
+    font-family: var(--font-mono); font-size: 11px;
+    padding: 8px 12px; border-bottom: 1px solid var(--border);
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .kb-table td {
+    padding: 8px 12px; border-bottom: 1px solid rgba(54, 58, 79, 0.4);
+    vertical-align: top;
+  }
+  .kb-table tr:hover td { background: rgba(26, 138, 106, 0.04); }
+
+  kbd {
+    font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+    background: var(--elevated); color: var(--blonde-lt);
+    padding: 2px 7px; border-radius: 4px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .vs-hint {
+    font-size: 11px; color: var(--text-muted); font-style: italic;
+  }
+
+  /* === FILE TREE === */
+  .file-tree {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 24px; font-family: var(--font-mono);
+    font-size: 12px; line-height: 2; color: var(--text-dim);
+    overflow-x: auto;
+  }
+  .file-tree .dir { color: var(--teal-lt); font-weight: 500; }
+  .file-tree .file { color: var(--text-dim); }
+  .file-tree .desc { color: var(--text-muted); font-style: italic; }
+
+  /* === MODES === */
+  .modes-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .mode-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px; text-align: center;
+  }
+  .mode-card .mode-key {
+    font-family: var(--font-mono); font-size: 28px; font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .mode-card .mode-name {
+    font-size: 14px; font-weight: 600; margin-bottom: 8px;
+  }
+  .mode-card .mode-desc {
+    font-size: 12px; color: var(--text-muted); line-height: 1.5;
+  }
+  .mode-card.normal { border-top: 3px solid var(--emerald-lt); }
+  .mode-card.normal .mode-key { color: var(--emerald-lt); }
+  .mode-card.insert { border-top: 3px solid var(--blonde); }
+  .mode-card.insert .mode-key { color: var(--blonde); }
+  .mode-card.visual { border-top: 3px solid var(--amethyst-lt); }
+  .mode-card.visual .mode-key { color: var(--amethyst-lt); }
+
+  /* === FOOTER === */
+  .footer {
+    margin-top: 60px; padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  @media (max-width: 768px) {
+    .hero { padding: 32px 20px; }
+    .hero h1 { font-size: 28px; }
+    .main { padding: 20px; }
+    .explainer-grid { grid-template-columns: 1fr; }
+    .modes-grid { grid-template-columns: 1fr; }
+    .plugin-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== HERO ========== -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1 class="a" style="--i:0">Neovim Setup Guide</h1>
+    <p class="tagline a" style="--i:1">chrysaki theme // lazyvim framework // vs code workflow</p>
+    <p class="lead a" style="--i:2">
+      Your Neovim is built on <strong>LazyVim</strong> -- a pre-configured Neovim distribution that gives you
+      IDE-level features out of the box. This guide shows how every piece fits together and maps
+      VS Code shortcuts to their Neovim equivalents.
+    </p>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ========== WHAT IS LAZYVIM ========== -->
+<div class="section-header a" style="--i:3">
+  <span class="num">01</span>
+  <h2>What is LazyVim?</h2>
+</div>
+
+<div class="explainer-grid a" style="--i:4">
+  <div class="explainer-card">
+    <h3>The Framework</h3>
+    <p>
+      LazyVim is a <strong>Neovim distribution</strong> -- think of it as a pre-built IDE configuration.
+      It uses <code>lazy.nvim</code> (a plugin manager) to install and manage ~30+ plugins that together
+      give you autocomplete, syntax highlighting, file navigation, git integration, and more.
+      You don't configure each plugin from scratch -- LazyVim provides sensible defaults.
+    </p>
+  </div>
+  <div class="explainer-card">
+    <h3>How You Customize It</h3>
+    <p>
+      Your config lives in <code>~/.config/nvim/lua/</code>. Files in <code>plugins/</code> override
+      or extend LazyVim's defaults. Files in <code>config/</code> set your personal options and keymaps.
+      LazyVim "extras" are optional feature packs (language support, UI enhancements) you enable
+      in <code>lazyvim.json</code>.
+    </p>
+  </div>
+  <div class="explainer-card">
+    <h3>VS Code Analogy</h3>
+    <p>
+      If VS Code is the editor + marketplace, LazyVim is like having a curated
+      <strong>"VS Code Essentials" extension pack</strong> pre-installed. Each Neovim plugin is like
+      a VS Code extension. <code>lazy.nvim</code> is the extension marketplace.
+      <code>lazyvim.json</code> is your <code>settings.json</code>.
+    </p>
+  </div>
+  <div class="explainer-card">
+    <h3>The Leader Key</h3>
+    <p>
+      In VS Code you use <strong>Ctrl+Shift+P</strong> to access everything. In Neovim,
+      the <kbd>Space</kbd> key is your "<strong>leader</strong>" -- it opens a menu (which-key) showing
+      all available actions. Press <kbd>Space</kbd> and wait -- you'll see every shortcut organized
+      by category.
+    </p>
+  </div>
+</div>
+
+<!-- ========== MODES ========== -->
+<div class="section-header a" style="--i:5">
+  <span class="num">02</span>
+  <h2>Vim Modes (The Core Concept)</h2>
+</div>
+
+<p class="a" style="--i:6; color: var(--text-dim); margin-bottom: 20px; font-size: 14px;">
+  Unlike VS Code where you're always typing, Neovim has <strong>modes</strong>.
+  You switch between them constantly. This is what makes Vim fast once you learn it.
+</p>
+
+<div class="modes-grid a" style="--i:7">
+  <div class="mode-card normal">
+    <div class="mode-key">N</div>
+    <div class="mode-name">Normal Mode</div>
+    <div class="mode-desc">
+      Your home base. Navigate, delete, copy, paste, run commands.
+      Press <kbd>Esc</kbd> from any mode to return here.
+      This is where you spend most of your time.
+    </div>
+  </div>
+  <div class="mode-card insert">
+    <div class="mode-key">I</div>
+    <div class="mode-name">Insert Mode</div>
+    <div class="mode-desc">
+      Type text like VS Code. Enter with <kbd>i</kbd> (before cursor),
+      <kbd>a</kbd> (after cursor), <kbd>o</kbd> (new line below).
+      Press <kbd>Esc</kbd> to return to Normal.
+    </div>
+  </div>
+  <div class="mode-card visual">
+    <div class="mode-key">V</div>
+    <div class="mode-name">Visual Mode</div>
+    <div class="mode-desc">
+      Select text. Enter with <kbd>v</kbd> (character),
+      <kbd>V</kbd> (whole line), <kbd>Ctrl+v</kbd> (block/column).
+      Then act on the selection: <kbd>d</kbd> delete, <kbd>y</kbd> copy.
+    </div>
+  </div>
+</div>
+
+<!-- ========== ARCHITECTURE ========== -->
+<div class="section-header a" style="--i:8">
+  <span class="num">03</span>
+  <h2>How the Plugins Fit Together</h2>
+</div>
+
+<div class="arch-container a" style="--i:9">
+  <div class="arch-flow">
+
+    <div class="arch-layer">
+      <div class="arch-label entry">ENTRY</div>
+      <div class="arch-nodes">
+        <div class="arch-node">
+          <div class="name" style="color:var(--emerald-lt)">init.lua</div>
+          <div class="desc">Entry point. Loads config/lazy.lua which bootstraps everything.</div>
+        </div>
+        <div class="arch-node">
+          <div class="name" style="color:var(--emerald-lt)">lazy.nvim</div>
+          <div class="desc">Plugin manager. Downloads, installs, and lazy-loads all plugins.</div>
+        </div>
+        <div class="arch-node">
+          <div class="name" style="color:var(--emerald-lt)">LazyVim</div>
+          <div class="desc">Framework. Provides default configs for all plugins + extras system.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-arrow">|</div>
+
+    <div class="arch-layer">
+      <div class="arch-label core">YOUR CONFIG</div>
+      <div class="arch-nodes">
+        <div class="arch-node">
+          <div class="name" style="color:var(--amethyst-lt)">config/options.lua</div>
+          <div class="desc">Editor settings: 4-space indent, relative line numbers, clipboard sync.</div>
+        </div>
+        <div class="arch-node">
+          <div class="name" style="color:var(--amethyst-lt)">config/keymaps.lua</div>
+          <div class="desc">Custom shortcuts: Ctrl+S save, Space+p files, Space+P commands.</div>
+        </div>
+        <div class="arch-node">
+          <div class="name" style="color:var(--amethyst-lt)">config/autocmds.lua</div>
+          <div class="desc">Auto-actions: open Neo-tree sidebar on startup.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-arrow">|</div>
+
+    <div class="arch-layer">
+      <div class="arch-label plugins">PLUGINS</div>
+      <div class="arch-nodes">
+        <div class="arch-node">
+          <div class="name" style="color:var(--teal-lt)">Snacks Picker</div>
+          <div class="desc">File finder, command palette, grep, LSP navigation. Your Ctrl+P.</div>
+        </div>
+        <div class="arch-node">
+          <div class="name" style="color:var(--teal-lt)">Neo-tree</div>
+          <div class="desc">File explorer sidebar with git status. Your Explorer panel.</div>
+        </div>
+        <div class="arch-node">
+          <div class="name" style="color:var(--teal-lt)">nvim-lspconfig + Mason</div>
+          <div class="desc">Language servers for autocomplete, go-to-definition, errors. Your IntelliSense.</div>
+        </div>
+        <div class="arch-node">
+          <div class="name" style="color:var(--teal-lt)">Treesitter</div>
+          <div class="desc">Syntax parsing. Powers highlighting, text objects, code folding.</div>
+        </div>
+        <div class="arch-node">
+          <div class="name" style="color:var(--teal-lt)">conform + nvim-lint</div>
+          <div class="desc">Format on save (stylua, prettierd, ruff) + linting (shellcheck, ruff).</div>
+        </div>
+        <div class="arch-node">
+          <div class="name" style="color:var(--teal-lt)">gitsigns + lazygit</div>
+          <div class="desc">Git gutter markers + full git TUI. Your Source Control panel.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-arrow">|</div>
+
+    <div class="arch-layer">
+      <div class="arch-label output">UI</div>
+      <div class="arch-nodes">
+        <div class="arch-node">
+          <div class="name" style="color:var(--blonde)">Chrysaki</div>
+          <div class="desc">Dark theme with jewel-tone accents. Amethyst keywords, emerald functions, blonde strings.</div>
+        </div>
+        <div class="arch-node">
+          <div class="name" style="color:var(--blonde)">lualine</div>
+          <div class="desc">Status bar at the bottom showing mode, file, git branch, diagnostics.</div>
+        </div>
+        <div class="arch-node">
+          <div class="name" style="color:var(--blonde)">bufferline</div>
+          <div class="desc">Tab bar at the top. Each open file is a tab, like VS Code.</div>
+        </div>
+        <div class="arch-node">
+          <div class="name" style="color:var(--blonde)">edgy.nvim</div>
+          <div class="desc">Pins panels: Neo-tree left, terminal bottom. VS Code layout.</div>
+        </div>
+        <div class="arch-node">
+          <div class="name" style="color:var(--blonde)">which-key</div>
+          <div class="desc">Shows available keybindings after pressing leader. Your cheat sheet.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== KEYBOARD REFERENCE ========== -->
+<div class="section-header a" style="--i:10">
+  <span class="num">04</span>
+  <h2>Keyboard Reference</h2>
+</div>
+
+<div class="kb-section a" style="--i:11">
+  <h3>Navigation (VS Code equivalents)</h3>
+  <table class="kb-table">
+    <thead><tr><th>Action</th><th>Neovim</th><th>VS Code</th></tr></thead>
+    <tbody>
+      <tr><td>Find files</td><td><kbd>Space</kbd> <kbd>p</kbd> or <kbd>Space</kbd> <kbd>Space</kbd></td><td><span class="vs-hint">Ctrl+P</span></td></tr>
+      <tr><td>Command palette</td><td><kbd>Space</kbd> <kbd>P</kbd></td><td><span class="vs-hint">Ctrl+Shift+P</span></td></tr>
+      <tr><td>Search in files</td><td><kbd>Space</kbd> <kbd>/</kbd></td><td><span class="vs-hint">Ctrl+Shift+F</span></td></tr>
+      <tr><td>Toggle file explorer</td><td><kbd>Space</kbd> <kbd>e</kbd></td><td><span class="vs-hint">Ctrl+Shift+E</span></td></tr>
+      <tr><td>Toggle terminal</td><td><kbd>Space</kbd> <kbd>`</kbd> or <kbd>Ctrl+/</kbd></td><td><span class="vs-hint">Ctrl+`</span></td></tr>
+      <tr><td>Open lazygit</td><td><kbd>Space</kbd> <kbd>g</kbd> <kbd>g</kbd></td><td><span class="vs-hint">Source Control tab</span></td></tr>
+      <tr><td>Go to definition</td><td><kbd>g</kbd> <kbd>d</kbd></td><td><span class="vs-hint">F12</span></td></tr>
+      <tr><td>Find references</td><td><kbd>g</kbd> <kbd>r</kbd></td><td><span class="vs-hint">Shift+F12</span></td></tr>
+      <tr><td>Go to implementation</td><td><kbd>g</kbd> <kbd>I</kbd></td><td><span class="vs-hint">Ctrl+F12</span></td></tr>
+      <tr><td>Save file</td><td><kbd>Ctrl+S</kbd></td><td><span class="vs-hint">Ctrl+S</span></td></tr>
+      <tr><td>Close buffer (tab)</td><td><kbd>Space</kbd> <kbd>w</kbd></td><td><span class="vs-hint">Ctrl+W</span></td></tr>
+      <tr><td>Select all</td><td><kbd>Ctrl+A</kbd></td><td><span class="vs-hint">Ctrl+A</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="kb-section a" style="--i:12">
+  <h3>Essential Vim Motions (Normal Mode)</h3>
+  <table class="kb-table">
+    <thead><tr><th>Action</th><th>Key</th><th>Remember</th></tr></thead>
+    <tbody>
+      <tr><td>Move left / down / up / right</td><td><kbd>h</kbd> <kbd>j</kbd> <kbd>k</kbd> <kbd>l</kbd></td><td>j goes down (like the hook of j)</td></tr>
+      <tr><td>Word forward / backward</td><td><kbd>w</kbd> / <kbd>b</kbd></td><td>word / back</td></tr>
+      <tr><td>Start / end of line</td><td><kbd>0</kbd> / <kbd>$</kbd></td><td>0 = beginning, $ = end (like regex)</td></tr>
+      <tr><td>Top / bottom of file</td><td><kbd>g</kbd><kbd>g</kbd> / <kbd>G</kbd></td><td>go-go top, big-G bottom</td></tr>
+      <tr><td>Page up / down</td><td><kbd>Ctrl+U</kbd> / <kbd>Ctrl+D</kbd></td><td>up / down</td></tr>
+      <tr><td>Find character on line</td><td><kbd>f</kbd> then char</td><td>find</td></tr>
+      <tr><td>Jump to matching bracket</td><td><kbd>%</kbd></td><td></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="kb-section a" style="--i:13">
+  <h3>Editing (Normal Mode)</h3>
+  <table class="kb-table">
+    <thead><tr><th>Action</th><th>Key</th><th>Remember</th></tr></thead>
+    <tbody>
+      <tr><td>Delete character</td><td><kbd>x</kbd></td><td>x marks the spot (delete)</td></tr>
+      <tr><td>Delete word</td><td><kbd>d</kbd><kbd>w</kbd></td><td>delete word</td></tr>
+      <tr><td>Delete line</td><td><kbd>d</kbd><kbd>d</kbd></td><td>delete-delete (whole line)</td></tr>
+      <tr><td>Delete to end of line</td><td><kbd>D</kbd></td><td>big-D = delete rest</td></tr>
+      <tr><td>Change word (delete + insert)</td><td><kbd>c</kbd><kbd>w</kbd></td><td>change word</td></tr>
+      <tr><td>Change line</td><td><kbd>c</kbd><kbd>c</kbd></td><td>change-change</td></tr>
+      <tr><td>Undo</td><td><kbd>u</kbd></td><td>undo</td></tr>
+      <tr><td>Redo</td><td><kbd>Ctrl+R</kbd></td><td>redo</td></tr>
+      <tr><td>Copy (yank) line</td><td><kbd>y</kbd><kbd>y</kbd></td><td>yank-yank</td></tr>
+      <tr><td>Copy selection</td><td><kbd>y</kbd> (in Visual)</td><td>yank</td></tr>
+      <tr><td>Paste after / before</td><td><kbd>p</kbd> / <kbd>P</kbd></td><td>put</td></tr>
+      <tr><td>Toggle comment</td><td><kbd>g</kbd><kbd>c</kbd><kbd>c</kbd> (line) or <kbd>g</kbd><kbd>c</kbd> (visual)</td><td></td></tr>
+      <tr><td>Indent / Outdent</td><td><kbd>></kbd><kbd>></kbd> / <kbd><</kbd><kbd><</kbd></td><td></td></tr>
+      <tr><td>Join lines</td><td><kbd>J</kbd></td><td>join</td></tr>
+      <tr><td>Replace character</td><td><kbd>r</kbd> then char</td><td>replace</td></tr>
+      <tr><td>Enter insert mode</td><td><kbd>i</kbd> / <kbd>a</kbd> / <kbd>o</kbd> / <kbd>O</kbd></td><td>insert / append / open below / Open above</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="kb-section a" style="--i:14">
+  <h3>Vim Grammar: Verb + Object</h3>
+  <table class="kb-table">
+    <thead><tr><th>Verb</th><th>Object</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td><kbd>d</kbd> (delete)</td><td><kbd>w</kbd> (word)</td><td>Delete a word</td></tr>
+      <tr><td><kbd>d</kbd> (delete)</td><td><kbd>i</kbd><kbd>"</kbd> (inside quotes)</td><td>Delete inside quotes</td></tr>
+      <tr><td><kbd>c</kbd> (change)</td><td><kbd>i</kbd><kbd>{</kbd> (inside braces)</td><td>Change inside {braces}</td></tr>
+      <tr><td><kbd>y</kbd> (yank/copy)</td><td><kbd>a</kbd><kbd>p</kbd> (a paragraph)</td><td>Copy a paragraph</td></tr>
+      <tr><td><kbd>></kbd> (indent)</td><td><kbd>i</kbd><kbd>b</kbd> (inside block)</td><td>Indent inside block</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top: 12px; font-size: 13px; color: var(--text-dim);">
+    This is Vim's superpower: <strong>verbs compose with objects</strong>.
+    Learn ~5 verbs (<kbd>d</kbd> <kbd>c</kbd> <kbd>y</kbd> <kbd>></kbd> <kbd><</kbd>) and ~10 objects
+    (<kbd>w</kbd> <kbd>b</kbd> <kbd>iw</kbd> <kbd>i"</kbd> <kbd>i{</kbd> <kbd>ip</kbd> <kbd>it</kbd> ...),
+    and you get 50+ editing commands for free.
+  </p>
+</div>
+
+<!-- ========== FILE TREE ========== -->
+<div class="section-header a" style="--i:15">
+  <span class="num">05</span>
+  <h2>Config File Structure</h2>
+</div>
+
+<div class="file-tree a" style="--i:16">
+<span class="dir">~/.config/nvim/</span>
+  <span class="dir">  colors/</span>
+      <span class="file">    chrysaki.lua</span>          <span class="desc">-- colorscheme (symlinked from dots)</span>
+  <span class="dir">  lua/</span>
+    <span class="dir">    config/</span>
+        <span class="file">      lazy.lua</span>            <span class="desc">-- bootstraps lazy.nvim plugin manager</span>
+        <span class="file">      options.lua</span>         <span class="desc">-- editor settings (indent, clipboard, etc.)</span>
+        <span class="file">      keymaps.lua</span>         <span class="desc">-- your custom keyboard shortcuts</span>
+        <span class="file">      autocmds.lua</span>        <span class="desc">-- auto-actions (open sidebar on start)</span>
+    <span class="dir">    plugins/</span>
+        <span class="file">      colorscheme.lua</span>     <span class="desc">-- sets Chrysaki as default theme</span>
+        <span class="file">      lsp.lua</span>             <span class="desc">-- language servers (bash, sql, glsl)</span>
+        <span class="file">      treesitter.lua</span>      <span class="desc">-- syntax parsers for all languages</span>
+        <span class="file">      formatting.lua</span>      <span class="desc">-- auto-format on save (stylua, prettierd, etc.)</span>
+        <span class="file">      editor.lua</span>          <span class="desc">-- Neo-tree file explorer config</span>
+        <span class="file">      git.lua</span>             <span class="desc">-- gitsigns (inline blame)</span>
+        <span class="file">      terminal.lua</span>        <span class="desc">-- bottom terminal panel config</span>
+        <span class="file">      ui.lua</span>              <span class="desc">-- bufferline tab styling</span>
+  <span class="file">  init.lua</span>                    <span class="desc">-- entry point (just loads config/lazy.lua)</span>
+  <span class="file">  lazyvim.json</span>                <span class="desc">-- enabled extras (lang packs, UI features)</span>
+</div>
+
+<!-- ========== PLUGIN MAP ========== -->
+<div class="section-header a" style="--i:17">
+  <span class="num">06</span>
+  <h2>Plugin Map</h2>
+</div>
+
+<div class="plugin-grid a" style="--i:18">
+  <div class="plugin-card cat-editor">
+    <div class="plugin-name">Snacks Picker</div>
+    <div class="plugin-role">Fuzzy finder for files, commands, symbols, grep</div>
+    <div class="plugin-vscode">Like: Quick Open (Ctrl+P) + Command Palette</div>
+  </div>
+  <div class="plugin-card cat-editor">
+    <div class="plugin-name">Neo-tree</div>
+    <div class="plugin-role">File explorer sidebar with git status, tabs for Files/Git/Buffers</div>
+    <div class="plugin-vscode">Like: Explorer sidebar</div>
+  </div>
+  <div class="plugin-card cat-lsp">
+    <div class="plugin-name">nvim-lspconfig</div>
+    <div class="plugin-role">Language Server Protocol -- autocomplete, diagnostics, go-to-definition</div>
+    <div class="plugin-vscode">Like: IntelliSense</div>
+  </div>
+  <div class="plugin-card cat-lsp">
+    <div class="plugin-name">Mason</div>
+    <div class="plugin-role">Auto-installs LSP servers, formatters, linters</div>
+    <div class="plugin-vscode">Like: Extensions auto-install</div>
+  </div>
+  <div class="plugin-card cat-lsp">
+    <div class="plugin-name">blink.cmp</div>
+    <div class="plugin-role">Completion engine -- shows suggestions as you type</div>
+    <div class="plugin-vscode">Like: Autocomplete popup</div>
+  </div>
+  <div class="plugin-card cat-lsp">
+    <div class="plugin-name">Treesitter</div>
+    <div class="plugin-role">Syntax tree parser -- powers highlighting, text objects, folding</div>
+    <div class="plugin-vscode">Like: Semantic highlighting</div>
+  </div>
+  <div class="plugin-card cat-format">
+    <div class="plugin-name">conform.nvim</div>
+    <div class="plugin-role">Format on save: stylua, prettierd, ruff, shfmt, clang-format</div>
+    <div class="plugin-vscode">Like: Format Document on Save</div>
+  </div>
+  <div class="plugin-card cat-format">
+    <div class="plugin-name">nvim-lint</div>
+    <div class="plugin-role">Linters: shellcheck, ruff. Shows warnings/errors inline</div>
+    <div class="plugin-vscode">Like: ESLint / Pylint extension</div>
+  </div>
+  <div class="plugin-card cat-git">
+    <div class="plugin-name">gitsigns</div>
+    <div class="plugin-role">Git gutter markers (added/changed/deleted) + inline blame</div>
+    <div class="plugin-vscode">Like: GitLens gutter</div>
+  </div>
+  <div class="plugin-card cat-git">
+    <div class="plugin-name">lazygit</div>
+    <div class="plugin-role">Full git TUI -- stage, commit, push, branch, rebase</div>
+    <div class="plugin-vscode">Like: Source Control panel (but much more powerful)</div>
+  </div>
+  <div class="plugin-card cat-ui">
+    <div class="plugin-name">which-key</div>
+    <div class="plugin-role">Shows all available keybindings after pressing leader key</div>
+    <div class="plugin-vscode">Like: Keyboard Shortcuts viewer</div>
+  </div>
+  <div class="plugin-card cat-ui">
+    <div class="plugin-name">edgy.nvim</div>
+    <div class="plugin-role">Pins sidebar and terminal panels in fixed positions</div>
+    <div class="plugin-vscode">Like: VS Code panel layout</div>
+  </div>
+  <div class="plugin-card cat-ui">
+    <div class="plugin-name">bufferline</div>
+    <div class="plugin-role">Tab bar at top showing open files</div>
+    <div class="plugin-vscode">Like: Editor tabs</div>
+  </div>
+  <div class="plugin-card cat-ui">
+    <div class="plugin-name">lualine</div>
+    <div class="plugin-role">Status bar -- mode, file, git branch, diagnostics, position</div>
+    <div class="plugin-vscode">Like: Status bar at bottom</div>
+  </div>
+  <div class="plugin-card cat-ui">
+    <div class="plugin-name">noice.nvim</div>
+    <div class="plugin-role">Better command line UI, notifications, message popups</div>
+    <div class="plugin-vscode">Like: Notification toasts</div>
+  </div>
+  <div class="plugin-card cat-editor">
+    <div class="plugin-name">flash.nvim</div>
+    <div class="plugin-role">Jump anywhere on screen by typing 1-2 characters</div>
+    <div class="plugin-vscode">Like: Ctrl+G (Go to Line) but for any position</div>
+  </div>
+  <div class="plugin-card cat-editor">
+    <div class="plugin-name">trouble.nvim</div>
+    <div class="plugin-role">Diagnostics list -- all errors/warnings in one panel</div>
+    <div class="plugin-vscode">Like: Problems panel (Ctrl+Shift+M)</div>
+  </div>
+  <div class="plugin-card cat-editor">
+    <div class="plugin-name">todo-comments</div>
+    <div class="plugin-role">Highlights TODO, FIXME, HACK, NOTE in code</div>
+    <div class="plugin-vscode">Like: Todo Tree extension</div>
+  </div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<div class="footer a" style="--i:19">
+  <p>generated for kiriketsuki's dots repo // chrysaki theme // lazyvim v8</p>
+  <p style="margin-top: 4px;">tip: press <kbd>Space</kbd> and wait in neovim to see all shortcuts via which-key</p>
+</div>
+
+</div>
+</body>
+</html>
