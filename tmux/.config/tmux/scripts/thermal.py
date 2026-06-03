@@ -1,0 +1,1 @@
+/home/kiriketsuki/dots/chrysaki/tmux/scripts/thermal.py

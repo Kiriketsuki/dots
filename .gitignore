@@ -2,3 +2,6 @@
 Code/**
 !Code/.config/User/settings.json
 .gitnexus
+__pycache__/
+*.pyc
+*.bak
