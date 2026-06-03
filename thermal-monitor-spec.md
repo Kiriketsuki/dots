@@ -53,7 +53,7 @@
 - **Single script**: Create `chrysaki/tmux/scripts/thermal.py` as the only feature-specific implementation file. Done when both bar and popup modes run from that script.
 - **Stow exposure**: Add `tmux/.config/tmux/scripts/thermal.py` as the live path exposed by the repo. Done when the stow package contains the new script path alongside the existing tmux helper scripts.
 - **Help discoverability**: Add the new binding to `chrysaki/tmux/help.sh`. Done when `prefix + ?` documents `prefix + m`.
-- **Graceful degradation**: If `sensors` is missing or returns invalid JSON, the bar shows muted `N/A` and the popup shows an explicit error panel. If only some sensors are missing, unaffected rows still render and missing rows show `N/A`.
+- **Graceful degradation**: If `sensors` is missing or returns invalid JSON, the bar shows muted `N/A` and the popup renders a full frame with all sensor rows showing `N/A` (N/A-propagation, not a separate error panel — the error panel only fires on an unhandled exception). If only some sensors are missing, unaffected rows still render and missing rows show `N/A`.
 - **No extra runtime services**: The status segment runs once per tmux refresh tick and exits immediately. The popup refresh loop exists only while the popup is open.
 
 ### Should-Have
