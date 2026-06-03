@@ -104,7 +104,7 @@
 
 **Dependencies**:
 - `lm_sensors` package with working `sensors -j`
-- Python 3 stdlib only: `json`, `os`, `re`, `select`, `shutil`, `signal`, `subprocess`, `sys`, `termios`, `tty`, `dataclasses`, `pathlib`, `typing`
+- Python 3 stdlib only: `dataclasses`, `json`, `os`, `pathlib`, `re`, `select`, `shutil`, `signal`, `subprocess`, `sys`, `termios`, `tty`, `typing`
 - Existing tmux popup support from tmux 3.2+
 - IosevkaTermSlab Nerd Font for status-bar glyphs
 
