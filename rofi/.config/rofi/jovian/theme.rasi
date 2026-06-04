@@ -14,7 +14,7 @@ configuration {
 @import "colors.rasi"
 
 * {
-    font:                        "Iosevka Term Slab Nerd Font 12";
+    font:                        "Red Hat Mono 12";
 }
 
 /*****----- Main Window -----*****/

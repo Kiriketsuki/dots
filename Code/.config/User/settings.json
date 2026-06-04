@@ -169,7 +169,8 @@
         "GOOGLE_APPLICATION_CREDENTIALS": "./key.json",
         "TEST": "test",
     },
-    "terminal.integrated.fontSize": 16,
+    "terminal.integrated.fontFamily": "'Red Hat Mono', 'BlexMono Nerd Font', 'Droid Sans Mono', 'Courier New', monospace",
+    "terminal.integrated.fontSize": 10,
     "terminal.integrated.gpuAcceleration": "on",
     "terminal.integrated.tabs.defaultColor": "terminal.ansiBlack",
     "[html]": {
@@ -270,8 +271,9 @@
     "github.copilot.nextEditSuggestions.enabled": true,
     "gitlens.ai.model": "vscode",
     "gitlens.ai.vscode.model": "copilot:gpt-4.1",
-    "editor.fontFamily": "'JetBrainsMono Nerd Font', 'Symbols Nerd Font', 'Symbols Nerd Font Mono'",
-    "editor.fontLigatures": true,
+    "editor.fontFamily": "'Red Hat Mono', 'BlexMono Nerd Font', 'Droid Sans Mono', 'Courier New', monospace",
+    "editor.fontLigatures": false,
+    "editor.fontSize": 13,
     "python.defaultInterpreterPath": "/sbin/python3.14",
     "chat.tools.terminal.autoApprove": {
         "waybar": true,
@@ -321,5 +323,5 @@
     "claudeCode.usePythonEnvironment": false,
     "python.terminal.activateEnvironment": false,
     "vscode_custom_css.imports": ["file:///home/kiriketsuki/.vscode/extensions/chrysaki-theme-2.0.0/chrysaki-workbench.css"],
-    "workbench.colorTheme": "Chrysaki",
+    "workbench.colorTheme": "One Dark Pro Darker",
 }

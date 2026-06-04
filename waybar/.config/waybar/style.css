@@ -3,8 +3,8 @@
 * {
     border: none;
     border-radius: 0;
-    /* Added your specific font IosevkaSlabTerm Nerd Font to the priority list */
-    font-family: "IosevkaSlabTerm Nerd Font", "Symbols Nerd Font", "JetBrainsMono Nerd Font", "Font Awesome 5 Free", "Roboto", sans-serif;
+    /* Red Hat Mono primary; BlexMono Nerd Font supplies icon glyphs */
+    font-family: "Red Hat Mono", "BlexMono Nerd Font", "Symbols Nerd Font", "JetBrainsMono Nerd Font", "Font Awesome 5 Free", "Roboto", sans-serif;
     font-weight: bold;
     font-size: 12px;
     min-height: 0;
