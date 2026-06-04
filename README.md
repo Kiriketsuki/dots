@@ -98,7 +98,7 @@ python3 ~/dots/theme/scripts/generate_theme_css.py
 | Status & notifications | `waybar`, `swaync` |
 | Launcher & file managers | `rofi`, `yazi`, `thunar` |
 | Audio & media | `mpd`, `pipewire`, `wireplumber`, `playerctl`, `pavucontrol` |
-| Fonts | `ttf-iosevkatermslab-nerd`, `ttf-jetbrains-mono-nerd`, `noto-fonts-cjk`, `noto-fonts-emoji` |
+| Fonts | `redhat-fonts`, `ttf-ibmplex-mono-nerd`, `ttf-iosevkatermslab-nerd`, `ttf-jetbrains-mono-nerd`, `noto-fonts-cjk`, `noto-fonts-emoji` |
 | Portals | `xdg-desktop-portal-hyprland`, `xdg-utils` |
 | Screenshots | `hyprshot`, `grim`, `slurp` |
 | Networking | `network-manager-applet`, `tailscale`, `openssh`, `lan-mouse` |

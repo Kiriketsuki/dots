@@ -33,7 +33,7 @@ $YAY \
     fzf fd zoxide \
     tmux less \
     rsync zip unzip \
-    fontconfig ttf-iosevkatermslab-nerd ttf-jetbrains-mono-nerd \
+    fontconfig redhat-fonts ttf-ibmplex-mono-nerd ttf-iosevkatermslab-nerd ttf-jetbrains-mono-nerd \
     noto-fonts-cjk noto-fonts-emoji \
     github-cli \
     nvm \

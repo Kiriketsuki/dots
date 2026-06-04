@@ -36,7 +36,7 @@ $YAY \
     waybar swaync rofi \
     uwsm \
     yazi thunar thunar-archive-plugin thunar-volman tumbler mpd \
-    fontconfig ttf-iosevkatermslab-nerd ttf-jetbrains-mono-nerd \
+    fontconfig redhat-fonts ttf-ibmplex-mono-nerd ttf-iosevkatermslab-nerd ttf-jetbrains-mono-nerd \
     noto-fonts-cjk noto-fonts-emoji \
     xdg-desktop-portal-hyprland xdg-utils \
     network-manager-applet hyprshot grim slurp \

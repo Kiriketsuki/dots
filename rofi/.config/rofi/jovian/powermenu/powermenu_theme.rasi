@@ -7,7 +7,7 @@ configuration {
 @import "../colors.rasi"
 
 * {
-    font:                        "Iosevka Term Slab Nerd Font 12";
+    font:                        "Red Hat Mono 12";
 }
 
 /*****----- Main Window -----*****/
@@ -152,7 +152,7 @@ element selected.active {
     text-color:                  @foreground-urgent;
 }
 element-text {
-    font:                        "Iosevka Term Slab Nerd Font 32";
+    font:                        "Red Hat Mono 32";
     background-color:            transparent;
     text-color:                  inherit;
     cursor:                      inherit;
