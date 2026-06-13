@@ -11,3 +11,5 @@ x-scheme-handler/http=firefox.desktop
 x-scheme-handler/https=firefox.desktop
 text/html=firefox.desktop
 x-scheme-handler/figma=figma-linux.desktop
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
+application/pdf=firefox.desktop

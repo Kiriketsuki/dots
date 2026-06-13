@@ -1,4 +1,4 @@
-# Silence direnv output before p10k instant prompt fires (must come first)
+# Silence direnv output (POWERLEVEL9K_INSTANT_PROMPT=quiet is set in .p10k.zsh)
 export DIRENV_LOG_FORMAT=
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -184,21 +184,10 @@ function y() {
 alias lazygit='lazygit --use-config-file="$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/colors.yml"'
 alias lg='lazygit'
 alias cp='xcp'
-unalias mv 2>/dev/null
-mv() {
-  local has_dir=0
-  for arg in "${@[1,-2]}"; do
-    [[ -d "$arg" ]] && has_dir=1 && break
-  done
-  if (( has_dir )); then
-    /bin/mv "$@"
-  else
-    rsync -ah --progress --remove-source-files "$@"
-  fi
-}
-alias ls='eza --color=always --icons=always --group-directories-first --git --hyperlink --classify -l'
+alias ls='eza --color=always --icons=always --group-directories-first --git --hyperlink --classify -l --all'
 alias vim='nvim'
 alias c='clear'
+alias htop='btop'
 alias checkout='git checkout'
 alias pull='git pull'
 alias push='git push'
@@ -218,6 +207,7 @@ function claude {
   fi
 }
 alias copilot='copilot --allow-all-tools'
+alias codex='codex --yolo'
 
 # Prevent nested Claude Code sessions in tmux
 unset CLAUDECODE
@@ -236,18 +226,17 @@ command -v fzf &>/dev/null && eval "$(fzf --zsh)"
 export PATH="$HOME/.local/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
+# Eagerly add NVM default version bin to PATH so global binaries (codex, etc.) work without triggering lazy-load
+[[ -s "$NVM_DIR/alias/default" ]] && export PATH="$NVM_DIR/versions/node/$(cat "$NVM_DIR/alias/default")/bin:$PATH"
 # Lazy-load NVM: only initialize when nvm/node/npm/npx are first used
-function _nvm_load() {
-    unfunction nvm node npm npx yarn pnpm 2>/dev/null
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-}
-function nvm() { _nvm_load; nvm "$@"; }
-function node() { _nvm_load; node "$@"; }
-function npm() { _nvm_load; npm "$@"; }
-function npx() { _nvm_load; npx "$@"; }
-function yarn() { _nvm_load; yarn "$@"; }
-function pnpm() { _nvm_load; pnpm "$@"; }
+# Lazy-load NVM: each wrapper sources nvm.sh on first use, then delegates.
+# Self-contained (no helper function) so Claude Code shell snapshots work correctly.
+function node() { unset -f nvm node npm npx yarn pnpm 2>/dev/null; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; command node "$@"; }
+function npm()  { unset -f nvm node npm npx yarn pnpm 2>/dev/null; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; command npm "$@"; }
+function npx()  { unset -f nvm node npm npx yarn pnpm 2>/dev/null; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; command npx "$@"; }
+function nvm()  { unset -f nvm node npm npx yarn pnpm 2>/dev/null; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; command nvm "$@"; }
+function yarn() { unset -f nvm node npm npx yarn pnpm 2>/dev/null; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; command yarn "$@"; }
+function pnpm() { unset -f nvm node npm npx yarn pnpm 2>/dev/null; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; command pnpm "$@"; }
 
 # zoxide must be initialized last
 command -v zoxide &>/dev/null && eval "$(zoxide init --cmd cd zsh)"
@@ -285,4 +274,40 @@ export OLLAMA_MODELS=/data/ollama/models
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+# Fix Wayland env when attaching to tmux over SSH while Hyprland runs locally
+if [[ -n "$TMUX" && -z "$WAYLAND_DISPLAY" && -d /run/user/$(id -u)/hypr ]]; then
+  export WAYLAND_DISPLAY=wayland-1
+  export XDG_RUNTIME_DIR=/run/user/$(id -u)
+  export HYPRLAND_INSTANCE_SIGNATURE=$(/usr/bin/ls /run/user/$(id -u)/hypr/ 2>/dev/null | head -1)
+  unset SSH_CONNECTION SSH_CLIENT SSH_TTY
+fi
+
 eval "$(direnv hook zsh)"
+
+# Ollama context switching
+# ollama-local  → local Ollama (localhost:11434)
+# ollama-remote → Singapore office server via proxy (localhost:11435)
+# ollama-status → show current context
+export OLLAMA_HOST=http://localhost:11434
+
+function ollama-local() {
+  export OLLAMA_HOST=http://localhost:11434
+  echo "Ollama -> local (localhost:11434)"
+}
+
+function ollama-remote() {
+  export OLLAMA_HOST=http://localhost:11435
+  echo "Ollama -> remote SG office (localhost:11435)"
+}
+
+function ollama-status() {
+  echo "OLLAMA_HOST: $OLLAMA_HOST"
+  echo "--- models ---"
+  ollama list
+}
+
+# AutoMinutes CLI
+export AM_BASE_URL=http://192.168.1.29:8765
+export AM_AUTH_TOKEN=e46dc0409bebdd9c05e13dd8aadc91ac05c4ec17ee094cf1bc0e642c5ebf9a00
+export PATH="/home/kiriketsuki/workdev/Aurrigo/AutoMinutes/.venv/bin:$PATH"
+export QGIS_PYTHON_PATH="/usr/lib/python3.14/site-packages"

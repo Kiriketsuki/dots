@@ -40,8 +40,8 @@
     gone = !bash ~/dots/git/git-gone.sh
     track-all = !bash ~/dots/git/git-track-all.sh
 [credential "https://github.com"]
-	helper =
+	helper = 
 	helper = !/usr/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-	helper =
+	helper = 
 	helper = !/usr/bin/gh auth git-credential
