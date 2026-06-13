@@ -13,7 +13,7 @@ if [ "$MON_COUNT" -ge 3 ]; then
     sleep 1
     hyprctl dispatch exec "[workspace 30 silent] thunderbird"
     sleep 1
-    hyprctl dispatch exec "[workspace 10 silent] whatsapp-desktop-client"
+    hyprctl dispatch exec "[workspace 10 silent] zapzap"
     hyprctl dispatch exec "[workspace 19 silent] spotify"
     hyprctl dispatch exec "[workspace 23 silent] obsidian"
 elif [ "$MON_COUNT" -eq 2 ]; then
@@ -24,7 +24,7 @@ elif [ "$MON_COUNT" -eq 2 ]; then
     sleep 1
     hyprctl dispatch exec "[workspace 10 silent] thunderbird"
     sleep 1
-    hyprctl dispatch exec "[workspace 10 silent] whatsapp-desktop-client"
+    hyprctl dispatch exec "[workspace 10 silent] zapzap"
     hyprctl dispatch exec "[workspace 19 silent] spotify"
     hyprctl dispatch exec "[workspace 13 silent] obsidian"
 else
@@ -35,7 +35,7 @@ else
     sleep 1
     hyprctl dispatch exec "[workspace 10 silent] thunderbird"
     sleep 1
-    hyprctl dispatch exec "[workspace 10 silent] whatsapp-desktop-client"
+    hyprctl dispatch exec "[workspace 10 silent] zapzap"
     hyprctl dispatch exec "[workspace 9 silent] spotify"
     hyprctl dispatch exec "[workspace 3 silent] obsidian"
 fi

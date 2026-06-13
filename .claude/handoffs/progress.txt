@@ -1,0 +1,82 @@
+## 2026-03-12 Handoff
+
+### Decisions
+- Ghostty keybind for ctrl+backspace: csi:127;5u + zsh bindkey (text:\x17 and esc: variants all fail)
+- window-padding = 0, balance = true (reduces bottom gap from cell rounding)
+- gaps_out = 5 kept (tile spacing), gaps_in = 2
+- Hex wave shader, not grain (user rejected grain immediately)
+- Shader brightness: base 0.006, peak 0.042 (earlier values too visible)
+- Uniform hex UV scaling (no ar correction) — fixes squished hexagons
+- .stow-local-ignore excludes top-level scripts/ from ghostty package
+
+### Failed Approaches
+- ctrl+backspace: text:\x17, text:\x1b\x7f, performable_csi all fail — only csi:127;5u works
+- Ghostty grain shader — too noisy, user rejected on sight
+- Aspect-ratio UV correction — distorts hex pattern
+
+### Handoff Target
+- Plan file: 2026-03-12-16h00-ghostty-migration-shader-keybinds.md
+- Branch: main
+
+---
+
+## 2026-03-18 Handoff
+
+### Decisions
+- Service panel uses services.json config-driven approach
+- ChamferedBar fork not needed for ServicePanel — uses static island
+- Bar fixes: multi-monitor workspace, notification center, service panel
+
+### Handoff Target
+- Plan file: 2026-03-18-10h00-chrysaki-ags-bar-fixes.md
+- Branch: main
+
+---
+
+## 2026-03-19 Handoff
+
+### Decisions
+- Multi-monitor pip rendering uses GDK monitor index sorted by x-position
+- Notification center single-instance (not per-monitor)
+- Service panel single-instance with ChamferedBar wrapper
+
+### Handoff Target
+- Plan file: 2026-03-19-15h12-chrysaki-bar-multi-monitor-fixes.md
+- Branch: main
+
+---
+
+## 2026-03-20 Handoff
+
+### Decisions
+- ChamferedPanel is separate GObject (not ChamferedBar mode flag) — avoids regressions
+- ScrolledWindow created imperatively (AGS JSX doesn't support <Gtk.ScrolledWindow>)
+- addNotificationToPanel returns row, does NOT handle animation — callers do
+- Two notifd "notified" handlers: unread count + panel incremental update (independent)
+
+### Failed Approaches
+- <Gtk.ScrolledWindow> in AGS JSX — not supported, switched to imperative
+- addNotificationToPanel with internal idle_add — conflicted with rebuild stagger
+- Wrong Nerd Font codes (\u{f0a9a}, \u{f0A7C}) — corrected to \u{f009b}, \u{f01b4}
+
+### Handoff Target
+- Plan file: 2026-03-20-12h20-notification-center-redesign.md
+- Branch: main (chrysaki submodule, uncommitted)
+
+---
+## 2026-06-03 Handoff
+
+### Decisions
+- Ran council review as a Workflow (multi-agent), not council-fix skill, because user said "workflow"
+- Scoped council to thermal feature; config drift = landing hazard, not feature bug
+- Verdict: AGAINST as-is / CONDITIONAL — gating: uncommittable, popup crash, kill-mode scope contradiction
+- Review only; no code changed. Merge is blocked (git plumbing), not impossible
+
+### Failed Approaches
+- None — single clean review pass
+
+### Handoff Target
+- Plan file: 2026-06-03-08h52-feature-12-thermal-monitor-council.md
+- Branch: feature/12-feat-fan-speed-and-temperature-monitor-in-powerbar-popup-panel
+
+---
