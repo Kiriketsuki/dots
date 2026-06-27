@@ -1,13 +1,3 @@
-# Silence direnv output (POWERLEVEL9K_INSTANT_PROMPT=quiet is set in .p10k.zsh)
-export DIRENV_LOG_FORMAT=
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 ## Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
@@ -20,8 +10,13 @@ fi
 # Source/Load zinit
 source "${ZINIT_HOME}/zinit.zsh"
 
-# Add in PL10k
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+# Silence direnv output during zsh init (avoids p10k instant-prompt warning)
+export DIRENV_LOG_FORMAT=
+
+# Oh My Posh prompt (replaces Powerlevel10k)
+if command -v oh-my-posh &>/dev/null; then
+  eval "$(oh-my-posh init zsh --config ~/dots/chrysaki/ohmyposh/chrysaki.omp.json)"
+fi
 
 # Add in plugins
 zinit light zsh-users/zsh-completions
@@ -53,9 +48,6 @@ zinit snippet OMZP::aws
 zinit snippet OMZP::kubectl
 zinit snippet OMZP::kubectx
 zinit snippet OMZP::command-not-found
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Keybindings
 bindkey -e
