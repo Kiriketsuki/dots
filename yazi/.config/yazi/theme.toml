@@ -1,0 +1,82 @@
+# Chrysaki theme for yazi
+# Uses light accent variants safe for text on dark surfaces
+
+[mgr]
+cwd = { fg = "#1a8a6a" }
+
+hovered         = { fg = "#e0e2ea", bg = "#2e3142", bold = true }
+preview_hovered = { bg = "#252836" }
+
+find_keyword  = { fg = "#FCC96A", bold = true, italic = true, underline = true }
+find_position = { fg = "#20969c", italic = true }
+
+marker_copied   = { fg = "#1a8a6a", bg = "#1a8a6a" }
+marker_cut      = { fg = "#b53f4a", bg = "#b53f4a" }
+marker_marked   = { fg = "#20969c", bg = "#20969c" }
+marker_selected = { fg = "#FCC96A", bg = "#FCC96A" }
+
+tab_active   = { fg = "#e0e2ea", bg = "#2e3142" }
+tab_inactive = { fg = "#6a6e82", bg = "#1c1f2b" }
+tab_width    = 1
+
+count_copied   = { fg = "#0f1117", bg = "#1a8a6a" }
+count_cut      = { fg = "#0f1117", bg = "#b53f4a" }
+count_selected = { fg = "#0f1117", bg = "#FCC96A" }
+
+border_symbol = "│"
+border_style  = { fg = "#363a4f" }
+
+[mode]
+normal = { fg = "#0f1117", bg = "#1a8a6a", bold = true }
+select = { fg = "#0f1117", bg = "#FCC96A", bold = true }
+unset  = { fg = "#0f1117", bg = "#b53f4a", bold = true }
+
+[status]
+sep_open  = ""
+sep_close = ""
+sep_style = { fg = "#252836", bg = "#252836" }
+
+[filetype]
+
+rules = [
+	# Directories — emerald light (readable on dark)
+	{ name = "*/", fg = "#1a8a6a", bold = true },
+
+	# Media
+	{ mime = "image/*", fg = "#20969c" },
+	{ mime = "video/*", fg = "#FCC96A" },
+	{ mime = "audio/*", fg = "#FCC96A" },
+
+	# Archives
+	{ mime = "application/zip",       fg = "#b53f4a" },
+	{ mime = "application/gzip",      fg = "#b53f4a" },
+	{ mime = "application/x-tar",     fg = "#b53f4a" },
+	{ mime = "application/x-bzip*",   fg = "#b53f4a" },
+	{ mime = "application/x-7z*",     fg = "#b53f4a" },
+	{ mime = "application/x-rar*",    fg = "#b53f4a" },
+	{ mime = "application/x-xz",      fg = "#b53f4a" },
+	{ mime = "application/zstd",      fg = "#b53f4a" },
+
+	# Documents
+	{ mime = "application/pdf",       fg = "#FCC96A" },
+	{ mime = "application/json",      fg = "#a0a4b8" },
+	{ mime = "application/*xml*",     fg = "#a0a4b8" },
+
+	# Code / text
+	{ mime = "text/*",                fg = "#e0e2ea" },
+
+	# Executables
+	{ name = "*.sh",  fg = "#1a8a6a" },
+	{ name = "*.py",  fg = "#20969c" },
+	{ name = "*.lua", fg = "#3d95e0" },
+	{ name = "*.rs",  fg = "#b53f4a" },
+	{ name = "*.js",  fg = "#FCC96A" },
+	{ name = "*.ts",  fg = "#3d95e0" },
+
+	# Symlinks
+	{ is = "link",    fg = "#20969c", italic = true },
+	{ is = "orphan",  fg = "#b53f4a", italic = true },
+
+	# Fallback
+	{ name = "*",     fg = "#a0a4b8" },
+]

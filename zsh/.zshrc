@@ -300,6 +300,6 @@ function ollama-status() {
 
 # AutoMinutes CLI
 export AM_BASE_URL=http://192.168.1.29:8765
-export AM_AUTH_TOKEN=e46dc0409bebdd9c05e13dd8aadc91ac05c4ec17ee094cf1bc0e642c5ebf9a00
+export AM_AUTH_TOKEN=b63f4725f0dc87fb7822a699eb4d33f2d792f30dee0a79d888e32e6f9901756a
 export PATH="/home/kiriketsuki/workdev/Aurrigo/AutoMinutes/.venv/bin:$PATH"
 export QGIS_PYTHON_PATH="/usr/lib/python3.14/site-packages"
