@@ -199,7 +199,7 @@ function claude {
   fi
 }
 alias copilot='copilot --allow-all-tools'
-alias codex='codex --yolo'
+alias codex='env -u NO_COLOR codex --yolo'
 
 # Prevent nested Claude Code sessions in tmux
 unset CLAUDECODE
