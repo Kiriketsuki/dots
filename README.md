@@ -68,8 +68,8 @@ Then reboot. Hyprland starts automatically via TTY autologin + uwsm.
 The entire desktop theme is derived from the Chrysaki canonical palette. Wallpaper rotation is cosmetic and does not affect theming.
 
 ```
-chrysaki/ags/.config/ags/styles/_palette.scss  (single source of truth)
-  → theme/scripts/generate_theme_css.py        (SCSS → CSS, WCAG text colors)
+chrysaki/core/chrysaki.json                    (pinned chrysaki-core artifact)
+  → theme/scripts/generate_theme_css.py        (resolved JSON → CSS, WCAG text colors)
     → theme/theme.css                           (@define-color chrysaki-<name>)
       → waybar/style.css        (direct @import)
       → swaync/style.css        (direct @import)
@@ -81,12 +81,15 @@ chrysaki/ags/.config/ags/styles/_palette.scss  (single source of truth)
       → btop/scripts/update_colors.py   → btop/themes/chrysaki.theme
 ```
 
-Re-apply after bumping the Chrysaki submodule:
+Re-apply after deliberately updating the pinned core release and synchronized umbrella artifacts:
 
 ```sh
+cd ~/dots/chrysaki && npm ci && npm run check
 python3 ~/dots/theme/scripts/generate_theme_css.py
 # Then run each per-app update_colors.py script (see CLAUDE.md for full list)
 ```
+
+For rollback, restore the previous dots commit so the Chrysaki submodule pin and generator source change together. The legacy SCSS parser and `_palette.scss` path remain supported during migration.
 
 ## Packages Installed
 

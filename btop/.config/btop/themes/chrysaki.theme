@@ -43,13 +43,13 @@ theme[div_line]="#363a4f"
 
 # Temperature graph colors
 theme[temp_start]="#197278"
-theme[temp_mid]="#C4861C"
-theme[temp_end]="#8C2F39"
+theme[temp_mid]="#c4861c"
+theme[temp_end]="#8c2f39"
 
 # CPU graph colors
 theme[cpu_start]="#14664e"
 theme[cpu_mid]="#1a8a6a"
-theme[cpu_end]="#FBB13C"
+theme[cpu_end]="#fbb13c"
 
 # Mem/Disk free meter
 theme[free_start]="#0e4a38"
@@ -68,7 +68,7 @@ theme[available_end]="#3d95e0"
 
 # Mem/Disk used meter
 theme[used_start]="#5e1f25"
-theme[used_mid]="#8C2F39"
+theme[used_mid]="#8c2f39"
 theme[used_end]="#b53f4a"
 
 # Download graph colors

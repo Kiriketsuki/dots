@@ -10,9 +10,9 @@ selection-foreground = #e0e2ea
 
 # ANSI 16-color palette
 palette = 0=#0f1117
-palette = 1=#8C2F39
+palette = 1=#8c2f39
 palette = 2=#14664e
-palette = 3=#C4861C
+palette = 3=#c4861c
 palette = 4=#122858
 palette = 5=#3a2068
 palette = 6=#197278
@@ -20,7 +20,7 @@ palette = 7=#a0a4b8
 palette = 8=#6a6e82
 palette = 9=#b53f4a
 palette = 10=#1a8a6a
-palette = 11=#FCC96A
+palette = 11=#fcc96a
 palette = 12=#3d95e0
 palette = 13=#583090
 palette = 14=#20969c
