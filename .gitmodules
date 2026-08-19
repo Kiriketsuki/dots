@@ -1,3 +1,12 @@
 [submodule "chrysaki"]
 	path = chrysaki
 	url = https://github.com/kiriketsuki/chrysaki
+[submodule "tpm"]
+	path = tmux/.config/tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
+[submodule "tmux-resurrect"]
+	path = tmux/.config/tmux/plugins/tmux-resurrect
+	url = https://github.com/tmux-plugins/tmux-resurrect
+[submodule "tmux-continuum"]
+	path = tmux/.config/tmux/plugins/tmux-continuum
+	url = https://github.com/tmux-plugins/tmux-continuum
