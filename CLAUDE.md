@@ -89,7 +89,7 @@ stow .
 
 ## Stow Packages
 
-`alacritty`, `atuin`, `backgrounds`, `bash`, `btop`, `chrysaki`, `Code`, `eza`, `fontconfig`, `ghostty`, `git`, `gtk`, `hypr`, `kitty`, `lazygit`, `mime`, `mpd`, `nvim`, `procs`, `rofi`, `spicetify`, `styles`, `swaync`, `system`, `tealdeer`, `theme`, `tmux`, `waybar`, `xdg-desktop-portal`, `yazi`, `zsh`
+`alacritty`, `atuin`, `backgrounds`, `bash`, `btop`, `chrysaki`, `Code`, `eza`, `fontconfig`, `ghostty`, `git`, `gromit`, `gtk`, `hypr`, `kitty`, `lazygit`, `mime`, `mpd`, `nvim`, `procs`, `rofi`, `spicetify`, `styles`, `swaync`, `system`, `tealdeer`, `theme`, `tmux`, `waybar`, `xdg-desktop-portal`, `yazi`, `zsh`
 
 ## Key Scripts
 
