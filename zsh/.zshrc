@@ -230,6 +230,14 @@ function nvm()  { unset -f nvm node npm npx yarn pnpm 2>/dev/null; [ -s "$NVM_DI
 function yarn() { unset -f nvm node npm npx yarn pnpm 2>/dev/null; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; command yarn "$@"; }
 function pnpm() { unset -f nvm node npm npx yarn pnpm 2>/dev/null; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; command pnpm "$@"; }
 
+# Review trees: keep zoxide from learning them. See the aurrigo-review-tree skill.
+export _ZO_EXCLUDE_DIRS="$HOME/workdev/Aurrigo/.review-tree/*:$HOME/workdev/Aurrigo/*/.claude/worktrees/*:$HOME/workdev/Aurrigo/*/*/.claude/worktrees/*"
+function rtcd {
+  local root="$HOME/workdev/Aurrigo/.review-tree" pick
+  pick="$(command ls -1 "$root" 2>/dev/null | grep -v '^\.' | fzf --prompt='review-tree> ' --preview "git -C $root/{} log --oneline -8")" || return
+  builtin cd "$root/$pick"
+}
+
 # zoxide must be initialized last
 command -v zoxide &>/dev/null && eval "$(zoxide init --cmd cd zsh)"
 
