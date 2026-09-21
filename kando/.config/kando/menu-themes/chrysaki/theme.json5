@@ -1,0 +1,37 @@
+// Chrysaki menu theme for Kando.
+// The colours come from chrysaki/PALETTE.md. Keep both files in step.
+
+{
+  name: 'Chrysaki',
+  author: 'kiriketsuki',
+  license: 'CC0-1.0',
+  themeVersion: '1.0',
+  engineVersion: 1,
+
+  // Kando moves a menu this far from a screen edge.
+  maxMenuRadius: 170,
+  centerTextWrapWidth: 90,
+  drawChildrenBelow: true,
+  drawSelectionWedges: true,
+
+  colors: {
+    'fill-color': '#1c1f2b', // Surface
+    'fill-raised-color': '#252836', // Raised
+    'edge-color': '#363a4f', // Border
+    'edge-active-color': '#1a8a6a', // Emerald light
+    'edge-submenu-color': '#583090', // Amethyst light
+    'hover-color': '#FBB13C', // Blonde
+    'text-color': '#e0e2ea', // Text primary
+    'text-inverse-color': '#0f1117', // Text inverse
+    'connector-color': '#1c3d7a', // Royal blue light
+    'wedge-color': 'rgba(15, 17, 23, 0.55)', // Abyss
+    'wedge-highlight-color': 'rgba(88, 48, 144, 0.28)', // Amethyst light
+  },
+
+  // Kando draws the first layer on top. The edge layer sits under the fill layer and
+  // shows as a 2px hexagon border. A CSS border cannot follow a clip-path.
+  layers: [
+    { class: 'fill-layer', content: 'icon' },
+    { class: 'edge-layer', content: 'none' },
+  ],
+}
