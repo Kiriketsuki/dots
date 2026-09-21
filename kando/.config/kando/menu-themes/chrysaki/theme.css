@@ -1,0 +1,238 @@
+/* Chrysaki menu theme for Kando. Hexagon items, jewel edges, blonde hover. */
+
+.menu-node {
+  --child-distance: 112px;
+  --grandchild-distance: 26px;
+
+  --center-size: 104px;
+  --child-size: 58px;
+  --grandchild-size: 14px;
+  --connector-width: 4px;
+  --edge-width: 2px;
+
+  /* Pointy-top hexagon. The Chrysaki bar uses the same chamfer language. */
+  --hexagon: polygon(50% 0, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+
+  --menu-transition: all 180ms cubic-bezier(0.3, 1.2, 0.5, 1);
+  --opacity-transition: opacity 180ms ease;
+
+  transition: var(--menu-transition);
+
+  /* Positioning ---------------------------------------------------------------------- */
+
+  &.child {
+    transform: translate(
+      calc(max(var(--child-distance), 11px * var(--sibling-count)) * var(--dir-x)),
+      calc(max(var(--child-distance), 11px * var(--sibling-count)) * var(--dir-y))
+    );
+  }
+
+  &.grandchild {
+    transform: translate(
+      calc(var(--grandchild-distance) * var(--dir-x)),
+      calc(var(--grandchild-distance) * var(--dir-y))
+    );
+  }
+
+  /* The hovered child grows. Its neighbours grow less, by angular distance. */
+  &.active:has(.hovered) > .child {
+    transform: scale(calc(1.12 - pow(var(--angle-diff) / 180, 0.25) * 0.12))
+      translate(
+        calc(max(var(--child-distance), 11px * var(--sibling-count)) * var(--dir-x)),
+        calc(max(var(--child-distance), 11px * var(--sibling-count)) * var(--dir-y))
+      );
+
+    &.hovered {
+      transform: scale(1.18)
+        translate(
+          calc(max(var(--child-distance), 11px * var(--sibling-count)) * var(--dir-x)),
+          calc(max(var(--child-distance), 11px * var(--sibling-count)) * var(--dir-y))
+        );
+    }
+  }
+
+  &.dragged {
+    transition: none;
+  }
+
+  /* Layers --------------------------------------------------------------------------- */
+
+  .edge-layer,
+  .fill-layer {
+    position: absolute;
+    clip-path: var(--hexagon);
+    transition: var(--menu-transition);
+  }
+
+  /* The fill layer is smaller than the edge layer by the edge width on each side. */
+  .fill-layer {
+    margin: var(--edge-width);
+  }
+
+  .icon-container {
+    opacity: 0;
+    color: var(--text-color);
+    transition: var(--opacity-transition);
+    margin: 22%;
+    width: 56% !important;
+    height: 56% !important;
+  }
+
+  /* Center item. */
+  &.active > .edge-layer,
+  &.active > .fill-layer {
+    top: calc(-1 * var(--center-size) / 2);
+    left: calc(-1 * var(--center-size) / 2);
+    width: var(--center-size);
+    height: var(--center-size);
+  }
+
+  &.active > .fill-layer {
+    width: calc(var(--center-size) - 2 * var(--edge-width));
+    height: calc(var(--center-size) - 2 * var(--edge-width));
+    background: var(--fill-color);
+  }
+
+  /* Tri-primary sweep from PALETTE.md. */
+  &.active > .edge-layer {
+    background: linear-gradient(135deg, #1a8a6a, #1c3d7a, #583090);
+  }
+
+  &.active:has(> .hovered) > .fill-layer > .icon-container {
+    opacity: 0;
+  }
+
+  &.active.hovered > .fill-layer {
+    background: var(--fill-raised-color);
+  }
+
+  /* Parent and child items. */
+  &.parent > .edge-layer,
+  &.child > .edge-layer,
+  &.parent > .fill-layer,
+  &.child > .fill-layer {
+    top: calc(-1 * var(--child-size) / 2);
+    left: calc(-1 * var(--child-size) / 2);
+    width: var(--child-size);
+    height: var(--child-size);
+  }
+
+  &.parent > .fill-layer,
+  &.child > .fill-layer {
+    width: calc(var(--child-size) - 2 * var(--edge-width));
+    height: calc(var(--child-size) - 2 * var(--edge-width));
+    background: var(--fill-color);
+  }
+
+  &.parent > .edge-layer,
+  &.child > .edge-layer {
+    background: var(--edge-color);
+  }
+
+  /* A submenu shows an amethyst edge, so the user sees that it opens a level. */
+  &.child.type-submenu > .edge-layer {
+    background: var(--edge-submenu-color);
+  }
+
+  &.parent > .edge-layer {
+    background: var(--edge-active-color);
+  }
+
+  &.parent.hovered > .edge-layer,
+  &.child.hovered > .edge-layer {
+    background: var(--hover-color);
+  }
+
+  &.parent.hovered > .fill-layer,
+  &.child.hovered > .fill-layer {
+    background: var(--fill-raised-color);
+  }
+
+  &.parent.hovered > .fill-layer > .icon-container,
+  &.child.hovered > .fill-layer > .icon-container {
+    color: var(--hover-color);
+  }
+
+  &.parent.hovered.clicked > .edge-layer,
+  &.child.hovered.clicked > .edge-layer,
+  &.active.hovered.clicked > .edge-layer,
+  &.parent.hovered.clicked > .fill-layer,
+  &.child.hovered.clicked > .fill-layer,
+  &.active.hovered.clicked > .fill-layer {
+    transform: scale(0.94);
+  }
+
+  &.parent > .fill-layer > .icon-container,
+  &.child > .fill-layer > .icon-container,
+  &.active > .fill-layer > .icon-container {
+    opacity: 1;
+  }
+
+  /* Grandchild items are small markers. They have no fill layer. */
+  &.grandchild > .edge-layer {
+    top: calc(-1 * var(--grandchild-size) / 2);
+    left: calc(-1 * var(--grandchild-size) / 2);
+    width: var(--grandchild-size);
+    height: var(--grandchild-size);
+    background: var(--edge-color);
+  }
+
+  &.grandchild > .fill-layer {
+    display: none;
+  }
+
+  &.child.hovered > .grandchild > .edge-layer {
+    background: var(--hover-color);
+  }
+
+  /* Connectors ----------------------------------------------------------------------- */
+
+  .connector {
+    transition: var(--menu-transition);
+    height: var(--connector-width);
+    background-color: var(--connector-color);
+    top: calc(-1 * var(--connector-width) / 2);
+  }
+
+  &:has(.dragged) > .connector {
+    transition: none;
+  }
+
+  &.hovered > .connector,
+  &.active > .connector {
+    background-color: var(--hover-color);
+  }
+}
+
+/* Center text ------------------------------------------------------------------------ */
+
+.center-text {
+  color: var(--text-color);
+  transition: var(--opacity-transition);
+  font-family: 'Space Grotesk', 'IosevkaTermSlab Nerd Font', monospace;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Selection wedges ------------------------------------------------------------------- */
+
+.selection-wedges {
+  mask: radial-gradient(
+    circle at var(--center-x) var(--center-y),
+    black 110px,
+    transparent 55%
+  );
+
+  background: var(--wedge-color);
+
+  &.hovered {
+    --width: calc(var(--end-angle) - var(--start-angle));
+    background: conic-gradient(
+      from calc(var(--start-angle)) at var(--center-x) var(--center-y),
+      var(--wedge-highlight-color) var(--width),
+      var(--wedge-color) var(--width)
+    );
+  }
+}
