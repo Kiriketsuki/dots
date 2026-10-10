@@ -1,3 +1,7 @@
+# Agent shells (Claude Code, Codex) get plain coreutils and a builtin cd.
+# Capture the flag now, because a later line unsets CLAUDECODE.
+[[ -n "$CLAUDECODE" || -n "$CODEX_SANDBOX" || -n "$CODEX_MANAGED_BY_NPM" ]] && _AGENT_SHELL=1
+
 ## Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
@@ -105,6 +109,19 @@ function y() {
 	rm -f -- "$tmp"
 }
 
+# Superfile Function
+# Trial alongside yazi. The `sf` name keeps the plain `spf` binary available.
+# superfile writes a sourceable `cd` line to the lastdir file when
+# cd_on_quit = true. See cd_on_quit/cd_on_quit.sh upstream.
+function sf() {
+	local lastdir="${XDG_STATE_HOME:-$HOME/.local/state}/superfile/lastdir"
+	SPF_LAST_DIR="$lastdir" command spf "$@"
+	[ ! -f "$lastdir" ] || {
+		. "$lastdir"
+		rm -f -- "$lastdir"
+	}
+}
+
 # @claude — headless Claude Code query, streamed to terminal
 # Usage: @claude [--opus|--sonnet|--haiku] <prompt>
 # Default model: haiku (fast). Vault auto-added as context when outside it.
@@ -175,8 +192,10 @@ function y() {
 # Aliases
 alias lazygit='lazygit --use-config-file="$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/colors.yml"'
 alias lg='lazygit'
-alias cp='xcp'
-alias ls='eza --color=always --icons=always --group-directories-first --git --hyperlink --classify -l --all'
+if [[ -z "$_AGENT_SHELL" ]]; then
+  alias cp='xcp'
+  alias ls='eza --color=always --icons=always --group-directories-first --git --hyperlink --classify -l --all'
+fi
 alias vim='nvim'
 alias c='clear'
 alias htop='btop'
@@ -239,7 +258,9 @@ function rtcd {
 }
 
 # zoxide must be initialized last
-command -v zoxide &>/dev/null && eval "$(zoxide init --cmd cd zsh)"
+if [[ -z "$_AGENT_SHELL" ]]; then
+  command -v zoxide &>/dev/null && eval "$(zoxide init --cmd cd zsh)"
+fi
 
 # WSL: Windows home shorthand + bare `cd` goes to Windows home
 if grep -qi microsoft /proc/version 2>/dev/null; then
@@ -306,8 +327,8 @@ function ollama-status() {
   ollama list
 }
 
-# AutoMinutes CLI
-export AM_BASE_URL=http://192.168.1.29:8765
-export AM_AUTH_TOKEN=REDACTED_AM_AUTH_TOKEN
-export PATH="/home/kiriketsuki/workdev/Aurrigo/AutoMinutes/.venv/bin:$PATH"
+# AutoMinutes CLI. The URL and token live outside this public repo.
+# ~/.local/bin/am links to the venv CLI. A venv bin dir on PATH shadows the system
+# python, and that breaks makepkg and other system tools.
+[[ -f "$HOME/.secrets/autominutes.env" ]] && source "$HOME/.secrets/autominutes.env"
 export QGIS_PYTHON_PATH="/usr/lib/python3.14/site-packages"
