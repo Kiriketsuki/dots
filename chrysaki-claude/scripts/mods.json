@@ -4,7 +4,10 @@
     "git-pane",
     "kilint-gate",
     "chrysaki-insight",
-    "chrysaki-lag"
+    "chrysaki-lag",
+    "chrysaki-stretch",
+    "chrysaki-comms",
+    "chrysaki-mcp"
   ],
   "enabledPlugins": {
     "semgrep@claude-plugins-official": false,
