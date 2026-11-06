@@ -1,6 +1,6 @@
 [submodule "chrysaki"]
 	path = chrysaki
-	url = https://github.com/kiriketsuki/chrysaki
+	url = https://github.com/Kiriketsuki/chrysaki
 [submodule "tpm"]
 	path = tmux/.config/tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
