@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Switches the Chrysaki Ghostty shader between the static grid and the
+# animated wave. The static grid is the default and costs no idle CPU.
+# The animated wave redraws every vsync and uses about 48% CPU on 144 Hz.
+#
+# Usage: ghostty-shader [static|animate|status]
+# After a switch, press ctrl+shift+, in Ghostty to reload the config.
+set -euo pipefail
+
+SHADER_SRC="$HOME/.config/ghostty/shaders/grain.glsl"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/ghostty"
+OVERRIDE="$STATE_DIR/shader-override"
+ANIMATED="$STATE_DIR/grain-animated.glsl"
+
+status() {
+    if [[ -f "$OVERRIDE" ]]; then echo "animate"; else echo "static"; fi
+}
+
+animate() {
+    [[ -f "$SHADER_SRC" ]] || { echo "Shader not found: $SHADER_SRC" >&2; exit 1; }
+    mkdir -p "$STATE_DIR"
+    # Build the animated copy from the source, so the two never drift.
+    sed 's/^#define ANIMATE 0$/#define ANIMATE 1/' "$SHADER_SRC" > "$ANIMATED"
+    grep -q '^#define ANIMATE 1$' "$ANIMATED" \
+        || { echo "Could not set ANIMATE 1 in $ANIMATED" >&2; exit 1; }
+    # An empty custom-shader clears the list. Without it, Ghostty chains both shaders.
+    cat > "$OVERRIDE" <<CONF
+custom-shader =
+custom-shader = $ANIMATED
+custom-shader-animation = true
+CONF
+}
+
+static() {
+    rm -f "$OVERRIDE" "$ANIMATED"
+}
+
+case "${1:-status}" in
+    animate|on)  animate ;;
+    static|off)  static ;;
+    toggle)      if [[ "$(status)" == animate ]]; then static; else animate; fi ;;
+    status)      status; exit 0 ;;
+    *)           echo "Usage: ghostty-shader [static|animate|toggle|status]" >&2; exit 2 ;;
+esac
+echo "Shader mode: $(status). Press ctrl+shift+, in Ghostty to reload."
