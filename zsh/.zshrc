@@ -227,7 +227,7 @@ function claude {
   # connectors need that login. The hub key goes in the X-Api-Key header, because
   # ANTHROPIC_AUTH_TOKEN replaces the claude.ai login. Only inference goes to the hub.
   # CLAUDE_HUB_POOL tells the statusline which pool the session uses.
-  # Setup: vault 000-System/Scripts/cliproxy-hub/client-setup.sh
+  # Setup: vault 000-System/Scripts/kliproxy-setup/client-setup.sh
   local pool="personal" cfg="$HOME/.config/cliproxy"
   local -a dir=() hub=()
   if [[ "$PWD" == */workdev/Aurrigo* ]]; then
