@@ -220,33 +220,38 @@ function claude {
   [[ -x "$_CLAUDE_BROWSER" ]] && browser=(BROWSER="$_CLAUDE_BROWSER")
   # Each session goes through the CLIProxyAPI hub. The pool follows $PWD: a path under
   # workdev/Aurrigo uses the work pool, each other path uses the personal pool.
-  # CLAUDE_POOL=<pool> overrides the choice. CLAUDE_DIRECT=1 skips the hub and uses the
-  # direct login. Personal and work never share a pool.
+  # CLAUDE_POOL=<pool> overrides the choice. CLAUDE_DIRECT=1 skips the hub.
+  # Personal and work never share a pool.
+  #
+  # A hub session keeps the normal config dir and its claude.ai login. Artifacts and
+  # connectors need that login. The hub key goes in the X-Api-Key header, because
+  # ANTHROPIC_AUTH_TOKEN replaces the claude.ai login. Only inference goes to the hub.
+  # CLAUDE_HUB_POOL tells the statusline which pool the session uses.
   # Setup: vault 000-System/Scripts/cliproxy-hub/client-setup.sh
+  local pool="personal" cfg="$HOME/.config/cliproxy"
+  local -a dir=() hub=()
+  if [[ "$PWD" == */workdev/Aurrigo* ]]; then
+    pool="work"
+    dir=(CLAUDE_CONFIG_DIR="$HOME/.claude-aurrigo")
+  fi
   if [[ -z "$CLAUDE_DIRECT" ]]; then
-    local pool="personal" cfg="$HOME/.config/cliproxy"
-    [[ "$PWD" == */workdev/Aurrigo* ]] && pool="work"
-    pool="${CLAUDE_POOL:-$pool}"
+    if [[ -n "$CLAUDE_POOL" && "$CLAUDE_POOL" != "$pool" ]]; then
+      pool="$CLAUDE_POOL"
+      dir=()
+      [[ "$pool" == "work" ]] && dir=(CLAUDE_CONFIG_DIR="$HOME/.claude-aurrigo")
+    fi
     if [[ ! -r "$cfg/$pool.key" || ! -r "$cfg/$pool.url" ]]; then
       echo "claude: hub pool '$pool' is not set up. This session uses the direct login." >&2
-    elif ! curl -sf -m 3 -o /dev/null -H "Authorization: Bearer $(<"$cfg/$pool.key")" \
+    elif ! curl -sf -m 3 -o /dev/null -H "X-Api-Key: $(<"$cfg/$pool.key")" \
         "$(<"$cfg/$pool.url")/v1/models"; then
       echo "claude: the hub does not answer. This session uses the direct login." >&2
     else
-      # The hub gives the 1-hour prompt cache by default. The variable keeps that explicit.
-      env "${browser[@]}" CLAUDE_CONFIG_DIR="$HOME/.claude-hub-$pool" \
-        ANTHROPIC_BASE_URL="$(<"$cfg/$pool.url")" \
-        ANTHROPIC_AUTH_TOKEN="$(<"$cfg/$pool.key")" \
-        ENABLE_PROMPT_CACHING_1H=1 \
-        claude --dangerously-skip-permissions "$@"
-      return
+      hub=(CLAUDE_HUB_POOL="$pool" ANTHROPIC_BASE_URL="$(<"$cfg/$pool.url")"
+        ANTHROPIC_CUSTOM_HEADERS="X-Api-Key: $(<"$cfg/$pool.key")"
+        ENABLE_PROMPT_CACHING_1H=1)
     fi
   fi
-  if [[ "$PWD" == */workdev/Aurrigo* ]]; then
-    env "${browser[@]}" CLAUDE_CONFIG_DIR="$HOME/.claude-aurrigo" claude --dangerously-skip-permissions "$@"
-  else
-    env "${browser[@]}" claude --dangerously-skip-permissions "$@"
-  fi
+  env "${browser[@]}" "${dir[@]}" "${hub[@]}" claude --dangerously-skip-permissions "$@"
 }
 alias copilot='copilot --allow-all-tools'
 alias codex='env -u NO_COLOR codex --yolo'
