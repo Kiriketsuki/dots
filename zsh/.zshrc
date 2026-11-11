@@ -221,6 +221,8 @@ function claude {
   # Each session goes through the CLIProxyAPI hub. The pool follows $PWD: a path under
   # workdev/Aurrigo uses the work pool, each other path uses the personal pool.
   # CLAUDE_POOL=<pool> overrides the choice. CLAUDE_DIRECT=1 skips the hub.
+  # The flags --hubless and --default do the same as CLAUDE_DIRECT=1 for one session:
+  # the session uses the direct login, as before the hub existed.
   # Personal and work never share a pool.
   #
   # A hub session keeps the normal config dir and its claude.ai login. Artifacts and
@@ -228,13 +230,21 @@ function claude {
   # ANTHROPIC_AUTH_TOKEN replaces the claude.ai login. Only inference goes to the hub.
   # CLAUDE_HUB_POOL tells the statusline which pool the session uses.
   # Setup: vault 000-System/Scripts/kliproxy-setup/client-setup.sh
-  local pool="personal" cfg="$HOME/.config/cliproxy"
-  local -a dir=() hub=()
+  local pool="personal" cfg="$HOME/.config/cliproxy" direct="$CLAUDE_DIRECT"
+  local -a dir=() hub=() args=()
+  # The claude program does not know these two flags, so the function removes them.
+  local arg
+  for arg in "$@"; do
+    case "$arg" in
+      --hubless|--default) direct=1 ;;
+      *) args+=("$arg") ;;
+    esac
+  done
   if [[ "$PWD" == */workdev/Aurrigo* ]]; then
     pool="work"
     dir=(CLAUDE_CONFIG_DIR="$HOME/.claude-aurrigo")
   fi
-  if [[ -z "$CLAUDE_DIRECT" ]]; then
+  if [[ -z "$direct" ]]; then
     if [[ -n "$CLAUDE_POOL" && "$CLAUDE_POOL" != "$pool" ]]; then
       pool="$CLAUDE_POOL"
       dir=()
@@ -251,7 +261,7 @@ function claude {
         ENABLE_PROMPT_CACHING_1H=1)
     fi
   fi
-  env "${browser[@]}" "${dir[@]}" "${hub[@]}" claude --dangerously-skip-permissions "$@"
+  env "${browser[@]}" "${dir[@]}" "${hub[@]}" claude --dangerously-skip-permissions "${args[@]}"
 }
 alias copilot='copilot --allow-all-tools'
 alias codex='env -u NO_COLOR codex --yolo'
