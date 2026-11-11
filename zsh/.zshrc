@@ -210,11 +210,42 @@ alias fetch='git fetch'
 # skills, settings) is symlinked from ~/.claude/ into ~/.claude-aurrigo/.
 # See vault: 000-System/Agents/Claude/rules/common/claude-accounts.md
 unalias claude 2>/dev/null
+# The chrysaki-statusline account switcher opens /login in the Firefox profile
+# that CHRYSAKI_LOGIN_PROFILE names. Claude Code reads BROWSER at launch, and an
+# attached terminal sends its own BROWSER, so a BROWSER the mod sets later is
+# lost. Without CHRYSAKI_LOGIN_PROFILE the wrapper falls back to xdg-open.
+_CLAUDE_BROWSER="$HOME/.local/share/claude-code-mods/chrysaki-statusline/bin/open-in-profile"
 function claude {
+  local -a browser=()
+  [[ -x "$_CLAUDE_BROWSER" ]] && browser=(BROWSER="$_CLAUDE_BROWSER")
+  # Each session goes through the CLIProxyAPI hub. The pool follows $PWD: a path under
+  # workdev/Aurrigo uses the work pool, each other path uses the personal pool.
+  # CLAUDE_POOL=<pool> overrides the choice. CLAUDE_DIRECT=1 skips the hub and uses the
+  # direct login. Personal and work never share a pool.
+  # Setup: vault 000-System/Scripts/cliproxy-hub/client-setup.sh
+  if [[ -z "$CLAUDE_DIRECT" ]]; then
+    local pool="personal" cfg="$HOME/.config/cliproxy"
+    [[ "$PWD" == */workdev/Aurrigo* ]] && pool="work"
+    pool="${CLAUDE_POOL:-$pool}"
+    if [[ ! -r "$cfg/$pool.key" || ! -r "$cfg/$pool.url" ]]; then
+      echo "claude: hub pool '$pool' is not set up. This session uses the direct login." >&2
+    elif ! curl -sf -m 3 -o /dev/null -H "Authorization: Bearer $(<"$cfg/$pool.key")" \
+        "$(<"$cfg/$pool.url")/v1/models"; then
+      echo "claude: the hub does not answer. This session uses the direct login." >&2
+    else
+      # The hub gives the 1-hour prompt cache by default. The variable keeps that explicit.
+      env "${browser[@]}" CLAUDE_CONFIG_DIR="$HOME/.claude-hub-$pool" \
+        ANTHROPIC_BASE_URL="$(<"$cfg/$pool.url")" \
+        ANTHROPIC_AUTH_TOKEN="$(<"$cfg/$pool.key")" \
+        ENABLE_PROMPT_CACHING_1H=1 \
+        claude --dangerously-skip-permissions "$@"
+      return
+    fi
+  fi
   if [[ "$PWD" == */workdev/Aurrigo* ]]; then
-    CLAUDE_CONFIG_DIR="$HOME/.claude-aurrigo" command claude --dangerously-skip-permissions "$@"
+    env "${browser[@]}" CLAUDE_CONFIG_DIR="$HOME/.claude-aurrigo" claude --dangerously-skip-permissions "$@"
   else
-    command claude --dangerously-skip-permissions "$@"
+    env "${browser[@]}" claude --dangerously-skip-permissions "$@"
   fi
 }
 alias copilot='copilot --allow-all-tools'
@@ -285,6 +316,11 @@ alias rags='pkill -f "gjs -m /run/user/1000/ags.js" 2>/dev/null; sleep 1 && ags 
 alias ov-stop='kill $(pgrep -f openviking-server) 2>/dev/null && echo "openviking stopped" || echo "already stopped"'
 alias ov-start='nohup openviking-server > /tmp/openviking.log 2>&1 & echo "openviking started (pid $!)"'
 alias ov-status='pgrep -f openviking-server > /dev/null && echo "running (pid $(pgrep -f openviking-server))" || echo "stopped"'
+
+# Claude Desktop accounts. Each pattern starts with the binary path so it never matches this shell.
+alias kclaude='pgrep -af "^/usr/lib/claude-desktop/claude-desktop" | command grep -v -e --user-data-dir -e --type= | cut -d" " -f1 | xargs -r kill'
+alias kclaude2='pkill -f "^/usr/lib/claude-desktop/claude-desktop .*--user-data-dir=.*/Claude-2"'
+alias kclaude3='pkill -f "^/usr/lib/claude-desktop/claude-desktop .*--user-data-dir=.*/Claude-3"'
 
 export OLLAMA_MODELS=/data/ollama/models
 
