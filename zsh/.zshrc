@@ -333,6 +333,16 @@ alias ov-start='nohup openviking-server > /tmp/openviking.log 2>&1 & echo "openv
 alias ov-status='pgrep -f openviking-server > /dev/null && echo "running (pid $(pgrep -f openviking-server))" || echo "stopped"'
 
 # Claude Desktop accounts. Each pattern starts with the binary path so it never matches this shell.
+# Claude hub (kliproxy-setup). Each alias runs one script of the private setup.
+_KLI_DIR="$HOME/dev/obKidian/000-System/Scripts/kliproxy-setup"
+alias klistatus='"$_KLI_DIR/status.sh"'
+alias kliwatch='watch -n 60 "$_KLI_DIR/status.sh"'
+alias klilogin='"$_KLI_DIR/login.sh"'
+alias kliverify='"$_KLI_DIR/verify.sh"'
+alias klibackup='"$_KLI_DIR/backup.sh"'
+alias klideploy='"$_KLI_DIR/deploy.sh"'
+alias klilogs='ssh sg-nas sudo /usr/local/bin/docker logs --tail 50 -f claude-hub-router'
+alias klicd='cd "$_KLI_DIR"'
 alias kclaude='pgrep -af "^/usr/lib/claude-desktop/claude-desktop" | command grep -v -e --user-data-dir -e --type= | cut -d" " -f1 | xargs -r kill'
 alias kclaude2='pkill -f "^/usr/lib/claude-desktop/claude-desktop .*--user-data-dir=.*/Claude-2"'
 alias kclaude3='pkill -f "^/usr/lib/claude-desktop/claude-desktop .*--user-data-dir=.*/Claude-3"'
