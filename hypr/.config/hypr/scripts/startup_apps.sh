@@ -39,3 +39,6 @@ else
     hyprctl dispatch exec "[workspace 9 silent] spotify"
     hyprctl dispatch exec "[workspace 3 silent] obsidian"
 fi
+
+# usaKi usage widget, only when the binary is installed
+[ -x "$HOME/.local/bin/usaki" ] && hyprctl dispatch exec "$HOME/.local/bin/usaki"
