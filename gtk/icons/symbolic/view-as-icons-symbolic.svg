@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <defs/>
+  <path fill="currentColor" opacity="0.3" d="M4,4 L10.5,4 L10.5,10.5 L4,10.5 Z"/>
+  <path fill="currentColor" d="M3.25,3.25 L11.25,3.25 L11.25,11.25 L3.25,11.25 Z M4.75,4.75 L4.75,9.75 L9.75,9.75 L9.75,4.75 Z"/>
+  <path fill="currentColor" opacity="0.3" d="M13.5,4 L20,4 L20,10.5 L13.5,10.5 Z"/>
+  <path fill="currentColor" d="M12.75,3.25 L20.75,3.25 L20.75,11.25 L12.75,11.25 Z M14.25,4.75 L14.25,9.75 L19.25,9.75 L19.25,4.75 Z"/>
+  <path fill="currentColor" opacity="0.3" d="M4,13.5 L10.5,13.5 L10.5,20 L4,20 Z"/>
+  <path fill="currentColor" d="M3.25,12.75 L11.25,12.75 L11.25,20.75 L3.25,20.75 Z M4.75,14.25 L4.75,19.25 L9.75,19.25 L9.75,14.25 Z"/>
+  <path fill="currentColor" opacity="0.3" d="M13.5,13.5 L20,13.5 L20,20 L13.5,20 Z"/>
+  <path fill="currentColor" d="M12.75,12.75 L20.75,12.75 L20.75,20.75 L12.75,20.75 Z M14.25,14.25 L14.25,19.25 L19.25,19.25 L19.25,14.25 Z"/>
+</svg>
+

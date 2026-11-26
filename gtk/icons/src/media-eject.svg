@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="eject triangle over a bar" data-waive="gap ink" data-waive-why="Lint reads the acute triangle corners as a fold. An action glyph carries less ink than a file icon.">
+  <path data-role="body" d="M5.5 13.5 L12 6 L18.5 13.5 Z"/>
+  <path data-role="line" d="M5.5 18 H18.5"/>
+</svg>

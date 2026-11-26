@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="list rows with a dot marker each" data-waive="ink" data-waive-why="An action glyph is a thin mark, not an object, so it carries less ink than a file icon.">
+  <circle data-role="cut" cx="5" cy="6.5" r="0.5"/>
+  <circle data-role="cut" cx="5" cy="12" r="0.5"/>
+  <circle data-role="cut" cx="5" cy="17.5" r="0.5"/>
+  <path data-role="line" d="M9 6.5 H20"/>
+  <path data-role="line" d="M9 12 H20"/>
+  <path data-role="line" d="M9 17.5 H20"/>
+</svg>

@@ -1,5 +1,7 @@
 # Feature: Notification Centre Visual Redesign
 
+> **STATUS: SUPERSEDED.** The AGS shell is gone. Quickshell now draws notifications in `quickshell/.config/quickshell/Notify.qml` and `NotifyView.qml`. The original status note follows.
+>
 > **STATUS: NOT IMPLEMENTED** -- This is a design spec for a visual redesign. The current codebase still has the plain v1 notification widgets (flat rectangles, no chamfered edges, no Cairo drawing, no grouping, no animations). All files listed under "Affected Components" need to be created or rewritten from scratch. None of the tasks in the Task Breakdown have been started.
 
 ## Overview

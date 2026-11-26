@@ -58,7 +58,20 @@ CUSTOM = {
     "text-x-script": ("mimetypes", "#a383e3"),
     "x-office-spreadsheet": ("mimetypes", "#2fb38a"),
     "application-pdf": ("mimetypes", "#f29aa2"),
+    # Toolbar actions take the muted text colour of the Thunar toolbar.
+    "go-previous": ("actions", MUTED),
+    "go-next": ("actions", MUTED),
+    "go-up": ("actions", MUTED),
+    "go-home": ("actions", MUTED),
+    "system-search": ("actions", MUTED),
+    "open-menu": ("actions", MUTED),
+    "view-as-icons": ("actions", MUTED),
+    "view-as-detailed-list": ("actions", MUTED),
+    "view-as-compact-list": ("actions", MUTED),
+    "media-eject": ("actions", MUTED),
 }
+# Outlined -symbolic copies of the toolbar icons. make_symbolic.py writes them.
+SYMBOLIC = BUILD.parent / "symbolic"
 # Extra names that show the same drawing. Alias: source icon.
 ALIASES = {
     "inode-directory": "folder",
@@ -148,6 +161,9 @@ def install_custom() -> list[tuple[str, int, int, str]]:
     for alias, name in ALIASES.items():
         context = CUSTOM[name][0]
         (OUT / "scalable" / context / f"{alias}.svg").symlink_to(f"{name}.svg")
+    # GTK sets the colour of a -symbolic icon itself, so these go in as they are.
+    for icon in sorted(SYMBOLIC.glob("*-symbolic.svg")):
+        (OUT / "scalable" / "actions" / icon.name).write_text(icon.read_text())
     print(f"Linked {link_mime_families()} Papirus mime names to the custom icons.")
     return [(f"scalable/{c}", 24, 1, c.capitalize()) for c in sorted(contexts)]
 

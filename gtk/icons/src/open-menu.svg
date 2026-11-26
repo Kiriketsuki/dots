@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="three stacked dots, a more menu" data-waive="ink" data-waive-why="An action glyph is a thin mark, not an object, so it carries less ink than a file icon.">
+  <circle data-role="body" cx="12" cy="5.5" r="0.5"/>
+  <circle data-role="body" cx="12" cy="12" r="0.5"/>
+  <circle data-role="body" cx="12" cy="18.5" r="0.5"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="two columns of short rows" data-waive="ink" data-waive-why="An action glyph is a thin mark, not an object, so it carries less ink than a file icon.">
+  <path data-role="line" d="M4 6 H10"/>
+  <path data-role="line" d="M4 10 H10"/>
+  <path data-role="line" d="M4 14 H10"/>
+  <path data-role="line" d="M4 18 H10"/>
+  <path data-role="line" d="M14 6 H20"/>
+  <path data-role="line" d="M14 10 H20"/>
+  <path data-role="line" d="M14 14 H20"/>
+</svg>

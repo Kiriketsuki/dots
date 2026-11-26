@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <defs/>
+  <path fill="currentColor" opacity="0.3" d="M4,11 L12,4 L20,11 L20,20.5 L4,20.5 Z"/>
+  <path fill="currentColor" d="M3.506,10.436 L12,3.003 L20.75,10.66 L20.75,21.25 L3.25,21.25 L3.25,10.66 Z M4.75,11.34 L4.75,19.75 L19.25,19.75 L19.25,11.34 L12,4.997 L4.75,11.34 Z"/>
+  <path fill="currentColor" d="M9.25,14.25 L14.75,14.25 L14.75,21.25 L13.25,21.25 L13.25,15.75 L10.75,15.75 L10.75,21.25 L9.25,21.25 L9.25,14.25 Z"/>
+</svg>
+
