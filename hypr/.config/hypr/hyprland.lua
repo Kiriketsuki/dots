@@ -53,9 +53,24 @@ end)
 hl.env("XCURSOR_SIZE", "12")
 hl.env("HYPRCURSOR_SIZE", "10")
 
--- This machine has no NVIDIA GPU. The nvidia env vars broke VA-API: libva
--- looked for nvidia_drv_video.so, failed, and fell back to software decode.
-hl.env("LIBVA_DRIVER_NAME", "iHD")
+-- The VA-API driver depends on the GPU, and these dots run on two machines.
+-- Kiwork-Arch has only an NVIDIA RTX 4060. The Intel machine has no NVIDIA
+-- GPU, and there the nvidia values sent libva to a driver that did not load,
+-- so video decode fell back to the CPU. The NVIDIA kernel driver creates
+-- /proc/driver/nvidia/version, so the file picks the right set.
+local function file_exists(path)
+    local f = io.open(path, "r")
+    if f then f:close() return true end
+    return false
+end
+
+if file_exists("/proc/driver/nvidia/version") then
+    hl.env("LIBVA_DRIVER_NAME", "nvidia")
+    hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+    hl.env("NVD_BACKEND", "direct")
+else
+    hl.env("LIBVA_DRIVER_NAME", "iHD")
+end
 hl.env("GSK_RENDERER", "ngl")
 -- Qt apps take their palette from GTK3, so they get the Chrysaki gtk.css colors.
 hl.env("QT_QPA_PLATFORMTHEME", "gtk3")
