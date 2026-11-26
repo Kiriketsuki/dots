@@ -26,13 +26,11 @@ Then reboot. Hyprland starts automatically via TTY autologin + uwsm.
 | `git/` | Git configuration with conditional identities (`~/dev/` vs `~/workdev/`) |
 | `gtk/` | GTK 3 theme + color generation script |
 | `hypr/` | Hyprland, Hyprlock, Hypridle configs + scripts |
-| `kitty/` | Kitty terminal emulator configuration |
 | `lazygit/` | Lazygit configuration + color generation |
 | `mime/` | MIME type associations |
 | `mpd/` | Music Player Daemon configuration |
 | `procs/` | procs (modern ps) configuration |
 | `atuin/` | Atuin shell history configuration |
-| `alacritty/` | Alacritty terminal emulator configuration |
 | `rofi/` | Rofi launcher (Jovian theme) + color generation |
 | `spicetify/` | Spicetify (Spotify customization) |
 | `styles/` | Color palettes (`palette.css` + presets) |
@@ -41,7 +39,6 @@ Then reboot. Hyprland starts automatically via TTY autologin + uwsm.
 | `tealdeer/` | tldr pages client configuration |
 | `theme/` | Central `theme.css` hub (WCAG-compliant color definitions) |
 | `tmux/` | tmux terminal multiplexer configuration |
-| `waybar/` | Waybar status bar |
 | `xdg-desktop-portal/` | XDG Desktop Portal configuration |
 | `yazi/` | Yazi file manager |
 | `zsh/` | Zsh (Zinit, Powerlevel10k, fzf, zoxide) |
@@ -70,7 +67,6 @@ The entire desktop theme is derived from the Chrysaki canonical palette. Wallpap
 chrysaki/core/chrysaki.json                    (pinned chrysaki-core artifact)
   → theme/scripts/generate_theme_css.py        (resolved JSON → CSS, WCAG text colors)
     → theme/theme.css                           (@define-color chrysaki-<name>)
-      → waybar/style.css        (direct @import)
       → swaync/style.css        (direct @import)
       → rofi/scripts/update_colors.py   → rofi/colors.rasi
       → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css
@@ -97,7 +93,7 @@ For rollback, restore the previous dots commit so the Chrysaki submodule pin and
 | Shell & Terminal | `zsh`, `ghostty`, `tmux`, `fzf`, `zoxide` |
 | Editors | `neovim`, `visual-studio-code-bin` |
 | Hyprland ecosystem | `hyprland`, `hyprlock`, `hypridle`, `hyprpaper`, `hyprpicker`, `uwsm` |
-| Status & notifications | `waybar`, `swaync` |
+| Status & notifications | AGS bar (from `chrysaki/ags`), `swaync` |
 | Launcher & file managers | `rofi`, `yazi`, `thunar` |
 | Audio & media | `mpd`, `pipewire`, `wireplumber`, `playerctl`, `pavucontrol` |
 | Fonts | `redhat-fonts`, `ttf-ibmplex-mono-nerd`, `ttf-iosevkatermslab-nerd`, `ttf-jetbrains-mono-nerd`, `noto-fonts-cjk`, `noto-fonts-emoji` |

@@ -30,7 +30,6 @@ The desktop theme is derived from Chrysaki's canonical palette. Wallpaper rotati
 chrysaki/ags/.config/ags/styles/_palette.scss  (single source of truth)
   → theme/scripts/generate_theme_css.py        (dev-time bridge: SCSS → CSS, WCAG text colors)
     → theme/theme.css                           (@define-color chrysaki-<name> / text-chrysaki-<name>)
-      → waybar/style.css      (direct @import)
       → swaync/style.css      (direct @import + swaync/scripts/update_colors.py)
       → rofi/scripts/update_colors.py   → rofi colors.rasi (uses text-chrysaki-* tokens directly)
       → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css, gtk-4.0/gtk.css
@@ -56,7 +55,7 @@ All theme scripts use named Chrysaki tokens: `chrysaki-<name>` with matching `te
 
 ### Shell
 
-Zsh with the Zinit plugin manager and an Oh My Posh prompt (`ohmyposh/`, config from `chrysaki/ohmyposh/`). Zinit loads plugins in turbo mode. Config in `zsh/`.
+Zsh with the Zinit plugin manager and an Oh My Posh prompt (config from `chrysaki/ohmyposh/`). Zinit loads plugins in turbo mode. Config in `zsh/`.
 
 ## Versioning
 
