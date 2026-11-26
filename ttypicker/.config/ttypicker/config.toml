@@ -1,5 +1,5 @@
 # ttypicker: XDG FileChooser portal backend that runs yazi in a terminal.
-# The "File Picker" title matches the float rule in hypr/hyprland.conf.
+# The "File Picker" title matches the float rule in hypr/hyprland.lua.
 # See https://github.com/olibrks/ttypicker/blob/main/doc/configuration.md
 [FileChooser]
 term='ghostty --title="File Picker" -e'

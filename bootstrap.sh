@@ -240,7 +240,7 @@ mkdir -p ~/.config
 cd "$DOTS_DIR"
 stow ghostty backgrounds bash fontconfig git gtk hypr lazygit mime mpd \
      rofi spicetify styles swaync theme ttypicker waybar xdg-desktop-portal yazi zsh Code eza \
-     btop atuin procs tealdeer
+     btop atuin procs tealdeer kando solaar superfile gromit tmux
 
 # ─── 7b. Chrysaki submodule ────────────────────────────────────────────────
 info "Initialising Chrysaki submodule..."
