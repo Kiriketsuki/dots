@@ -34,7 +34,8 @@ Then reboot. Hyprland starts automatically via TTY autologin + uwsm.
 | `rofi/` | Rofi launcher (Jovian theme) + color generation |
 | `spicetify/` | Spicetify (Spotify customization) |
 | `styles/` | Color palettes (`palette.css` + presets) |
-| `swaync/` | Sway Notification Center + color generation |
+| `quickshell/` | Quickshell bar, popovers and notification server |
+| `fonts/` | Space Mono and Space Grotesk for the bar |
 | `system/` | Systemd and system-level configuration |
 | `tealdeer/` | tldr pages client configuration |
 | `theme/` | Central `theme.css` hub (WCAG-compliant color definitions) |
@@ -67,7 +68,6 @@ The entire desktop theme is derived from the Chrysaki canonical palette. Wallpap
 chrysaki/core/chrysaki.json                    (pinned chrysaki-core artifact)
   → theme/scripts/generate_theme_css.py        (resolved JSON → CSS, WCAG text colors)
     → theme/theme.css                           (@define-color chrysaki-<name>)
-      → swaync/style.css        (direct @import)
       → rofi/scripts/update_colors.py   → rofi/colors.rasi
       → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css
       → hypr/scripts/update_colors.py   → hypr/colors.lua
@@ -93,7 +93,7 @@ For rollback, restore the previous dots commit so the Chrysaki submodule pin and
 | Shell & Terminal | `zsh`, `ghostty`, `tmux`, `fzf`, `zoxide` |
 | Editors | `neovim`, `visual-studio-code-bin` |
 | Hyprland ecosystem | `hyprland`, `hyprlock`, `hypridle`, `hyprpaper`, `hyprpicker`, `uwsm` |
-| Status & notifications | AGS bar (from `chrysaki/ags`), `swaync` |
+| Status & notifications | Quickshell (`quickshell/`): bar, popovers and notifications |
 | Launcher & file managers | `rofi`, `yazi`, `thunar` |
 | Audio & media | `mpd`, `pipewire`, `wireplumber`, `playerctl`, `pavucontrol` |
 | Fonts | `redhat-fonts`, `ttf-ibmplex-mono-nerd`, `ttf-iosevkatermslab-nerd`, `ttf-jetbrains-mono-nerd`, `noto-fonts-cjk`, `noto-fonts-emoji` |

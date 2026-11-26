@@ -33,7 +33,7 @@ info "Installing packages..."
 $YAY \
     zsh ghostty neovim visual-studio-code-bin \
     hyprland hyprlock hypridle hyprpaper hyprpicker \
-    swaync rofi playerctl \
+    quickshell rofi playerctl \
     uwsm \
     yazi thunar thunar-archive-plugin thunar-volman tumbler mpd \
     fontconfig redhat-fonts ttf-ibmplex-mono-nerd ttf-iosevkatermslab-nerd ttf-jetbrains-mono-nerd \
@@ -239,7 +239,7 @@ info "Stowing dotfiles..."
 mkdir -p ~/.config
 cd "$DOTS_DIR"
 stow ghostty backgrounds bash fontconfig git gtk hypr lazygit mime mpd \
-     rofi spicetify styles swaync theme ttypicker xdg-desktop-portal yazi zsh Code eza \
+     rofi spicetify styles quickshell fonts theme ttypicker xdg-desktop-portal yazi zsh Code eza \
      btop atuin procs tealdeer kando solaar superfile gromit tmux
 
 # ─── 7b. Chrysaki submodule ────────────────────────────────────────────────

@@ -10,7 +10,7 @@ Chrysaki is a git submodule and the canonical theme source for the desktop.
 
 - GNU Stow
 - Hyprland
-- AGS
+- Quickshell (bar, panes and notifications)
 - Chrysaki theme pipeline
 
 ## Commands
@@ -25,7 +25,6 @@ python gtk/scripts/update_colors.py
 python hypr/.config/hypr/scripts/update_colors.py
 python lazygit/.config/lazygit/scripts/update_colors.py
 python rofi/scripts/update_colors.py
-python swaync/scripts/update_colors.py
 ```
 
 ## Architecture
