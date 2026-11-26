@@ -32,7 +32,7 @@ YAY="yay -S --needed --noconfirm --answerclean None --answerdiff None --answered
 info "Installing packages..."
 $YAY \
     zsh ghostty neovim visual-studio-code-bin \
-    hyprland hyprlock hypridle hyprpaper hyprpicker \
+    hyprland hyprlock hyprpaper hyprpicker \
     quickshell rofi playerctl cliphist unicode-emoji \
     uwsm \
     thunar thunar-archive-plugin thunar-volman tumbler mpd \

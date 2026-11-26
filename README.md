@@ -91,7 +91,7 @@ For rollback, restore the previous dots commit so the Chrysaki submodule pin and
 |----------|----------|
 | Shell & Terminal | `zsh`, `ghostty`, `tmux`, `fzf`, `zoxide` |
 | Editors | `neovim`, `visual-studio-code-bin` |
-| Hyprland ecosystem | `hyprland`, `hyprlock`, `hypridle`, `hyprpaper`, `hyprpicker`, `uwsm` |
+| Hyprland ecosystem | `hyprland`, `hyprlock`, `hyprpaper`, `hyprpicker`, `uwsm` |
 | Status & notifications | Quickshell (`quickshell/`): bar, popovers and notifications |
 | Launcher & file manager | `rofi`, `thunar` |
 | Audio & media | `mpd`, `pipewire`, `wireplumber`, `playerctl`, `pavucontrol` |

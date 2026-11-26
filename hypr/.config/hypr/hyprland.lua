@@ -40,7 +40,6 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
     -- Quickshell draws the bar and owns notifications. It follows monitor changes itself.
     hl.exec_cmd("qs")
-    hl.exec_cmd("hypridle & hyprlock &")
     hl.exec_cmd(scripts .. "/wallpaper.sh")
     hl.exec_cmd(scripts .. "/startup_apps.sh")
     hl.exec_cmd("sleep 30 && python3 " .. scripts .. "/sync_workspaces.py 1")
