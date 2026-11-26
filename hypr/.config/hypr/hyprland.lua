@@ -29,6 +29,8 @@ local menu        = "rofi -show drun -modi drun,run -show-icons"
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("uwsm finalize")
+    -- Dark scheme for GTK, libadwaita, Firefox and Electron popups.
+    hl.exec_cmd(scripts .. "/apply_dark_theme.sh")
     hl.exec_cmd("nm-applet")
     hl.exec_cmd("ags run ~/.config/ags/app.ts")
     hl.exec_cmd(scripts .. "/ags-monitor-handler.sh")
@@ -55,6 +57,8 @@ hl.env("HYPRCURSOR_SIZE", "10")
 -- looked for nvidia_drv_video.so, failed, and fell back to software decode.
 hl.env("LIBVA_DRIVER_NAME", "iHD")
 hl.env("GSK_RENDERER", "ngl")
+-- Qt apps take their palette from GTK3, so they get the Chrysaki gtk.css colors.
+hl.env("QT_QPA_PLATFORMTHEME", "gtk3")
 
 -----------------------
 ---- LOOK AND FEEL ----

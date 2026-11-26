@@ -32,11 +32,12 @@ chrysaki/ags/.config/ags/styles/_palette.scss  (single source of truth)
       → waybar/style.css      (direct @import)
       → swaync/style.css      (direct @import + swaync/scripts/update_colors.py)
       → rofi/scripts/update_colors.py   → rofi colors.rasi (uses text-chrysaki-* tokens directly)
-      → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css
+      → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css, gtk-4.0/gtk.css
       → hypr/.config/hypr/scripts/update_colors.py → hypr/colors.lua
       → ghostty/scripts/update_colors.py → ghostty/colors
       → lazygit/.config/lazygit/scripts/update_colors.py → lazygit/colors.yml
       → btop/scripts/update_colors.py   → btop/themes/chrysaki.theme
+      → firefox/scripts/update_colors.py → firefox/chrome/userChrome.css
 ```
 
 - `_palette.scss` — Chrysaki canonical tokens as SCSS variables (`$name: #HEX;`)
@@ -78,6 +79,10 @@ python hypr/.config/hypr/scripts/update_colors.py
 python lazygit/.config/lazygit/scripts/update_colors.py
 python rofi/scripts/update_colors.py
 python swaync/scripts/update_colors.py
+python firefox/scripts/update_colors.py
+
+# Link the Firefox userChrome.css into each profile (first time, or after a new profile)
+firefox/scripts/install_chrome.sh
 
 # 3. Re-stow to symlink updated outputs
 stow .
