@@ -65,7 +65,85 @@ def render(tokens: dict[str, str]) -> str:
         "    --panel-color: var(--arrowpanel-color) !important;\n"
         "    --panel-border-color: var(--arrowpanel-border-color) !important;\n"
         "}\n"
+        + EXPLICIT_RULES
     )
+
+
+# Explicit colours for the tabs and the address bar. The variables above are
+# not enough when a profile uses a light built-in theme: Firefox then draws tab
+# titles and the address bar popup with light-theme colours, which made the tab
+# titles and the suggestions unreadable.
+EXPLICIT_RULES = """
+/* Tabs */
+.tabbrowser-tab .tab-background {
+    background-color: var(--toolbar-bgcolor) !important;
+    background-image: none !important;
+}
+.tabbrowser-tab[selected] .tab-background {
+    background-color: var(--tab-selected-bgcolor) !important;
+    box-shadow: inset 0 -2px 0 var(--toolbar-field-focus-border-color) !important;
+}
+.tabbrowser-tab .tab-label,
+.tabbrowser-tab .tab-close-button {
+    color: var(--toolbar-color) !important;
+    fill: var(--toolbar-color) !important;
+}
+.tabbrowser-tab[selected] .tab-label {
+    color: var(--tab-selected-textcolor) !important;
+}
+
+/* Address bar */
+#urlbar-background,
+#searchbar {
+    background-color: var(--toolbar-field-background-color) !important;
+    border-color: var(--toolbar-field-border-color) !important;
+}
+#urlbar[focused] > #urlbar-background,
+#urlbar[open] > #urlbar-background {
+    background-color: var(--toolbar-field-focus-background-color) !important;
+    border-color: var(--toolbar-field-focus-border-color) !important;
+}
+#urlbar-input,
+#urlbar .urlbar-input,
+#searchbar .searchbar-textbox {
+    color: var(--toolbar-field-color) !important;
+}
+#urlbar-input::placeholder,
+#urlbar .urlbar-input::placeholder {
+    color: var(--toolbar-field-color) !important;
+    opacity: 0.55 !important;
+}
+
+/* Address bar suggestions */
+.urlbarView,
+.urlbarView-body-outer,
+.urlbarView-body-inner,
+.search-one-offs {
+    background-color: var(--toolbar-field-focus-background-color) !important;
+    color: var(--toolbar-field-focus-color) !important;
+}
+.urlbarView-row,
+.urlbarView-title,
+.urlbarView-url,
+.urlbarView-action,
+.urlbarView-group-aria-label,
+.urlbarView-row-inner,
+.urlbarView-row[label]::before {
+    color: var(--toolbar-field-focus-color) !important;
+}
+.urlbarView-url {
+    opacity: 0.75 !important;
+}
+.urlbarView-row[selected] > .urlbarView-row-inner,
+.urlbarView-row:hover > .urlbarView-row-inner {
+    background-color: var(--urlbarView-highlight-background) !important;
+}
+.urlbarView-row[selected] .urlbarView-title,
+.urlbarView-row[selected] .urlbarView-url,
+.urlbarView-row[selected] .urlbarView-action {
+    color: var(--urlbarView-highlight-color) !important;
+}
+"""
 
 
 def main() -> int:
