@@ -77,9 +77,10 @@ Re-apply after deliberately updating the pinned core release and synchronized um
 
 ```sh
 cd ~/dots/chrysaki && npm ci && npm run check
-python3 ~/dots/theme/scripts/generate_theme_css.py
-# Then run each per-app update_colors.py script (see CLAUDE.md for full list)
+python3 ~/dots/theme/scripts/regen_all.py --stow
 ```
+
+`regen_all.py` runs the bridge and every per-app `update_colors.py` script, then re-stows the changed packages. To run the steps by hand, see "Theme Regeneration" in CLAUDE.md.
 
 For rollback, restore the previous dots commit so the Chrysaki submodule pin and generator source change together. The legacy SCSS parser and `_palette.scss` path remain supported during migration.
 

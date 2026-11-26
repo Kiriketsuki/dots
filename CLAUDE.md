@@ -61,7 +61,20 @@ Automated via GitHub Actions. Scheme: `YY.Major.Minor.Patch[Suffix]`. Version bu
 
 ## Theme Regeneration
 
-After bumping the Chrysaki submodule, regenerate all theme outputs:
+After bumping the Chrysaki submodule, regenerate all theme outputs with one command:
+
+```bash
+python3 theme/scripts/regen_all.py            # bridge, then every per-app script
+python3 theme/scripts/regen_all.py --only btop,gtk   # bridge, then a subset
+python3 theme/scripts/regen_all.py --skip-bridge     # per-app scripts only
+python3 theme/scripts/regen_all.py --stow            # also run stow --restow for changed packages
+```
+
+The script runs the steps in the order below and stops at the first failure.
+Without `--stow` it prints the stow commands it would run.
+The per-app scripts still read and write under `~/.config`, so run it from the checkout that is stowed.
+
+Manual fallback, the same steps one by one:
 
 ```bash
 cd ~/dots
