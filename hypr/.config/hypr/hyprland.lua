@@ -353,6 +353,14 @@ hl.window_rule({
     opacity = "1.0 override 1.0 override",
 })
 
+-- Thunar and the GTK file dialog stay fully opaque, so file names stay
+-- readable over a busy wallpaper.
+hl.window_rule({
+    name = "files-opacity",
+    match = { class = "^(thunar|xdg-desktop-portal-gtk)$" },
+    opacity = "1.0 override 1.0 override",
+})
+
 -- OrKi: dim_inactive made the pixel-art scene darken and brighten with focus.
 hl.window_rule({
     name = "orki-no-dim",
