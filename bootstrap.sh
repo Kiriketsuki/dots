@@ -23,8 +23,13 @@ for arg in "$@"; do
 done
 
 info()    { echo "[info]  $*"; }
-success() { echo "[ok]    $*"; }
+# In dry-run mode no change happens, so a step reports what it would do.
+success() {
+    if [ "$DRY_RUN" -eq 1 ]; then echo "[would]  $*"; else echo "[ok]    $*"; fi
+}
 warn()    { echo "[warn]  $*"; }
+# A step that found its work already done. This is a fact in both modes.
+skip()    { echo "[skip]  $*"; }
 # Run a command that changes the system. In dry-run mode, print it instead.
 # The dry line goes to stdout, so a caller redirect of stderr does not hide it.
 # A command that needs a redirect of stdout or a pipe goes in: run sh -c '...'
@@ -58,7 +63,7 @@ if ! command -v yay &>/dev/null; then
     # The subshell keeps the cd local. The cd itself would fail in a dry run.
     run sh -c 'cd /tmp/yay-bootstrap && makepkg -si --noconfirm'
 else
-    success "yay already installed, skipping"
+    skip "yay already installed, skipping"
 fi
 
 # Non-interactive yay command — suppresses all prompts
@@ -99,7 +104,6 @@ run "${YAY[@]}" \
     firefox thunderbird \
     snapd \
     spicetify-cli \
-    aylurs-gtk-shell-git libastal-meta \
     resvg \
     lan-mouse \
     docker \
@@ -166,7 +170,7 @@ if ! command -v kilour &>/dev/null; then
     run rm -rf /tmp/kilour-build
     success "kilour installed to /usr/local/bin/"
 else
-    success "kilour already installed, skipping"
+    skip "kilour already installed, skipping"
 fi
 
 # ─── 4f. Rust toolchain (rustup) ─────────────────────────────────────────────
@@ -176,7 +180,7 @@ if ! command -v cargo &>/dev/null; then
     export PATH="$HOME/.cargo/bin:$PATH"
     success "Rust installed"
 else
-    success "cargo already available, skipping rustup"
+    skip "cargo already available, skipping rustup"
 fi
 
 # ─── 4g. RTK (Rust Token Killer — LLM token compression for Claude Code) ─────
@@ -202,7 +206,7 @@ if ! command -v rtk &>/dev/null; then
     fi
     success "RTK installed"
 else
-    success "rtk already installed, skipping"
+    skip "rtk already installed, skipping"
 fi
 
 # ─── 5. uv (Python toolchain) ─────────────────────────────────────────────────
@@ -211,7 +215,7 @@ if ! command -v uv &>/dev/null; then
     run sh -c 'curl -LsSf https://astral.sh/uv/install.sh | sh'
     export PATH="$HOME/.local/bin:$PATH"
 else
-    success "uv already installed, skipping"
+    skip "uv already installed, skipping"
 fi
 
 # ─── 5b. nvm: install latest LTS node ─────────────────────────────────────────
@@ -257,7 +261,7 @@ info "Backing up conflicting files..."
 for f in ~/.bashrc ~/.gitconfig; do
     if [ -f "$f" ] && [ ! -L "$f" ]; then
         run mv "$f" "$f.bak"
-        warn "Moved $f → $f.bak"
+        if [ "$DRY_RUN" -eq 1 ]; then info "Would move $f → $f.bak"; else warn "Moved $f → $f.bak"; fi
     fi
 done
 # Hyprland 0.57+ reads hyprland.lua and writes a default one on first start.
@@ -265,7 +269,7 @@ done
 for f in ~/.config/hypr/hyprland.lua ~/.config/hypr/hyprland.conf; do
     if [ -f "$f" ] && [ ! -L "$f" ]; then
         run mv "$f" "$f.bak"
-        warn "Moved $f → $f.bak"
+        if [ "$DRY_RUN" -eq 1 ]; then info "Would move $f → $f.bak"; else warn "Moved $f → $f.bak"; fi
     fi
 done
 
@@ -337,7 +341,7 @@ if [ "$(getent passwd "$USER" | cut -d: -f7)" != "$(which zsh)" ]; then
     info "Setting zsh as default shell..."
     run sudo usermod -s "$(which zsh)" "$USER"
 else
-    success "zsh already default shell, skipping"
+    skip "zsh already default shell, skipping"
 fi
 
 # ─── 8b. zinit: clone and pre-download all plugins ───────────────────────────
@@ -347,7 +351,7 @@ if [ ! -d "$ZINIT_HOME" ]; then
     run mkdir -p "$(dirname "$ZINIT_HOME")"
     run git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 else
-    success "zinit already present, skipping clone"
+    skip "zinit already present, skipping clone"
 fi
 
 info "Pre-downloading zinit plugins and snippets..."
@@ -381,14 +385,14 @@ run sudo cp -r "$DOTS_DIR/system/usr/share/sddm/themes/night-glass" /usr/share/s
 run sudo mkdir -p /etc/sddm.conf.d
 run sudo cp "$DOTS_DIR/system/etc/sddm.conf.d/theme.conf" /etc/sddm.conf.d/theme.conf
 run sudo systemctl enable sddm
-echo "[ok] SDDM enabled with the Night Glass theme"
+success "SDDM enabled with the Night Glass theme"
 
 # ─── 10. PostgreSQL ───────────────────────────────────────────────────────────
 if [ ! -f /var/lib/postgres/data/PG_VERSION ]; then
     info "Initialising PostgreSQL data directory..."
     run sudo -u postgres initdb --locale=en_US.UTF-8 -D /var/lib/postgres/data
 else
-    success "PostgreSQL already initialised, skipping"
+    skip "PostgreSQL already initialised, skipping"
 fi
 run sudo systemctl enable --now postgresql
 
