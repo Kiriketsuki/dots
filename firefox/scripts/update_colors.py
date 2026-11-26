@@ -74,6 +74,32 @@ def render(tokens: dict[str, str]) -> str:
 # titles and the address bar popup with light-theme colours, which made the tab
 # titles and the suggestions unreadable.
 EXPLICIT_RULES = """
+/* Toolbars. Firefox 160 does not paint the navigation and bookmarks bars from
+   --toolbar-bgcolor alone, so they showed mid grey with dark grey icons. */
+#nav-bar,
+#PersonalToolbar,
+#toolbar-menubar {
+    background-color: var(--toolbar-bgcolor) !important;
+    background-image: none !important;
+    color: var(--toolbar-color) !important;
+    border-color: var(--toolbar-field-border-color) !important;
+}
+#navigator-toolbox toolbarbutton,
+#navigator-toolbox .toolbarbutton-1,
+#PersonalToolbar .bookmark-item,
+#PersonalToolbar .toolbarbutton-text {
+    color: var(--toolbar-color) !important;
+    fill: var(--toolbar-color) !important;
+    -moz-context-properties: fill, fill-opacity !important;
+}
+#navigator-toolbox .toolbarbutton-icon,
+#PersonalToolbar .toolbarbutton-icon {
+    fill: var(--toolbar-color) !important;
+}
+#navigator-toolbox toolbarbutton[disabled] .toolbarbutton-icon {
+    fill-opacity: 0.4 !important;
+}
+
 /* Tabs */
 .tabbrowser-tab .tab-background {
     background-color: var(--toolbar-bgcolor) !important;
