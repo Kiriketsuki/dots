@@ -357,7 +357,7 @@ hl.window_rule({
 -- readable over a busy wallpaper.
 hl.window_rule({
     name = "files-opacity",
-    match = { class = "^(thunar|xdg-desktop-portal-gtk)$" },
+    match = { class = "^([Tt]hunar|xdg-desktop-portal-gtk)$" },
     opacity = "1.0 override 1.0 override",
 })
 
