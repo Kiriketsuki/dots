@@ -31,7 +31,6 @@ Then reboot. Hyprland starts automatically via TTY autologin + uwsm.
 | `mpd/` | Music Player Daemon configuration |
 | `procs/` | procs (modern ps) configuration |
 | `atuin/` | Atuin shell history configuration |
-| `rofi/` | Rofi launcher (Jovian theme) + color generation |
 | `spicetify/` | Spicetify (Spotify customization) |
 | `styles/` | Color palettes (`palette.css` + presets) |
 | `quickshell/` | Quickshell bar, popovers and notification server |
@@ -67,7 +66,6 @@ The entire desktop theme is derived from the Chrysaki canonical palette. Wallpap
 chrysaki/core/chrysaki.json                    (pinned chrysaki-core artifact)
   → theme/scripts/generate_theme_css.py        (resolved JSON → CSS, WCAG text colors)
     → theme/theme.css                           (@define-color chrysaki-<name>)
-      → rofi/scripts/update_colors.py   → rofi/colors.rasi
       → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css
       → hypr/scripts/update_colors.py   → hypr/colors.lua
       → ghostty/scripts/update_colors.py → ghostty/colors
@@ -93,7 +91,7 @@ For rollback, restore the previous dots commit so the Chrysaki submodule pin and
 | Editors | `neovim`, `visual-studio-code-bin` |
 | Hyprland ecosystem | `hyprland`, `hyprlock`, `hyprpaper`, `hyprpicker`, `uwsm` |
 | Status & notifications | Quickshell (`quickshell/`): bar, popovers and notifications |
-| Launcher & file manager | `rofi`, `thunar` |
+| Launcher & file manager | Quickshell launcher, `thunar` |
 | Audio & media | `mpd`, `pipewire`, `wireplumber`, `playerctl`, `pavucontrol` |
 | Fonts | `redhat-fonts`, `ttf-ibmplex-mono-nerd`, `ttf-iosevkatermslab-nerd`, `ttf-jetbrains-mono-nerd`, `noto-fonts-cjk`, `noto-fonts-emoji` |
 | Portals | `xdg-desktop-portal-hyprland`, `xdg-utils` |

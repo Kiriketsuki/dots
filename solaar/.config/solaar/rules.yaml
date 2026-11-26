@@ -13,11 +13,11 @@
 ...
 ---
 - MouseGesture: Mouse Down
-- Execute: [rofi, -show, run]
+- Execute: [qs, ipc, call, launcher, open, apps]
 ...
 ---
 - MouseGesture: []
-- Execute: [rofi, -show, window]
+- Execute: [qs, ipc, call, launcher, open, windows]
 ...
 ---
 - Key: [Haptic, pressed]

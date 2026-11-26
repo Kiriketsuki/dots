@@ -28,15 +28,11 @@ if [ "$COUNT" -eq 0 ]; then
     exit 1
 fi
 
-# Assign wallpapers for Lock and Rofi
+# Assign the lock wallpaper
 WP_LOCK="${WALLPAPERS[0]}"
-WP_ROFI="${WALLPAPERS[$((1 % COUNT))]}"
 
 echo "Setting Lock wallpaper: $WP_LOCK"
 ln -sf "$WP_LOCK" "$HOME/.config/backgrounds/.current_lock"
-
-echo "Setting Rofi wallpaper: $WP_ROFI"
-ln -sf "$WP_ROFI" "$HOME/.config/backgrounds/.current_rofi"
 
 # Start picking monitor wallpapers from index 2
 IDX=2

@@ -214,8 +214,6 @@ hl.bind(key("Tab"),         exec(launcher("windows")))
 hl.bind(key("SHIFT + V"),   exec(launcher("clipboard")))
 hl.bind(key("period"),      exec(launcher("emoji")))
 hl.bind(key("equal"),       exec(launcher("calc")))
--- rofi stays on SUPER+ALT+space as a fallback until the launcher has a full day of use.
-hl.bind(key("ALT + space"), exec("rofi -show drun -modi drun,run -show-icons"))
 hl.bind(key("P"),           hl.dsp.window.pseudo())
 hl.bind(key("J"),           hl.dsp.layout("togglesplit"))
 hl.bind(key("B"),           spawn("firefox"))
@@ -422,13 +420,12 @@ hl.window_rule({
     animation = "popin",
 })
 
--- Blur behind the Quickshell bar, its panes and rofi.
+-- Blur behind the Quickshell bar and its panes.
 for _, ns in ipairs({
     "qs-bar",
     "qs-pane",
     "qs-toast",
     "qs-notify-list",
-    "rofi",
 }) do
     hl.layer_rule({
         name = ns .. "-blur",

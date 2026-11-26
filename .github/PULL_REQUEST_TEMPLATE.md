@@ -31,7 +31,7 @@ Closes #<!-- issue number -->
 
 - [ ] Hyprland
 - [ ] Waybar
-- [ ] Rofi
+- [ ] Quickshell
 - [ ] SwayNC
 - [ ] GTK
 - [ ] Ghostty

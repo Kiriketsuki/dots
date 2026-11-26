@@ -24,7 +24,6 @@ python ghostty/scripts/update_colors.py
 python gtk/scripts/update_colors.py
 python hypr/.config/hypr/scripts/update_colors.py
 python lazygit/.config/lazygit/scripts/update_colors.py
-python rofi/scripts/update_colors.py
 ```
 
 ## Architecture

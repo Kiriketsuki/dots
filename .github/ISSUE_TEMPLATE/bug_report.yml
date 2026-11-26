@@ -45,7 +45,7 @@ body:
           options:
               - Hyprland
               - Waybar
-              - Rofi
+              - Quickshell
               - SwayNC
               - GTK
               - Ghostty

@@ -30,7 +30,6 @@ The desktop theme is derived from Chrysaki's canonical palette. Wallpaper rotati
 chrysaki/ags/.config/ags/styles/_palette.scss  (single source of truth)
   → theme/scripts/generate_theme_css.py        (dev-time bridge: SCSS → CSS, WCAG text colors)
     → theme/theme.css                           (@define-color chrysaki-<name> / text-chrysaki-<name>)
-      → rofi/scripts/update_colors.py   → rofi colors.rasi (uses text-chrysaki-* tokens directly)
       → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css, gtk-4.0/gtk.css
       → hypr/.config/hypr/scripts/update_colors.py → hypr/colors.lua
       → ghostty/scripts/update_colors.py → ghostty/colors
@@ -76,7 +75,6 @@ python ghostty/scripts/update_colors.py
 python gtk/scripts/update_colors.py
 python hypr/.config/hypr/scripts/update_colors.py
 python lazygit/.config/lazygit/scripts/update_colors.py
-python rofi/scripts/update_colors.py
 python firefox/scripts/update_colors.py
 
 # Link the Firefox userChrome.css into each profile (first time, or after a new profile)
@@ -95,7 +93,7 @@ Every top-level directory is a stow package. List them with `ls -d ~/dots/*/`.
 | Script | Purpose |
 |--------|---------|
 | `theme/scripts/generate_theme_css.py` | Bridge: reads Chrysaki _palette.scss → generates theme.css with WCAG text colors |
-| `*/scripts/update_colors.py` | Per-app color generators (btop, ghostty, gtk, hypr, lazygit, rofi) |
+| `*/scripts/update_colors.py` | Per-app color generators (btop, ghostty, gtk, hypr, lazygit, firefox) |
 | `hypr/.config/hypr/scripts/sync_workspaces.py` | Multi-monitor workspace synchronization |
 | `hypr/.config/hypr/scripts/smart_spawn.py` | Intelligent window spawning |
-| `rofi/scripts/powermenu.sh` | System power menu (lock/suspend/shutdown/logout) |
+| `quickshell/.config/quickshell/Launcher.qml` | App launcher with apps, windows, calc, clipboard, emoji, Firefox profiles and power modes |
