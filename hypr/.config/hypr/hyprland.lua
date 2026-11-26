@@ -32,8 +32,8 @@ hl.on("hyprland.start", function()
     -- Dark scheme for GTK, libadwaita, Firefox and Electron popups.
     hl.exec_cmd(scripts .. "/apply_dark_theme.sh")
     hl.exec_cmd("nm-applet")
-    hl.exec_cmd("ags run ~/.config/ags/app.ts")
-    hl.exec_cmd(scripts .. "/ags-monitor-handler.sh")
+    -- Quickshell draws the bar and owns notifications. It follows monitor changes itself.
+    hl.exec_cmd("qs")
     hl.exec_cmd("hypridle & hyprlock &")
     hl.exec_cmd(scripts .. "/wallpaper.sh")
     hl.exec_cmd(scripts .. "/startup_apps.sh")
@@ -403,13 +403,13 @@ hl.window_rule({
     animation = "popin",
 })
 
--- Blur behind the AGS panels and rofi.
+-- Blur behind the Quickshell bar, its panes and rofi.
 for _, ns in ipairs({
-    "chrysaki-notification-center",
-    "chrysaki-notification-toast",
+    "qs-bar",
+    "qs-pane",
+    "qs-toast",
+    "qs-notify-list",
     "rofi",
-    "chrysaki-bar",
-    "chrysaki-service-panel",
 }) do
     hl.layer_rule({
         name = ns .. "-blur",
