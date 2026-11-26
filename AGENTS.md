@@ -16,8 +16,7 @@ Chrysaki is a git submodule and the canonical theme source for the desktop.
 ## Commands
 
 ```bash
-cd ~/dots && stow .
-stow <package>
+cd ~/dots && stow <package>   # bootstrap.sh stows every package by name
 stow -D <package>
 python theme/scripts/generate_theme_css.py
 python btop/scripts/update_colors.py

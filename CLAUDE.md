@@ -9,8 +9,9 @@ Personal dotfiles repository for a Wayland-based Linux desktop (Arch Linux) cent
 ## Stow Commands
 
 ```bash
-# Install all configs
-cd ~/dots && stow .
+# Install all configs: bootstrap.sh stows each package by name.
+# `stow .` does not work here, because it treats the repo as one package.
+./bootstrap.sh
 
 # Install a single package
 stow <package>     # e.g. stow hypr
@@ -84,8 +85,8 @@ python firefox/scripts/update_colors.py
 # Link the Firefox userChrome.css into each profile (first time, or after a new profile)
 firefox/scripts/install_chrome.sh
 
-# 3. Re-stow to symlink updated outputs
-stow .
+# 3. Re-stow the changed packages to link updated outputs
+stow <package>
 ```
 
 ## Stow Packages

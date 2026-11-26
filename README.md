@@ -30,7 +30,6 @@ Then reboot. Hyprland starts automatically via TTY autologin + uwsm.
 | `lazygit/` | Lazygit configuration + color generation |
 | `mime/` | MIME type associations |
 | `mpd/` | Music Player Daemon configuration |
-| `nvim/` | Neovim (LazyVim-based) configuration |
 | `procs/` | procs (modern ps) configuration |
 | `atuin/` | Atuin shell history configuration |
 | `alacritty/` | Alacritty terminal emulator configuration |
