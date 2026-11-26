@@ -1,0 +1,38 @@
+name: Shell Lint
+
+# Checks the syntax of the shell scripts with bash -n. Then it lints them with
+# shellcheck. A shellcheck finding of warning level or higher fails the check.
+
+on:
+    pull_request:
+    push:
+        branches: [main]
+
+permissions:
+    contents: read
+
+jobs:
+    shell-lint:
+        runs-on: ubuntu-latest
+        env:
+            SCRIPTS: bootstrap.sh bootstrap-wsl.sh tools.sh vsc-repatch.sh
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+
+            - name: Install shellcheck
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y shellcheck
+
+            - name: Check syntax with bash -n
+              run: |
+                  for script in $SCRIPTS; do
+                      echo "bash -n $script"
+                      bash -n "$script"
+                  done
+
+            - name: Lint with shellcheck
+              run: |
+                  # The list stays unquoted so that the shell splits it.
+                  shellcheck --severity=warning $SCRIPTS

@@ -11,6 +11,10 @@ cd ~/dots && bash bootstrap.sh
 
 Then reboot. SDDM shows the Night Glass login screen and starts Hyprland through uwsm.
 
+### Dry run
+
+To see what the bootstrap would do, run `bash bootstrap.sh --dry-run`. The script prints each command that changes the system and does not run it. Read-only checks still run. Use it before you change `bootstrap.sh`.
+
 ## Contents
 
 | Package | Purpose |

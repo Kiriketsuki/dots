@@ -18,17 +18,16 @@ set +e
 if ! command -v yay &>/dev/null; then
     info "Installing yay..."
     git clone https://aur.archlinux.org/yay.git /tmp/yay-bootstrap
-    cd /tmp/yay-bootstrap && makepkg -si --noconfirm
-    cd "$DOTS_DIR"
+    (cd /tmp/yay-bootstrap && makepkg -si --noconfirm)
 else
     success "yay already installed, skipping"
 fi
 
-YAY="yay -S --needed --noconfirm --answerclean None --answerdiff None --answeredit None --removemake"
+YAY=(yay -S --needed --noconfirm --answerclean None --answerdiff None --answeredit None --removemake)
 
 # ─── 3. WSL packages ──────────────────────────────────────────────────────────
 info "Installing packages..."
-$YAY \
+"${YAY[@]}" \
     neovim \
     fzf fd zoxide \
     tmux less \
@@ -91,7 +90,7 @@ info "Stowing dotfiles..."
 # Without this, stow folds the entire .config as a symlink into the first
 # stowed package that uses it, breaking any tool that writes into ~/.config.
 mkdir -p ~/.config
-cd "$DOTS_DIR"
+cd "$DOTS_DIR" || exit 1
 stow bash fontconfig git zsh
 
 # ─── 8. Default shell ─────────────────────────────────────────────────────────
