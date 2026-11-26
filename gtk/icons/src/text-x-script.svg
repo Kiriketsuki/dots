@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="page with a shell prompt">
+  <use data-part="page"/>
+  <path data-role="cut" d="M8.5 12 L11 14.5 L8.5 17"/>
+  <path data-role="cut" d="M13 17 H15.5"/>
+</svg>

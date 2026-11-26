@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="page with a music note">
+  <use data-part="page"/>
+  <circle data-role="cut" cx="10" cy="16.5" r="0.5"/>
+  <path data-role="cut" d="M10.5 16.5 V11.5 H14"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="folder with lines of text">
+  <use data-part="folder"/>
+  <path data-role="cut" d="M7 13.5 H17"/>
+  <path data-role="cut" d="M7 16.5 H13"/>
+</svg>

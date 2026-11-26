@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="page with a table grid">
+  <use data-part="page"/>
+  <path data-role="cut" d="M8.5 11 H15.5 V18 H8.5 Z"/>
+  <path data-role="cut" d="M8.5 14.5 H15.5"/>
+  <path data-role="cut" d="M12 11 V18"/>
+</svg>

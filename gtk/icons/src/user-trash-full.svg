@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="bin with crumpled paper in it">
+  <path data-role="body" d="M6 8 H18 L17 21 H7 Z"/>
+  <path data-role="line" d="M3.5 8 H20.5"/>
+  <path data-role="line" d="M9.5 8 V5 H14.5 V8"/>
+  <path data-role="cut" d="M9.5 12 L12 11 L14.5 12.5 L14 17 L10.5 17.5 Z"/>
+</svg>

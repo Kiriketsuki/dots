@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="drive box with a slot and a light">
+  <path data-role="body" d="M3 7 H21 V17 H3 Z"/>
+  <path data-role="cut" d="M6.5 12 H12"/>
+  <circle data-role="cut" cx="17" cy="12" r="0.5"/>
+</svg>

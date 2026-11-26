@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="page with lines of text">
+  <use data-part="page"/>
+  <path data-role="cut" d="M8.5 11.5 H15.5"/>
+  <path data-role="cut" d="M8.5 14.5 H15.5"/>
+  <path data-role="cut" d="M8.5 17.5 H12.5"/>
+</svg>

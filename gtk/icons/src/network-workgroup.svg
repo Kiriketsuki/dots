@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="three linked computers in a tree">
+  <path data-role="body" d="M9 3 H15 V8 H9 Z"/>
+  <path data-role="body" d="M3 16 H9 V21 H3 Z"/>
+  <path data-role="body" d="M15 16 H21 V21 H15 Z"/>
+  <path data-role="line" d="M12 8 V12 H6 V16"/>
+  <path data-role="line" d="M12 12 H18 V16"/>
+</svg>

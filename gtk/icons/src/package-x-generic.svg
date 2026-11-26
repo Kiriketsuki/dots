@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="box with a lid and a handle slot">
+  <path data-role="body" d="M3 4.5 H21 V9 H3 Z"/>
+  <path data-role="body" d="M4.5 9 H19.5 V20.5 H4.5 Z"/>
+  <path data-role="cut" d="M10 12.5 H14"/>
+</svg>

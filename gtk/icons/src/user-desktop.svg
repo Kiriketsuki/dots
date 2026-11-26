@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="monitor on a stand">
+  <path data-role="body" d="M3 4.5 H21 V16 H3 Z"/>
+  <path data-role="line" d="M12 16 V20"/>
+  <path data-role="line" d="M8 20 H16"/>
+</svg>

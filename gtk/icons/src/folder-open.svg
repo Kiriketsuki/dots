@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="open folder with the front flap tilted down" data-waive="gap" data-waive-why="The flap meets the back at an acute corner, and lint reads the corner as a fold.">
+  <path data-role="line" d="M3 19.5 V5 H9.5 L11.5 7 H18.5 V10"/>
+  <path data-role="body" d="M3 19.5 L5.5 10 H21 L18.5 19.5 Z"/>
+</svg>

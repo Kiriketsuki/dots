@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="folder with a play triangle" data-waive="gap" data-waive-why="The small play triangle fills in at real sizes, which reads as a solid play mark.">
+  <use data-part="folder"/>
+  <path data-role="cut" d="M11 13.5 L14 15 L11 16.5 Z"/>
+</svg>

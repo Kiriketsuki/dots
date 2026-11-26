@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="USB stick with its plug and a label">
+  <path data-role="body" d="M7 9 H17 V21 H7 Z"/>
+  <path data-role="line" d="M9.5 9 V3.5 H14.5 V9"/>
+  <path data-role="cut" d="M10 13 H14 V17 H10 Z"/>
+</svg>
