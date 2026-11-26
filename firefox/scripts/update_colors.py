@@ -69,6 +69,9 @@ def render(tokens: dict[str, str]) -> str:
     )
 
 
+# Firefox 160 renamed the address bar parts from IDs to classes
+# (.urlbar-background, .urlbar-input, .urlbarView-background), so the rules
+# match both forms.
 # Explicit colours for the tabs and the address bar. The variables above are
 # not enough when a profile uses a light built-in theme: Firefox then draws tab
 # titles and the address bar popup with light-theme colours, which made the tab
@@ -120,28 +123,35 @@ EXPLICIT_RULES = """
 
 /* Address bar */
 #urlbar-background,
+.urlbar-background,
 #searchbar {
     background-color: var(--toolbar-field-background-color) !important;
     border-color: var(--toolbar-field-border-color) !important;
 }
 #urlbar[focused] > #urlbar-background,
-#urlbar[open] > #urlbar-background {
+#urlbar[open] > #urlbar-background,
+#urlbar[focused] > .urlbar-background,
+#urlbar[open] > .urlbar-background,
+.urlbar[focused] > .urlbar-background,
+.urlbar[open] > .urlbar-background {
     background-color: var(--toolbar-field-focus-background-color) !important;
     border-color: var(--toolbar-field-focus-border-color) !important;
 }
 #urlbar-input,
-#urlbar .urlbar-input,
+.urlbar-input,
 #searchbar .searchbar-textbox {
     color: var(--toolbar-field-color) !important;
 }
 #urlbar-input::placeholder,
-#urlbar .urlbar-input::placeholder {
+.urlbar-input::placeholder {
     color: var(--toolbar-field-color) !important;
     opacity: 0.55 !important;
 }
 
 /* Address bar suggestions */
 .urlbarView,
+.urlbarView-background,
+.urlbarView-results,
 .urlbarView-body-outer,
 .urlbarView-body-inner,
 .search-one-offs {
