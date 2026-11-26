@@ -9,6 +9,8 @@ PaneWindow {
     id: root
     required property var screenRef
     readonly property color tone: Theme.tealLt
+    // Fires after a row click, so the bar can close the pane.
+    signal picked
 
     readonly property var mon: Hyprland.monitorFor(screenRef)
     readonly property int activeId: mon && mon.activeWorkspace ? mon.activeWorkspace.id : -1
@@ -111,7 +113,8 @@ PaneWindow {
                         id: ma
                         anchors.fill: parent
                         hoverEnabled: true
-                        onClicked: HyprCmd.focusWorkspace(row.wsId)
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: { HyprCmd.focusWorkspace(row.wsId); root.picked(); }
                     }
                 }
             }

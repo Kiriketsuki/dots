@@ -60,17 +60,19 @@ PanelWindow {
         function toggle(name: string): void { bar.toggle(name); }
     }
 
-    UsakiPane { anchorItem: usakiCell; open: bar.pane === "usaki" }
-    WorkspacePane { anchorItem: wsCell; screenRef: bar.screen; open: bar.pane === "workspace" }
-    WindowPane { anchorItem: winCell; screenRef: bar.screen; open: bar.pane === "window" }
-    MediaPane { anchorItem: mediaCell; open: bar.pane === "media" }
-    CpuPane { anchorItem: cpuCell; open: bar.pane === "cpu" }
-    MousePane { anchorItem: mouseCell; open: bar.pane === "mouse" }
-    ClockPane { anchorItem: clockCell; open: bar.pane === "clock" }
-    VolumePane { anchorItem: volCell; open: bar.pane === "volume"; notify: bar.notify; ipc: bar.screen && bar.screen.name === Theme.mainMonitor }
+    UsakiPane { id: usakiPane; anchorItem: usakiCell; open: bar.pane === "usaki" }
+    WorkspacePane { id: workspacePane; anchorItem: wsCell; screenRef: bar.screen; open: bar.pane === "workspace"; onPicked: bar.pane = "" }
+    WindowPane { id: windowPane; anchorItem: winCell; screenRef: bar.screen; open: bar.pane === "window" }
+    MediaPane { id: mediaPane; anchorItem: mediaCell; open: bar.pane === "media" }
+    CpuPane { id: cpuPane; anchorItem: cpuCell; open: bar.pane === "cpu" }
+    MousePane { id: mousePane; anchorItem: mouseCell; open: bar.pane === "mouse" }
+    ClockPane { id: clockPane; anchorItem: clockCell; open: bar.pane === "clock" }
+    VolumePane { id: volumePane; anchorItem: volCell; open: bar.pane === "volume"; notify: bar.notify; ipc: bar.screen && bar.screen.name === Theme.mainMonitor }
 
+    // The panes are their own windows. They must be in the grab, or a click inside a pane counts
+    // as a click outside and closes it before the click lands.
     HyprlandFocusGrab {
-        windows: [bar]
+        windows: [bar, usakiPane, workspacePane, windowPane, mediaPane, cpuPane, mousePane, clockPane, volumePane]
         active: bar.pane !== ""
         onCleared: bar.pane = ""
     }
