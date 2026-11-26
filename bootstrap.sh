@@ -33,7 +33,7 @@ info "Installing packages..."
 $YAY \
     zsh ghostty neovim visual-studio-code-bin \
     hyprland hyprlock hypridle hyprpaper hyprpicker \
-    quickshell rofi playerctl \
+    quickshell rofi playerctl cliphist unicode-emoji \
     uwsm \
     thunar thunar-archive-plugin thunar-volman tumbler mpd \
     fontconfig redhat-fonts ttf-ibmplex-mono-nerd ttf-iosevkatermslab-nerd ttf-jetbrains-mono-nerd \
@@ -241,10 +241,6 @@ cd "$DOTS_DIR"
 stow ghostty backgrounds bash fontconfig git gtk hypr lazygit mime mpd \
      rofi spicetify styles quickshell fonts theme xdg-desktop-portal zsh Code eza \
      btop atuin procs tealdeer kando solaar gromit tmux
-
-# GTK apps on Wayland read the theme from gsettings, not from settings.ini.
-gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
-gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
 # ─── 7b. Chrysaki submodule ────────────────────────────────────────────────
 info "Initialising Chrysaki submodule..."
