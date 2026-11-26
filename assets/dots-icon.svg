@@ -1,57 +1,69 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="512" height="512">
   <title>dots</title>
   <defs>
-    <radialGradient id="sky" cx="0.3" cy="0.2" r="1">
-      <stop offset="0" stop-color="#172641"/>
-      <stop offset="0.55" stop-color="#0b1220"/>
-      <stop offset="1" stop-color="#03111e"/>
-    </radialGradient>
-    <radialGradient id="dusk" cx="1" cy="1" r="0.9">
-      <stop offset="0" stop-color="#583090" stop-opacity="0.45"/>
-      <stop offset="1" stop-color="#583090" stop-opacity="0"/>
+    <!-- Tri-primary night sky. Emerald leads, as in every Chrysaki gradient. -->
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0e4a38"/>
+      <stop offset="0.45" stop-color="#0c1a40"/>
+      <stop offset="1" stop-color="#1e1040"/>
+    </linearGradient>
+    <radialGradient id="depth" cx="0.5" cy="0.45" r="0.7">
+      <stop offset="0" stop-color="#0f1117" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0f1117" stop-opacity="0.55"/>
     </radialGradient>
     <linearGradient id="line" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#a383e3"/>
-      <stop offset="1" stop-color="#6fd3d6"/>
+      <stop offset="0" stop-color="#1a8a6a"/>
+      <stop offset="0.5" stop-color="#20969c"/>
+      <stop offset="1" stop-color="#583090"/>
+    </linearGradient>
+    <linearGradient id="facetL" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fcc96a"/>
+      <stop offset="1" stop-color="#fbb13c"/>
     </linearGradient>
     <radialGradient id="glow">
-      <stop offset="0" stop-color="#fbb13c" stop-opacity="0.75"/>
+      <stop offset="0" stop-color="#fbb13c" stop-opacity="0.6"/>
       <stop offset="1" stop-color="#fbb13c" stop-opacity="0"/>
     </radialGradient>
   </defs>
 
-  <!-- Night sky tile, with an amethyst dusk in the lower right. -->
-  <rect width="64" height="64" rx="12" fill="url(#sky)"/>
-  <rect width="64" height="64" rx="12" fill="url(#dusk)"/>
+  <!-- Chamfered tile: zero radius, 8 unit corner cuts. -->
+  <path d="M8 0 H56 L64 8 V56 L56 64 H8 L0 56 V8 Z" fill="url(#sky)"/>
+  <path d="M8 0 H56 L64 8 V56 L56 64 H8 L0 56 V8 Z" fill="url(#depth)"/>
+  <!-- Inner chamfered frame in border grey, with a teal hairline on the top edge. -->
+  <path d="M9.5 3 H54.5 L61 9.5 V54.5 L54.5 61 H9.5 L3 54.5 V9.5 Z" fill="none" stroke="#363a4f" stroke-width="0.6"/>
+  <path d="M9.5 3 H54.5" stroke="#20969c" stroke-width="0.8"/>
 
-  <!-- An orbit ring, the bar's workspace motif. -->
-  <circle cx="32" cy="34" r="24" fill="none" stroke="#6fd3d6" stroke-opacity="0.16" stroke-width="0.6"/>
-
-  <!-- Faint background stars. -->
-  <g fill="#d8ebfb">
-    <circle cx="9" cy="9" r="0.5" opacity="0.6"/>
-    <circle cx="55" cy="8" r="0.45" opacity="0.5"/>
-    <circle cx="8" cy="40" r="0.4" opacity="0.45"/>
-    <circle cx="57" cy="31" r="0.5" opacity="0.55"/>
-    <circle cx="16" cy="54" r="0.4" opacity="0.4"/>
-    <circle cx="47" cy="55" r="0.45" opacity="0.5"/>
-    <circle cx="22" cy="31" r="0.35" opacity="0.4"/>
-    <circle cx="44" cy="40" r="0.35" opacity="0.4"/>
+  <!-- Faint background stars, as tiny diamonds. -->
+  <g fill="#a0a4b8">
+    <path d="M10 13 l0.6 0.6 l-0.6 0.6 l-0.6 -0.6 Z" opacity="0.7"/>
+    <path d="M54 12 l0.5 0.5 l-0.5 0.5 l-0.5 -0.5 Z" opacity="0.6"/>
+    <path d="M8 41 l0.5 0.5 l-0.5 0.5 l-0.5 -0.5 Z" opacity="0.5"/>
+    <path d="M56 33 l0.6 0.6 l-0.6 0.6 l-0.6 -0.6 Z" opacity="0.6"/>
+    <path d="M16 53 l0.5 0.5 l-0.5 0.5 l-0.5 -0.5 Z" opacity="0.5"/>
+    <path d="M48 54 l0.5 0.5 l-0.5 0.5 l-0.5 -0.5 Z" opacity="0.55"/>
+    <path d="M21 32 l0.4 0.4 l-0.4 0.4 l-0.4 -0.4 Z" opacity="0.45"/>
+    <path d="M44 41 l0.4 0.4 l-0.4 0.4 l-0.4 -0.4 Z" opacity="0.45"/>
   </g>
 
-  <!-- The Tetsuhiro T as a constellation: a bowed crossbar and a tapering stem. -->
-  <path d="M12 20.5 L22 18 L32 17.5 L42 18 L52 20.5 M32 17.5 L31 29 L32.5 40.5 L31.5 52"
-        fill="none" stroke="url(#line)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  <!-- The Tetsuhiro T as a constellation. Straight segments, no curves. -->
+  <path d="M11 21 L21.5 18.5 L32 18 L42.5 18.5 L53 21 M32 18 L31 29.5 L32.5 41 L32 50.5"
+        fill="none" stroke="url(#line)" stroke-width="1.1" stroke-linejoin="miter"/>
 
-  <circle cx="31.5" cy="52" r="6" fill="url(#glow)"/>
-  <g fill="#f6f1e9">
-    <circle cx="12" cy="20.5" r="1.6"/>
-    <circle cx="22" cy="18" r="1.9"/>
-    <circle cx="32" cy="17.5" r="2.6"/>
-    <circle cx="42" cy="18" r="1.9"/>
-    <circle cx="52" cy="20.5" r="1.6"/>
-    <circle cx="31" cy="29" r="1.8"/>
-    <circle cx="32.5" cy="40.5" r="1.5"/>
+  <!-- Gem stars: four-point diamonds. The crossbar centre is a hexagon. -->
+  <g fill="#e0e2ea">
+    <path d="M11 19.2 L12.8 21 L11 22.8 L9.2 21 Z"/>
+    <path d="M21.5 16.4 L23.6 18.5 L21.5 20.6 L19.4 18.5 Z"/>
+    <path d="M42.5 16.4 L44.6 18.5 L42.5 20.6 L40.4 18.5 Z"/>
+    <path d="M53 19.2 L54.8 21 L53 22.8 L51.2 21 Z"/>
+    <path d="M31 27.5 L33 29.5 L31 31.5 L29 29.5 Z"/>
+    <path d="M32.5 39.3 L34.2 41 L32.5 42.7 L30.8 41 Z"/>
   </g>
-  <circle cx="31.5" cy="52" r="1.9" fill="#fbb13c"/>
+  <!-- Crossbar centre: an emerald-lit hexagon gem. -->
+  <path d="M32 14.8 L34.8 16.4 V19.6 L32 21.2 L29.2 19.6 V16.4 Z" fill="#1a8a6a" stroke="#e0e2ea" stroke-width="0.7"/>
+  <path d="M32 14.8 V21.2 M29.2 16.4 L34.8 19.6" stroke="#e0e2ea" stroke-width="0.35" opacity="0.6"/>
+
+  <!-- The tip: a faceted blonde hexagon gem with a glow. -->
+  <circle cx="32" cy="50.5" r="6.5" fill="url(#glow)"/>
+  <path d="M32 47 L35 48.75 V52.25 L32 54 L29 52.25 V48.75 Z" fill="url(#facetL)"/>
+  <path d="M32 47 L32 50.5 L35 48.75 M32 50.5 L29 52.25 M32 50.5 V54" stroke="#c4861c" stroke-width="0.4" fill="none"/>
 </svg>
