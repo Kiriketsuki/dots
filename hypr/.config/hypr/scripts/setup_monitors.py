@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Startup script that detects connected monitors by model name and applies
-correct resolutions and positions via hyprctl keyword monitor.
+correct resolutions and positions via hl.monitor() over hyprctl eval.
 
 This avoids hardcoding DP port numbers, which differ between machines:
 - Kinovo:      DP-3=W270, DP-2=X300, eDP-1 scale 1.5
@@ -10,6 +10,8 @@ This avoids hardcoding DP port numbers, which differ between machines:
 import json
 import socket
 import subprocess
+
+import hyprlua
 
 # Monitor profiles keyed by model substring (matched with 'in')
 MONITOR_PROFILES = {
@@ -27,15 +29,19 @@ LAPTOP_SCALE = {
 }
 
 
-def run_cmd(cmd):
-    subprocess.run(cmd, shell=True)
-
-
 def get_output(cmd):
     try:
         return subprocess.check_output(cmd, shell=True).decode("utf-8").strip()
     except Exception:
         return None
+
+
+def set_monitor(name, mode, x, scale):
+    """Apply one monitor rule. Hyprland 0.57 removed `hyprctl keyword monitor`."""
+    hyprlua.evaluate(
+        f"hl.monitor({{ output = {hyprlua.lua_str(name)}, mode = {hyprlua.lua_str(mode)}, "
+        f"position = \"{x}x0\", scale = {scale} }})"
+    )
 
 
 def get_profile(model: str):
@@ -74,7 +80,7 @@ def main():
 
     # Configure built-in display (leftmost)
     if laptop_mon:
-        run_cmd(f"hyprctl keyword monitor eDP-1,preferred,{x}x0,{edp_scale}")
+        set_monitor("eDP-1", "preferred", x, edp_scale)
         phys_width = laptop_mon.get("width", 1920)
         x += int(phys_width / edp_scale)
 
@@ -87,12 +93,12 @@ def main():
         if profile:
             res = profile["res"]
             scale = profile["scale"]
-            run_cmd(f"hyprctl keyword monitor {name},{res},{x}x0,{scale}")
+            set_monitor(name, res, x, scale)
             phys_width = int(res.split("x")[0])
             x += int(phys_width / scale)
         else:
             # Unknown monitor — use preferred settings and advance by its physical width
-            run_cmd(f"hyprctl keyword monitor {name},preferred,{x}x0,1")
+            set_monitor(name, "preferred", x, 1)
             phys_width = mon.get("width", 1920)
             x += phys_width
 

@@ -75,7 +75,7 @@ chrysaki/core/chrysaki.json                    (pinned chrysaki-core artifact)
       → swaync/style.css        (direct @import)
       → rofi/scripts/update_colors.py   → rofi/colors.rasi
       → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css
-      → hypr/scripts/update_colors.py   → hypr/colors.conf
+      → hypr/scripts/update_colors.py   → hypr/colors.lua
       → ghostty/scripts/update_colors.py → ghostty/colors
       → lazygit/scripts/update_colors.py → lazygit/colors.yml
       → btop/scripts/update_colors.py   → btop/themes/chrysaki.theme

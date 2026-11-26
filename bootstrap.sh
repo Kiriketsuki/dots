@@ -222,10 +222,14 @@ for f in ~/.bashrc ~/.gitconfig; do
         warn "Moved $f → $f.bak"
     fi
 done
-if [ -f ~/.config/hypr/hyprland.conf ] && [ ! -L ~/.config/hypr/hyprland.conf ]; then
-    mv ~/.config/hypr/hyprland.conf ~/.config/hypr/hyprland.conf.bak
-    warn "Moved ~/.config/hypr/hyprland.conf → .bak"
-fi
+# Hyprland 0.57+ reads hyprland.lua and writes a default one on first start.
+# A real file there blocks stow, so move it aside.
+for f in ~/.config/hypr/hyprland.lua ~/.config/hypr/hyprland.conf; do
+    if [ -f "$f" ] && [ ! -L "$f" ]; then
+        mv "$f" "$f.bak"
+        warn "Moved $f → $f.bak"
+    fi
+done
 
 # ─── 7. Stow dotfiles ─────────────────────────────────────────────────────────
 info "Stowing dotfiles..."
@@ -235,7 +239,7 @@ info "Stowing dotfiles..."
 mkdir -p ~/.config
 cd "$DOTS_DIR"
 stow ghostty backgrounds bash fontconfig git gtk hypr lazygit mime mpd \
-     rofi spicetify styles swaync theme waybar xdg-desktop-portal yazi zsh Code eza \
+     rofi spicetify styles swaync theme ttypicker waybar xdg-desktop-portal yazi zsh Code eza \
      btop atuin procs tealdeer
 
 # ─── 7b. Chrysaki submodule ────────────────────────────────────────────────

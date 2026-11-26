@@ -31,7 +31,7 @@ command -v "$GROMIT" >/dev/null 2>&1 \
     || die "$GROMIT is not installed. Install it with: yay -S gromit-mpx"
 
 current_submap() {
-    hyprctl submap 2>/dev/null | head -1 | tr -d '[:space:]'
+    hyprctl repl 'return hl.get_current_submap()' 2>/dev/null | head -1 | tr -d '[:space:]'
 }
 
 # Send a control flag to a running gromit-mpx.
@@ -55,7 +55,7 @@ indicate() {
 }
 
 leave_submap() {
-    hyprctl dispatch submap reset >/dev/null
+    hyprctl dispatch 'hl.dsp.submap("reset")' >/dev/null
 }
 
 # Hyprland does not honour the empty X input shape that gromit-mpx sets on its
@@ -90,9 +90,9 @@ set_overlay_interactive() {
     [[ -n "$addr" ]] || return 0
 
     if [[ "$want_focus" == "1" ]]; then
-        hyprctl dispatch setprop "address:$addr" no_focus 0 >/dev/null 2>&1 || true
+        hyprctl dispatch "hl.dsp.window.set_prop({ window = \"address:$addr\", prop = \"no_focus\", value = \"0\" })" >/dev/null 2>&1 || true
     else
-        hyprctl dispatch setprop "address:$addr" no_focus 1 >/dev/null 2>&1 || true
+        hyprctl dispatch "hl.dsp.window.set_prop({ window = \"address:$addr\", prop = \"no_focus\", value = \"1\" })" >/dev/null 2>&1 || true
     fi
 }
 
@@ -118,7 +118,7 @@ if [[ "$(current_submap)" == "$SUBMAP" ]]; then
     # Focus can still be sitting on the overlay; hand it back to the window
     # that had it before, otherwise keystrokes go nowhere.
     if [[ "$(hyprctl activewindow -j 2>/dev/null | grep -c '"title": "gromit-mpx"')" != "0" ]]; then
-        hyprctl dispatch focuscurrentorlast >/dev/null 2>&1 || true
+        hyprctl dispatch 'hl.dsp.focus({ last = true })' >/dev/null 2>&1 || true
     fi
     leave_submap
     indicate "✏  Annotation OFF" 1500 "Drawing kept · clicks pass through"
@@ -129,6 +129,6 @@ else
         disown
     fi
     set_overlay_interactive 1
-    hyprctl dispatch submap "$SUBMAP" >/dev/null
+    hyprctl dispatch "hl.dsp.submap(\"$SUBMAP\")" >/dev/null
     indicate "✏  Annotation ON" 3000 "Ctrl+Z undo · Ctrl+Y redo · Delete clear · Esc close"
 fi

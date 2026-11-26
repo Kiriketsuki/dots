@@ -33,7 +33,7 @@ chrysaki/ags/.config/ags/styles/_palette.scss  (single source of truth)
       → swaync/style.css      (direct @import + swaync/scripts/update_colors.py)
       → rofi/scripts/update_colors.py   → rofi colors.rasi (uses text-chrysaki-* tokens directly)
       → gtk/scripts/update_colors.py    → gtk-3.0/gtk.css
-      → hypr/.config/hypr/scripts/update_colors.py → hypr/colors.conf
+      → hypr/.config/hypr/scripts/update_colors.py → hypr/colors.lua
       → ghostty/scripts/update_colors.py → ghostty/colors
       → lazygit/.config/lazygit/scripts/update_colors.py → lazygit/colors.yml
       → btop/scripts/update_colors.py   → btop/themes/chrysaki.theme

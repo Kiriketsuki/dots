@@ -2,11 +2,7 @@ import sys
 import subprocess
 import json
 
-def run_cmd(cmd):
-    try:
-        subprocess.Popen(cmd, shell=True)
-    except:
-        pass
+import hyprlua
 
 def get_output(cmd):
     try:
@@ -57,7 +53,7 @@ def main():
     if target_ws > max_allowed_ws:
         return # Don't go to a monitor that doesn't exist
 
-    run_cmd(f"hyprctl dispatch movetoworkspace {target_ws}")
+    hyprlua.move_window_to_workspace(target_ws, wait=False)
 
 if __name__ == "__main__":
     main()

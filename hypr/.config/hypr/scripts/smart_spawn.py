@@ -2,11 +2,7 @@ import sys
 import subprocess
 import json
 
-def run_cmd(cmd):
-    try:
-        subprocess.Popen(cmd, shell=True)
-    except:
-        pass
+import hyprlua
 
 def get_output(cmd):
     try:
@@ -35,7 +31,7 @@ def main():
 
     # Single monitor: just launch on the current workspace
     if mon_count == 1:
-        run_cmd(f"hyprctl dispatch exec {app_command}")
+        hyprlua.exec_cmd(app_command)
         return
 
     active_ws = json.loads(get_output("hyprctl activeworkspace -j"))
@@ -66,10 +62,10 @@ def main():
     # 3. Execution
     if found_empty and target_ws != current_id:
         # If we found a better empty spot elsewhere, go there first
-        run_cmd(f"hyprctl dispatch workspace {target_ws}")
+        hyprlua.focus_workspace(target_ws)
     
     # Launch the app
-    run_cmd(f"hyprctl dispatch exec {app_command}")
+    hyprlua.exec_cmd(app_command)
 
 if __name__ == "__main__":
     main()

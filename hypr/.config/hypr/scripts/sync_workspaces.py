@@ -3,9 +3,7 @@ import subprocess
 import json
 import time
 
-def run_cmd(cmd):
-    # Use subprocess.run to ensure synchronous execution
-    subprocess.run(cmd, shell=True)
+import hyprlua
 
 def get_output(cmd):
     try:
@@ -32,7 +30,7 @@ def main():
 
     # Single-monitor: just switch workspace, no cross-monitor sync needed
     if len(monitors) == 1:
-        run_cmd(f"hyprctl dispatch workspace {base}")
+        hyprlua.focus_workspace(base)
         return
 
     # 2. Assign Workspaces to Connected Monitors
@@ -42,11 +40,14 @@ def main():
 
         # Attempt to move the workspace to the monitor first (if it exists)
         # This ensures that if the workspace is open elsewhere, it gets pulled here
-        run_cmd(f"hyprctl dispatch moveworkspacetomonitor {target_ws} {name}")
+        hyprlua.move_workspace_to_monitor(target_ws, name)
 
-        # Focus monitor and switch workspace atomically to avoid hitting a
-        # CReservedArea assertion in Hyprland 0.54.x during rapid dispatch
-        run_cmd(f"hyprctl --batch 'dispatch focusmonitor {name} ; dispatch workspace {target_ws}'")
+        # Focus monitor and switch workspace in one Lua call. Hyprland 0.54.x hit
+        # a CReservedArea assertion when these two came as separate dispatches.
+        hyprlua.evaluate(
+            f"hl.dispatch(hl.dsp.focus({{ monitor = {hyprlua.lua_str(name)} }})) "
+            f"hl.dispatch(hl.dsp.focus({{ workspace = {int(target_ws)} }}))"
+        )
         time.sleep(0.05)
 
     # 3. Prioritize Middle Monitor (Index 1) if available, else Left (Index 0)
@@ -54,7 +55,7 @@ def main():
     if monitors and len(monitors) > focus_idx:
         target_mon = monitors[focus_idx]
         # Just focus the monitor, the workspace is already set in the loop above
-        run_cmd(f"hyprctl dispatch focusmonitor {target_mon['name']}")
+        hyprlua.focus_monitor(target_mon['name'])
 
 if __name__ == "__main__":
     main()
