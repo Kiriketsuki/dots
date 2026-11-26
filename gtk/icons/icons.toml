@@ -1,0 +1,37 @@
+# Style file for the Thunar icon set. Every icon follows these rules.
+# It shares the bar's language (quickshell/.config/quickshell/icons.toml):
+# stroke 1.5, square caps, sharp corners. Duotone gives each icon a tinted
+# body, so it keeps its mass at 48 px in the icon view.
+# A change to a global rule means a redraw of the whole set.
+
+[product]
+note = "Thunar file manager icons in the Night Glass style: square glass, thin instrument lines, gem colours per file kind, read at 16 to 48 px."
+
+[canvas]
+size = 24
+padding = 2
+grid = 0.5
+
+[stroke]
+width = 1.5
+cap = "square"
+join = "miter"
+corner_radius = 0
+min_gap = 1.5
+
+[style]
+kind = "duotone"
+tone_opacity = 0.3
+detail = "medium"
+
+[output]
+sizes = [16, 24, 48]
+source_dir = "src"
+parts_dir = "parts"
+build_dir = "build"
+
+[metaphors]
+avoid = []
+
+[lint]
+ink_tolerance = 0.25

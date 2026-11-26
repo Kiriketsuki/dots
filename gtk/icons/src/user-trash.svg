@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="trash bin with a lid">
+  <path data-role="body" d="M6 8 H18 L17 21 H7 Z"/>
+  <path d="M3.5 8 H20.5"/>
+  <path d="M9.5 8 V5 H14.5 V8"/>
+  <path data-role="cut" d="M10 11.5 V17.5"/>
+  <path data-role="cut" d="M14 11.5 V17.5"/>
+</svg>

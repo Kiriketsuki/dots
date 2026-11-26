@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="page with mountains and a sun">
+  <use data-part="page"/>
+  <path data-role="cut" d="M8.5 18 L11 14.5 L13 16.5 L14 15.5 L15.5 18 Z"/>
+  <circle data-role="cut" cx="9.5" cy="10.5" r="0.5"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="folder with a music note">
+  <use data-part="folder"/>
+  <circle data-role="cut" cx="10.5" cy="15.5" r="0.5"/>
+  <path data-role="cut" d="M11 15.5 V13 H14"/>
+</svg>
