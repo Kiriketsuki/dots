@@ -14,3 +14,6 @@ x-scheme-handler/figma=figma-linux.desktop
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
 application/pdf=firefox.desktop
 x-scheme-handler/claude=com.anthropic.Claude.desktop
+x-scheme-handler/codex=chatgpt.desktop
+x-scheme-handler/t3code=t3code.desktop
+x-scheme-handler/slack=slack.desktop
