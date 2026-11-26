@@ -1,0 +1,34 @@
+# Style file for the product icon set. Every icon follows these rules.
+# A change to a global rule means a redraw of the whole set.
+
+[product]
+note = "Hyprland status bar in the Night Glass style: square glass, thin instrument lines, read at a glance at 14 to 16 px."
+
+[canvas]
+size = 24          # viewBox edge, in canvas units
+padding = 2        # clear border. Ink stays inside the live area.
+grid = 0.5         # anchor points snap to this step
+
+[stroke]
+width = 1.5
+cap = "square"     # butt | round | square. Square matches the zero-radius Night Glass panes.
+join = "miter"     # miter | round | bevel
+corner_radius = 0  # default rx for <rect>. A drawing rule for paths.
+min_gap = 1.5      # clear space between strokes that do not meet
+
+[style]
+kind = "outline"   # outline | duotone | solid
+tone_opacity = 0.3 # fill strength of body shapes in duotone
+detail = "low"  # low | medium | high. Caps the subpath count per icon.
+
+[output]
+sizes = [14, 16]
+source_dir = "icons/src"
+parts_dir = "icons/parts"
+build_dir = "icons/build"
+
+[metaphors]
+avoid = []
+
+[lint]
+ink_tolerance = 0.25 # allowed drift from the set median ink share

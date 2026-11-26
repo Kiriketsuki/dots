@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="bell with a clapper" data-waive="gap" data-waive-why="The flared lip meets the base at a sharp corner on purpose, and the wedge is under one pixel at 16 px.">
+  <path data-role="body" d="M4.5 16.5 Q6.5 15.5 6.5 11 A5.5 5.5 0 0 1 17.5 11 Q17.5 15.5 19.5 16.5 Z"/>
+  <path d="M12 3.5 V5.5"/>
+  <path d="M10.5 19.5 A1.5 1.5 0 0 0 13.5 19.5"/>
+</svg>
