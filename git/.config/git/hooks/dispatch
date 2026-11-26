@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Global git hook dispatcher. core.hooksPath points at this directory, which
+# would otherwise silence every repo-local hook. This script runs the global
+# hooks in <name>.d/ first, then the repo-local hook if one exists.
+#
+# Each hook name in this directory is a symlink to this file.
+set -euo pipefail
+
+hook_name=$(basename "$0")
+hook_dir=$(cd "$(dirname "$(readlink -f "$0")")" && pwd)
+
+# Global parts, in sorted order.
+if [[ -d $hook_dir/$hook_name.d ]]; then
+    for part in "$hook_dir/$hook_name.d"/*; do
+        [[ -x $part ]] || continue
+        "$part" "$@" </dev/stdin
+    done
+fi
+
+# Repo-local hook. --git-path hooks would honour core.hooksPath and point back
+# here, so build the path from --git-dir instead.
+local_hook=$(git rev-parse --git-dir 2>/dev/null)/hooks/$hook_name
+if [[ -x $local_hook && $(readlink -f "$local_hook") != $(readlink -f "$0") ]]; then
+    exec "$local_hook" "$@"
+fi

@@ -8,6 +8,10 @@
 [init]
     defaultBranch = main
 
+[core]
+    # Global hooks. See ~/.config/git/hooks/dispatch. Repo-local hooks still run.
+    hooksPath = ~/.config/git/hooks
+
 # ~/dev → personal
 [includeIf "gitdir:~/dev/"]
     path = ~/.gitconfig-personal

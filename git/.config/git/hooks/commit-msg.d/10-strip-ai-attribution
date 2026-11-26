@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Removes AI tool attribution from the commit message before git records it.
+# Covers Claude Code, Codex, Copilot, Gemini, Cursor and Aider trailers, the
+# "Generated with" footer, and the Claude-Session link.
+set -euo pipefail
+
+# The user turned AI attribution on by default on 2026-11-20. The hook now
+# strips only in a repo that opts in with: git config hooks.stripAiAttribution true
+[[ $(git config --type=bool --get hooks.stripAiAttribution 2>/dev/null || echo false) == true ]] || exit 0
+
+msg_file=$1
+[[ -f $msg_file ]] || exit 0
+
+tmp=$(mktemp)
+trap 'rm -f "$tmp"' EXIT
+
+grep -Ev \
+    -e '^Co-Authored-By:.*(claude|anthropic|codex|openai|copilot|github\.com/features/copilot|gemini|google|cursor|aider|noreply@anthropic\.com)' \
+    -e '^Claude-Session:' \
+    -e '^Codex-Session:' \
+    -e 'Generated with \[?(Claude Code|Codex|Copilot|Cursor|Aider)' \
+    -e '^Signed-off-by:.*(claude|codex|copilot)' \
+    "$msg_file" > "$tmp" || true
+
+# Collapse trailing blank lines the removal may leave behind.
+sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}' "$tmp"
+
+cat "$tmp" > "$msg_file"
