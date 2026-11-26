@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="wifi fan crossed out" data-waive="gap" data-waive-why="The slash crosses the arcs on purpose, so it reads as off.">
+  <circle data-role="body" cx="12" cy="18.5" r="0.5"/>
+  <path d="M9.5 15.5 A3.9 3.9 0 0 1 14.5 15.5"/>
+  <path d="M7.5 13 A7.11 7.11 0 0 1 16.5 13"/>
+  <path d="M5 10.5 A10.63 10.63 0 0 1 19 10.5"/>
+  <path d="M4.5 4.5 L19.5 19.5"/>
+</svg>

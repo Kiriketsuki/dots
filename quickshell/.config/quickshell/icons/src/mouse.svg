@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="computer mouse with a scroll wheel">
+  <rect data-role="body" x="6.5" y="3.5" width="11" height="17" rx="5.5"/>
+  <path data-role="cut" d="M12 7 V10"/>
+</svg>

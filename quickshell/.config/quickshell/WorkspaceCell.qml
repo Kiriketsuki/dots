@@ -5,6 +5,7 @@ Cell {
     required property var screenRef
 
     label: "Workspace · " + ws.activeId
+    icon: "workspaces"
     labelColor: Theme.tealLt
     OrbitWorkspaces {
         id: ws

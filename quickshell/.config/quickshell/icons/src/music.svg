@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="two beamed music notes">
+  <circle data-role="body" cx="7.5" cy="17.5" r="2.5"/>
+  <circle data-role="body" cx="17" cy="15.5" r="2.5"/>
+  <path d="M10 17.5 V6.5 L19.5 4.5 V15.5"/>
+</svg>

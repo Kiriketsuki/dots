@@ -5,12 +5,15 @@ Cell {
     id: root
     readonly property string shown: Net.name.length > 12 ? Net.name.slice(0, 11) + "…" : Net.name
     label: "Net · " + Net.kind
+    icon: Net.kind === "wired" ? "ethernet" : Net.kind === "offline" ? "wifi-off" : "wifi"
     labelColor: Theme.cerulean
 
     Row {
         spacing: 6
         height: 17
+        // Signal bars for wifi. The cell icon already shows the plug when wired.
         SignalIcon {
+            visible: Net.kind !== "wired"
             anchors.verticalCenter: parent.verticalCenter
             kind: Net.kind
             level: Net.bars

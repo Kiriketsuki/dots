@@ -12,6 +12,7 @@ Cell {
     Layout.preferredWidth: 380
     // Reverse-DNS app ids such as com.mitchellh.ghostty show only their last part.
     label: info.cls !== "" ? "Window · " + info.cls.split(".").pop() : "Window"
+    icon: "window"
     labelColor: Theme.cerulean
     Val {
         ui: true

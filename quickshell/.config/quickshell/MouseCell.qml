@@ -8,7 +8,7 @@ Cell {
     readonly property color tone: Mouse.presence === "error" ? Theme.err : root.low ? Theme.err : Theme.amLabel
 
     visible: Mouse.presence !== "absent"
-    // No label: the glyph says what the cell is, so it stays narrow.
+    // No label: the mouse icon says what the cell is, so it stays narrow.
     label: ""
     padding: 8
     opacity: Mouse.presence === "offline" ? 0.55 : 1
@@ -16,13 +16,11 @@ Cell {
     Row {
         spacing: 4
         height: 17
-        // A mouse glyph from the Nerd Font build, because Space Mono has no icons.
-        Text {
+        BarIcon {
             anchors.verticalCenter: parent.verticalCenter
-            text: "\u{f037d}"
+            name: "mouse"
+            size: 16
             color: root.low ? Theme.err : Mouse.online ? Theme.amLt : Theme.faint
-            font.family: "JetBrainsMono Nerd Font"
-            font.pointSize: Theme.pt(15)
         }
         Val {
             anchors.verticalCenter: parent.verticalCenter

@@ -10,6 +10,7 @@ Cell {
     PwObjectTracker { objects: root.sink ? [root.sink] : [] }
 
     label: "Vol · " + (muted ? "muted" : Math.round(vol * 100))
+    icon: "volume"
     labelColor: Theme.emerald
     onWheeled: dy => {
         if (sink && sink.audio)

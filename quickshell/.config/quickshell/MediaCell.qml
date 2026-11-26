@@ -11,7 +11,8 @@ Cell {
     }
     readonly property string line: player ? [player.trackArtist, player.trackTitle].filter(s => s && s.length).join(" · ") : ""
 
-    label: "☾ Now playing"
+    label: "Now playing"
+    icon: "music"
     labelColor: Theme.rhodolite
     // A click opens the media pane. MainBar wires that up.
 

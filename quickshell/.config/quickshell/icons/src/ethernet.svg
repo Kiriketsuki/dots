@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="network cable plug">
+  <path data-role="body" d="M7 4 H17 V13.5 H14.5 V17 H9.5 V13.5 H7 Z"/>
+  <path data-role="cut" d="M10.5 4 V7 M13.5 4 V7"/>
+  <path d="M12 17 V20.5"/>
+</svg>

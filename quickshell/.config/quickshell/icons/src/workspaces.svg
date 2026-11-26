@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="grid of four windows" data-waive="ink" data-waive-why="Four separate squares carry more outline than one shape. Smaller squares stop reading at 14 px.">
+  <rect data-role="body" x="5" y="5" width="5" height="5"/>
+  <rect x="14" y="5" width="5" height="5"/>
+  <rect x="5" y="14" width="5" height="5"/>
+  <rect x="14" y="14" width="5" height="5"/>
+</svg>

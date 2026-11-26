@@ -3,6 +3,8 @@ import QtQuick
 // CPU and RAM as two stacked gauges, sized like the usaKi gauges.
 Cell {
     label: "<font color='" + Theme.topaz + "'>CPU " + Math.round(Cpu.usage * 100) + "</font> · <font color='" + Theme.peridot + "'>RAM " + Math.round(Cpu.ram * 100) + "</font>"
+    icon: "cpu"
+    iconColor: Theme.topaz
     labelColor: Theme.faint
     Item {
         width: 70

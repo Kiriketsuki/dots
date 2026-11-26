@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="speaker with two sound waves" data-waive="gap" data-waive-why="The speaker cone meets its front at an acute corner on purpose. The wedge is under one pixel at 16 px.">
+  <path data-role="body" d="M3.5 9.5 H7 L11.5 5.5 V18.5 L7 14.5 H3.5 Z"/>
+  <path d="M15 9 A4.2 4.2 0 0 1 15 15"/>
+  <path d="M17.5 6 A8 8 0 0 1 17.5 18"/>
+</svg>

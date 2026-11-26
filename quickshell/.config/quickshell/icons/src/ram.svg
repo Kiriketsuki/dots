@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="memory stick with chips and pins" data-waive="ink" data-waive-why="A memory stick is a dense object. Fewer chips stop it reading as RAM.">
+  <rect data-role="body" x="3.5" y="6.5" width="17" height="9"/>
+  <rect data-role="cut" x="6.5" y="9.5" width="3.5" height="3"/>
+  <rect data-role="cut" x="14" y="9.5" width="3.5" height="3"/>
+  <path d="M8 15.5 V18 M16 15.5 V18"/>
+</svg>

@@ -8,6 +8,7 @@ Cell {
     readonly property real week: have && pool.week !== null ? pool.week : 0
 
     label: "Claude · <font color='" + Theme.tealLt + "'>" + Agents.count + " live</font>"
+    icon: "orbit"
     labelColor: Theme.bronze
     opacity: have && pool.stale ? 0.55 : 1
 

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-metaphor="sun with a planet on its orbit ring" data-waive="gap" data-waive-why="The planet sits on its orbit ring on purpose, as in the bar's workspace rings.">
+  <circle data-role="body" cx="12" cy="12" r="2.5"/>
+  <circle cx="12" cy="12" r="7.5"/>
+  <circle data-role="body" cx="12" cy="4.5" r="1.5"/>
+</svg>

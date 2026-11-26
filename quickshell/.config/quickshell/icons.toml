@@ -19,7 +19,7 @@ min_gap = 1.5      # clear space between strokes that do not meet
 [style]
 kind = "outline"   # outline | duotone | solid
 tone_opacity = 0.3 # fill strength of body shapes in duotone
-detail = "low"  # low | medium | high. Caps the subpath count per icon.
+detail = "medium"  # low | medium | high. Caps the subpath count per icon.
 
 [output]
 sizes = [14, 16]

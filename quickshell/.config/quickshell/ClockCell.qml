@@ -5,6 +5,7 @@ Cell {
     id: root
     SystemClock { id: clock; precision: SystemClock.Minutes }
     label: Qt.formatDateTime(clock.date, "ddd d MMM")
+    icon: "clock"
     labelColor: Theme.sky
     Text {
         text: Qt.formatDateTime(clock.date, "hh:mm")
