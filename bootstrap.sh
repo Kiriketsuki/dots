@@ -32,7 +32,7 @@ YAY="yay -S --needed --noconfirm --answerclean None --answerdiff None --answered
 info "Installing packages..."
 $YAY \
     zsh ghostty neovim visual-studio-code-bin \
-    hyprland hyprlock hyprpaper hyprpicker \
+    hyprland hyprlock hyprpaper hyprpicker sddm \
     quickshell playerctl cliphist unicode-emoji \
     uwsm \
     thunar thunar-archive-plugin thunar-volman tumbler papirus-icon-theme mpd \
@@ -330,16 +330,16 @@ zinit update --all
 " 2>/dev/null && success "zinit plugins pre-downloaded" || \
     warn "zinit pre-download had warnings — plugins will load on first zsh launch"
 
-# ─── 9. TTY autologin (replaces display manager) ──────────────────────────────
-info "Configuring TTY autologin..."
-try sudo systemctl disable lightdm sddm gdm
-sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
-sudo tee /etc/systemd/system/getty@tty1.service.d/autologin.conf > /dev/null << EOF
-[Service]
-ExecStart=
-ExecStart=-/sbin/agetty --autologin $USER --noclear %I \$TERM
-EOF
-echo "[ok] TTY autologin configured"
+# ─── 9. SDDM login screen (Night Glass theme) ────────────────────────────────
+# SDDM is the only password prompt. Hyprland does not start hyprlock at login.
+info "Configuring SDDM..."
+try sudo systemctl disable lightdm gdm
+sudo rm -f /etc/systemd/system/getty@tty1.service.d/autologin.conf
+sudo cp -r "$DOTS_DIR/system/usr/share/sddm/themes/night-glass" /usr/share/sddm/themes/
+sudo mkdir -p /etc/sddm.conf.d
+sudo cp "$DOTS_DIR/system/etc/sddm.conf.d/theme.conf" /etc/sddm.conf.d/theme.conf
+sudo systemctl enable sddm
+echo "[ok] SDDM enabled with the Night Glass theme"
 
 # ─── 10. PostgreSQL ───────────────────────────────────────────────────────────
 if [ ! -f /var/lib/postgres/data/PG_VERSION ]; then
@@ -359,7 +359,7 @@ echo ""
 success "Bootstrap complete. Reboot to start Hyprland."
 echo ""
 echo "  Next steps:"
-echo "    1. Reboot  (required: docker group, TTY autologin, kernel modules)"
+echo "    1. Reboot  (required: docker group, SDDM, kernel modules)"
 echo "    2. Connect Tailscale:     sudo tailscale up"
 echo "    3. Set wallpaper:         ~/.config/hypr/scripts/wallpaper.sh"
 echo "    4. Set up GitHub:         ~/dots/git/gh-setup.sh"

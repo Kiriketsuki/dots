@@ -9,7 +9,7 @@ git clone --recurse-submodules https://github.com/Kiriketsuki/dots.git ~/dots
 cd ~/dots && bash bootstrap.sh
 ```
 
-Then reboot. Hyprland starts automatically via TTY autologin + uwsm.
+Then reboot. SDDM shows the Night Glass login screen and starts Hyprland through uwsm.
 
 ## Contents
 
@@ -54,7 +54,7 @@ Then reboot. Hyprland starts automatically via TTY autologin + uwsm.
 8. Backs up conflicting config files, then stows all dotfile modules
 9. Initialises the Chrysaki submodule and symlinks tmux + VSCode configs
 10. Sets `zsh` as the default shell, installs Zinit + plugins
-11. Configures TTY autologin on tty1 (no display manager)
+11. Enables SDDM with the Night Glass theme
 12. Initialises PostgreSQL, refreshes font cache
 13. Applies the Chrysaki color theme across all apps
 
