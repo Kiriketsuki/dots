@@ -28,30 +28,35 @@ zinit light zsh-users/zsh-completions
 # Set the directory we want to store zinit and plugins
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 
-# Load completions (full rebuild once per day; cached on re-source)
+# Load completions. The full rebuild runs once per day, else the cache loads.
+# The glob runs as a function argument, because [[ ]] does not expand globs.
+# The old [[ -n file(#qN.mh+24) ]] test was always true and rebuilt every time.
 autoload -U compinit
-if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
-  compinit
-else
-  compinit -C
-fi
+() {
+  if (( $# )); then compinit; else compinit -C; fi
+} ${ZDOTDIR:-$HOME}/.zcompdump(N.mh+24)
 
 zinit cdreplay -q
 
-# Add in plugins that need to be loaded after compinit
-zinit light zsh-users/zsh-autosuggestions
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light Aloxaf/fzf-tab
+# Turbo mode: these load right after the first prompt, so the prompt does not
+# wait for them. The order matters. fzf-tab goes before the widget wrappers,
+# and syntax highlighting goes last.
+zinit wait lucid for \
+    Aloxaf/fzf-tab \
+  atload'_zsh_autosuggest_start' \
+    zsh-users/zsh-autosuggestions \
+    zsh-users/zsh-syntax-highlighting
 
-# Add in snippets
-zinit snippet OMZL::git.zsh
-zinit snippet OMZP::git
-zinit snippet OMZP::sudo
-zinit snippet OMZP::archlinux
-zinit snippet OMZP::aws
-zinit snippet OMZP::kubectl
-zinit snippet OMZP::kubectx
-zinit snippet OMZP::command-not-found
+# Oh My Zsh snippets: aliases and helpers, also in turbo mode.
+zinit wait lucid for \
+    OMZL::git.zsh \
+    OMZP::git \
+    OMZP::sudo \
+    OMZP::archlinux \
+    OMZP::aws \
+    OMZP::kubectl \
+    OMZP::kubectx \
+    OMZP::command-not-found
 
 # Keybindings
 bindkey -e
