@@ -76,7 +76,7 @@
           {
             "type": "command",
             "data": {
-              "command": "hyprctl dispatch workspace m+1"
+              "command": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"m+1\" })'"
             },
             "name": "Next Workspace",
             "icon": "arrow_forward",
@@ -91,7 +91,7 @@
               {
                 "type": "command",
                 "data": {
-                  "command": "hyprctl dispatch fullscreen 1"
+                  "command": "hyprctl dispatch 'hl.dsp.window.fullscreen({ mode = \"maximized\" })'"
                 },
                 "name": "Maximize",
                 "icon": "fullscreen",
@@ -100,7 +100,7 @@
               {
                 "type": "command",
                 "data": {
-                  "command": "hyprctl dispatch togglefloating"
+                  "command": "hyprctl dispatch 'hl.dsp.window.float({ action = \"toggle\" })'"
                 },
                 "name": "Float",
                 "icon": "picture_in_picture",
@@ -118,7 +118,7 @@
               {
                 "type": "command",
                 "data": {
-                  "command": "hyprctl dispatch killactive"
+                  "command": "hyprctl dispatch 'hl.dsp.window.close()'"
                 },
                 "name": "Close",
                 "icon": "close",
@@ -235,7 +235,7 @@
           {
             "type": "command",
             "data": {
-              "command": "hyprctl dispatch workspace m-1"
+              "command": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"m-1\" })'"
             },
             "name": "Previous Workspace",
             "icon": "arrow_back",
