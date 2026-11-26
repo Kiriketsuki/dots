@@ -41,4 +41,10 @@ ShellRoot {
         modelData: shell.mainScreen
         notify: notifySvc
     }
+
+    // A slim bar on every other monitor.
+    Variants {
+        model: Quickshell.screens.filter(s => s !== shell.mainScreen)
+        SideBar {}
+    }
 }

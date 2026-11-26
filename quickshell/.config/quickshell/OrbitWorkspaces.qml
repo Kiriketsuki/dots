@@ -9,6 +9,9 @@ Row {
     id: root
     spacing: 10
 
+    // When set, the row shows only this screen's group. A side bar uses it.
+    property var onlyScreen: null
+
     // Quickshell.screens always has positions. Hyprland.monitors can be empty for a moment
     // after a reload.
     readonly property var screensByX: Quickshell.screens.slice().sort((a, b) => a.x - b.x)
@@ -49,10 +52,11 @@ Row {
             required property int index
             spacing: 4
             readonly property var items: root.groupFor(index, modelData)
-            visible: items.length > 0
+            readonly property bool picked: !root.onlyScreen || modelData.name === root.onlyScreen.name
+            visible: picked && items.length > 0
             // A short dashed rule splits one monitor's group from the next.
             DashedLine {
-                visible: group.index > 0
+                visible: group.index > 0 && !root.onlyScreen
                 width: 1
                 height: 17
             }

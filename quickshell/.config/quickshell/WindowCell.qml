@@ -4,7 +4,8 @@ import QtQuick.Layouts
 Cell {
     id: root
     required property var screenRef
-    WindowInfo { id: info; screenRef: root.screenRef }
+    property bool followFocus: Theme.singleBar
+    WindowInfo { id: info; screenRef: root.screenRef; followFocus: root.followFocus }
 
     // A fixed width, so the music cell after it stays in place when the title changes.
     Layout.minimumWidth: 380

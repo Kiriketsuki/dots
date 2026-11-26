@@ -7,13 +7,14 @@ import Quickshell.Hyprland
 QtObject {
     id: root
     required property var screenRef
+    // The main bar follows the focused window on any monitor. A side bar shows its own monitor.
+    property bool followFocus: Theme.singleBar
 
     readonly property var mon: Hyprland.monitorFor(screenRef)
     readonly property var ws: mon ? mon.activeWorkspace : null
     readonly property var top: {
         const act = Hyprland.activeToplevel;
-        // The one bar follows the focused window on any monitor.
-        if (Theme.singleBar)
+        if (root.followFocus)
             return act;
         if (act && act.workspace && ws && act.workspace.id === ws.id)
             return act;
