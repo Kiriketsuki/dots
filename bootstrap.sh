@@ -242,6 +242,10 @@ stow ghostty backgrounds bash fontconfig git gtk hypr lazygit mime mpd \
      rofi spicetify styles quickshell fonts theme xdg-desktop-portal zsh Code eza \
      btop atuin procs tealdeer kando solaar gromit tmux
 
+# GTK apps on Wayland read the theme from gsettings, not from settings.ini.
+gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+
 # ─── 7b. Chrysaki submodule ────────────────────────────────────────────────
 info "Initialising Chrysaki submodule..."
 git -C "$DOTS_DIR" submodule update --init --recursive
