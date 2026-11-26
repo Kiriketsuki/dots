@@ -236,7 +236,9 @@ info "Stowing dotfiles..."
 # Ensure ~/.config is a real directory before stowing.
 # Without this, stow folds the entire .config as a symlink into the first
 # stowed package that uses it, breaking tools that write into ~/.config.
-mkdir -p ~/.config
+# update-mime-database writes its cache next to the packages folder, so
+# that folder must be real too, or the cache lands in the repo.
+mkdir -p ~/.config ~/.local/share/mime/packages
 cd "$DOTS_DIR"
 stow ghostty backgrounds bash fontconfig git gtk hypr lazygit mime mpd \
      spicetify styles quickshell fonts theme xdg-desktop-portal zsh Code eza \
@@ -245,6 +247,8 @@ stow ghostty backgrounds bash fontconfig git gtk hypr lazygit mime mpd \
 # The Chrysaki icon theme is Papirus-Dark with teal folders. It lives in
 # ~/.local/share/icons and links into the Papirus package.
 python3 "$DOTS_DIR/gtk/scripts/make_icon_theme.py" teal
+# The mime package adds icon overrides, such as the PDF icon.
+update-mime-database ~/.local/share/mime
 
 # ─── 7b. Chrysaki submodule ────────────────────────────────────────────────
 info "Initialising Chrysaki submodule..."

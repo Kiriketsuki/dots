@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The system database gives PDF the x-office-document icon. GIO lists
+     that name first, so Thunar never asks for application-pdf. This
+     override makes PDF use its own icon from the Chrysaki theme. -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/pdf">
+    <icon name="application-pdf"/>
+    <generic-icon name="application-pdf"/>
+  </mime-type>
+</mime-info>
