@@ -109,7 +109,7 @@
               {
                 "type": "command",
                 "data": {
-                  "command": "rofi -show window"
+                  "command": "qs ipc call launcher open windows"
                 },
                 "name": "Switch",
                 "icon": "tab",
@@ -250,7 +250,7 @@
               {
                 "type": "command",
                 "data": {
-                  "command": "rofi -show drun"
+                  "command": "qs ipc call launcher open apps"
                 },
                 "name": "Launcher",
                 "icon": "search",
@@ -259,7 +259,7 @@
               {
                 "type": "command",
                 "data": {
-                  "command": "/home/kiriketsuki/dots/rofi/scripts/powermenu.sh"
+                  "command": "qs ipc call launcher open power"
                 },
                 "name": "Power Menu",
                 "icon": "power_settings_new",

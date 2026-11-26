@@ -21,7 +21,10 @@ hl.exec_cmd("python3 " .. scripts .. "/setup_monitors.py")
 
 local terminal    = "ghostty"
 local fileManager = "thunar"
-local menu        = "rofi -show drun -modi drun,run -show-icons"
+-- The Quickshell launcher. `launcher(mode)` opens one of its modes.
+local function launcher(mode)
+    return "qs ipc call launcher toggle " .. mode
+end
 
 -------------------
 ---- AUTOSTART ----
@@ -204,14 +207,20 @@ end
 
 hl.bind(key("Return"),      spawn(terminal))
 hl.bind(key("W"),           hl.dsp.window.close())
-hl.bind(key("M"),           exec("~/dots/rofi/scripts/powermenu.sh"))
+hl.bind(key("M"),           exec(launcher("power")))
 hl.bind(key("F"),           exec(fileManager))
 hl.bind(key("V"),           hl.dsp.window.float({ action = "toggle" }))
-hl.bind(key("space"),       exec(menu))
+hl.bind(key("space"),       exec(launcher("apps")))
+hl.bind(key("Tab"),         exec(launcher("windows")))
+hl.bind(key("SHIFT + V"),   exec(launcher("clipboard")))
+hl.bind(key("period"),      exec(launcher("emoji")))
+hl.bind(key("equal"),       exec(launcher("calc")))
+-- rofi stays on SUPER+ALT+space as a fallback until the launcher has a full day of use.
+hl.bind(key("ALT + space"), exec("rofi -show drun -modi drun,run -show-icons"))
 hl.bind(key("P"),           hl.dsp.window.pseudo())
 hl.bind(key("J"),           hl.dsp.layout("togglesplit"))
 hl.bind(key("B"),           spawn("firefox"))
-hl.bind(key("SHIFT + B"),   exec("~/dots/rofi/scripts/firefox_profiles.sh --rofi"))
+hl.bind(key("SHIFT + B"),   exec(launcher("firefox")))
 hl.bind(key("C"),           spawn("code"))
 hl.bind(key("O"),           exec("code ~/dev/obKidian"))
 hl.bind(key("L"),           exec(scripts .. "/lock.sh"))
@@ -429,3 +438,12 @@ for _, ns in ipairs({
         ignore_alpha = 0,
     })
 end
+
+-- The launcher covers the screen with a faint dim layer. ignore_alpha keeps the
+-- blur to the launcher box, so the dim layer does not blur the whole screen.
+hl.layer_rule({
+    name = "qs-launcher-blur",
+    match = { namespace = "qs-launcher" },
+    blur = true,
+    ignore_alpha = 0.5,
+})

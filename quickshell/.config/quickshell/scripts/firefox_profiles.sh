@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # Fuzzy-pick a Firefox user profile and open it.
 #
-# Usage: firefox_profiles.sh [--rofi | --list] [query]
-#   In a terminal, fzf picks the profile. Elsewhere, or with --rofi, rofi does.
-#   A query that matches one profile opens it with no prompt.
+# Usage: firefox_profiles.sh [--list | --open NAME] [query]
+#   In a terminal, fzf picks the profile. A query that matches one profile
+#   opens it with no prompt.
 #   --list prints the profile names and paths and opens nothing.
+#   --open NAME opens the profile with that exact name. The Quickshell
+#   launcher uses --list and --open.
 #
 # Firefox keeps the user profiles of the profile switcher in a profile group
 # database, not in profiles.ini. profiles.ini names the group by StoreID.
@@ -12,19 +14,16 @@
 set -euo pipefail
 
 FF_DIR="$HOME/.mozilla/firefox"
-ROFI_THEME="$HOME/.config/rofi/jovian/theme.rasi"
-
-use_rofi=0
 list_only=0
+open_name=""
 case "${1:-}" in
---rofi) use_rofi=1; shift ;;
 --list) list_only=1; shift ;;
+--open) open_name="${2:-}"; shift 2 || shift ;;
 esac
 query="${*:-}"
-[[ -t 0 && -t 1 ]] || use_rofi=1
 
 die() {
-	if [[ $use_rofi -eq 1 ]] && command -v notify-send >/dev/null; then
+	if [[ ! -t 2 ]] && command -v notify-send >/dev/null; then
 		notify-send -a Firefox "Firefox profiles" "$1"
 	fi
 	echo "firefox_profiles: $1" >&2
@@ -58,12 +57,8 @@ pick_fzf() {
 	cut -f1 <<<"$rows" | fzf --query="$query" --select-1 --exit-0 --prompt='firefox  ' --height=40% --reverse
 }
 
-pick_rofi() {
-	cut -f1 <<<"$rows" | rofi -dmenu -i -matching fuzzy -p ' firefox' -filter "$query" -theme "$ROFI_THEME"
-}
-
-if [[ $use_rofi -eq 1 ]]; then
-	name="$(pick_rofi || true)"
+if [[ -n "$open_name" ]]; then
+	name="$open_name"
 else
 	name="$(pick_fzf || true)"
 fi

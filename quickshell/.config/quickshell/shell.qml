@@ -33,6 +33,9 @@ ShellRoot {
         }
     }
 
+    // The launcher opens on the focused monitor. It replaces rofi.
+    Launcher {}
+
     // One bar, on the main monitor. Notifications show there too.
     MainBar {
         modelData: shell.mainScreen
