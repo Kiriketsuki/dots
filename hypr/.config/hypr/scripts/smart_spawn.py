@@ -49,11 +49,11 @@ def main():
 
     # 2. Check Logic: Current -> Next Monitor -> Next Monitor
     # We only check "slots" that actually correspond to connected monitors
-    for i in range(mon_count):
-        candidate = base + (i * 10)
-        
-        # If this candidate is the one we are already on, check if it's empty
-        # If it's a different one (spillover), check if it's empty
+    # The current workspace comes first. Before this order, a spawn on DP-2
+    # checked the laptop's slot first and could jump to the laptop screen.
+    slots = [base + (i * 10) for i in range(mon_count)]
+    candidates = [current_id] + [c for c in slots if c != current_id]
+    for candidate in candidates:
         if is_ws_empty(candidate):
             target_ws = candidate
             found_empty = True

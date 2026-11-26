@@ -69,6 +69,8 @@ path="$(awk -F'\t' -v n="$name" '$1 == n { print $2; exit }' <<<"$rows")"
 [[ "$path" == /* ]] || path="$FF_DIR/$path"
 [[ -d "$path" ]] || die "The folder of profile $name does not exist: $path"
 
-# Firefox hands the call to the window that already runs this profile, if
-# one does. setsid keeps the browser alive after the terminal closes.
-setsid -f firefox --profile "$path" >/dev/null 2>&1
+# Firefox hands the call to the instance that already runs this profile, if
+# one does. Without --new-window that instance only raises an old window,
+# which can sit on another monitor. setsid keeps the browser alive after the
+# terminal closes.
+setsid -f firefox --profile "$path" --new-window >/dev/null 2>&1

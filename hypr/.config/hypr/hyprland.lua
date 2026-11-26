@@ -216,7 +216,9 @@ hl.bind(key("period"),      exec(launcher("emoji")))
 hl.bind(key("equal"),       exec(launcher("calc")))
 hl.bind(key("P"),           hl.dsp.window.pseudo())
 hl.bind(key("J"),           hl.dsp.layout("togglesplit"))
-hl.bind(key("B"),           spawn("firefox"))
+-- A running Firefox only raises an old window for a bare `firefox`.
+-- --new-window makes it open a window on the current workspace.
+hl.bind(key("B"),           spawn("firefox --new-window"))
 hl.bind(key("SHIFT + B"),   exec(launcher("firefox")))
 hl.bind(key("C"),           spawn("code"))
 hl.bind(key("O"),           exec("code ~/dev/obKidian"))
