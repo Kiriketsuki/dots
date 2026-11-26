@@ -482,6 +482,8 @@ Scope {
         function setQuery(text: string): void { root.setQuery(text); }
         function pick(index: int): void { root.pick(index); }
         function setDry(on: bool): void { root.dryRun = on; }
+        // A hot reload turns dry run off. A test checks this before any pick.
+        function isDry(): bool { return root.dryRun; }
         function lastRun(): string { return root.lastRun; }
         function rows(): string {
             return root.rows.slice(0, 12).map((r, i) => (i === root.current ? "> " : "  ") + r.title + (r.sub ? "  |  " + r.sub : "")).join("\n");
