@@ -1,4 +1,5 @@
 {
+    "C_Cpp.intelliSenseEngine": "disabled",
     "editor.accessibilitySupport": "off",
     "git.ignoreWindowsGit27Warning": true,
     "git.enableSmartCommit": true,
@@ -117,13 +118,13 @@
     "github.copilot.enable": {
         "*": true,
         "plaintext": true,
-        "markdown": true,
+        "markdown": false,
         "scminput": false,
         "yaml": true,
         "java": true,
         "vue": true,
         "javascript": true,
-        "python": true,
+        "python": false,
     },
     "java.codeGeneration.useBlocks": true,
     "java.completion.guessMethodArguments": true,
@@ -135,6 +136,7 @@
     "redhat.telemetry.enabled": true,
     "editor.cursorSmoothCaretAnimation": "on",
     "editor.cursorBlinking": "phase",
+    "editor.cursorStyle": "block",
     "editor.smoothScrolling": true,
     "gitlens.gitCommands.skipConfirmations": ["fetch:command", "stash-push:command", "switch:command", "push:command"],
     "arduino.clearOutputOnBuild": true,
@@ -323,5 +325,6 @@
     "claudeCode.usePythonEnvironment": false,
     "python.terminal.activateEnvironment": false,
     "vscode_custom_css.imports": ["file:///home/kiriketsuki/.vscode/extensions/chrysaki-theme-2.0.0/chrysaki-workbench.css"],
-    "workbench.colorTheme": "One Dark Pro Darker",
+    "workbench.colorTheme": "Chrysaki",
+    "chat.disableAIFeatures": true,
 }

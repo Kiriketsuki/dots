@@ -1,6 +1,6 @@
 *.log
-Code/**
-!Code/.config/User/settings.json
+# The Code package holds only User/settings.json. VS Code keeps its runtime
+# state in the real ~/.config/Code folder, outside dots.
 .gitnexus
 __pycache__/
 *.pyc
