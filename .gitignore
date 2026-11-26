@@ -5,3 +5,5 @@ Code/**
 __pycache__/
 *.pyc
 *.bak
+# wallpaper.sh rewrites these symlinks at every login.
+backgrounds/.config/backgrounds/.current_*
