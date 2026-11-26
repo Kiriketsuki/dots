@@ -6,5 +6,5 @@
 set -u
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
-gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'
+gsettings set org.gnome.desktop.interface icon-theme 'Chrysaki'
 gsettings set org.gnome.desktop.interface font-name 'Red Hat Mono 11'

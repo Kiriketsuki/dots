@@ -35,7 +35,7 @@ $YAY \
     hyprland hyprlock hyprpaper hyprpicker \
     quickshell playerctl cliphist unicode-emoji \
     uwsm \
-    thunar thunar-archive-plugin thunar-volman tumbler mpd \
+    thunar thunar-archive-plugin thunar-volman tumbler papirus-icon-theme mpd \
     fontconfig redhat-fonts ttf-ibmplex-mono-nerd ttf-iosevkatermslab-nerd ttf-jetbrains-mono-nerd \
     noto-fonts-cjk noto-fonts-emoji \
     xdg-desktop-portal-hyprland xdg-utils \
@@ -241,6 +241,10 @@ cd "$DOTS_DIR"
 stow ghostty backgrounds bash fontconfig git gtk hypr lazygit mime mpd \
      spicetify styles quickshell fonts theme xdg-desktop-portal zsh Code eza \
      btop atuin procs tealdeer kando solaar gromit tmux
+
+# The Chrysaki icon theme is Papirus-Dark with teal folders. It lives in
+# ~/.local/share/icons and links into the Papirus package.
+python3 "$DOTS_DIR/gtk/scripts/make_icon_theme.py" teal
 
 # ─── 7b. Chrysaki submodule ────────────────────────────────────────────────
 info "Initialising Chrysaki submodule..."

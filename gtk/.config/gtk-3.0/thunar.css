@@ -1,0 +1,280 @@
+/* Thunar in Night Glass. It matches the Quickshell bar and the launcher.
+   The colours copy quickshell/.config/quickshell/Theme.qml. The window is
+   translucent, and Hyprland blurs the desktop behind it.
+   gtk.css imports this file. Every rule starts with .thunar, so the more
+   specific selector wins over the generic rules in gtk.css. */
+
+@define-color ng_glass rgba(13, 21, 38, 0.84);
+@define-color ng_pane rgba(14, 20, 44, 0.62);
+@define-color ng_side rgba(8, 13, 28, 0.55);
+@define-color ng_text #f6f1e9;
+@define-color ng_body #e8e2d6;
+@define-color ng_muted #b3a998;
+@define-color ng_faint #8a93ad;
+@define-color ng_rule rgba(159, 208, 240, 0.16);
+@define-color ng_line rgba(159, 208, 240, 0.22);
+@define-color ng_sky #9fd0f0;
+@define-color ng_am #a383e3;
+@define-color ng_am_mid #7e52c4;
+@define-color ng_teal #20969c;
+@define-color ng_teal_lt #6fd3d6;
+
+/* Window */
+
+.thunar {
+    background-color: @ng_glass;
+    color: @ng_body;
+    font-family: "Space Grotesk";
+    font-size: 11pt;
+}
+
+.thunar menubar {
+    background-color: transparent;
+    border-bottom: 1px solid @ng_rule;
+    font-family: "Space Mono";
+    font-size: 9pt;
+}
+
+/* Toolbar: flat buttons with a hairline ring, as in the bar's panes. */
+
+.thunar toolbar {
+    background-color: transparent;
+    border-bottom: 1px solid @ng_rule;
+    padding: 6px 8px;
+}
+
+.thunar toolbar button {
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 4px 6px;
+    color: @ng_muted;
+    -gtk-icon-shadow: none;
+}
+
+.thunar toolbar button:hover {
+    background-color: alpha(@ng_teal, 0.1);
+    border-color: alpha(@ng_teal, 0.6);
+    color: @ng_text;
+}
+
+.thunar toolbar button:active,
+.thunar toolbar button:checked {
+    background-color: alpha(@ng_teal, 0.2);
+    border-color: @ng_teal;
+    color: @ng_text;
+}
+
+.thunar toolbar button:disabled {
+    opacity: 0.35;
+}
+
+/* Location bar */
+
+.thunar entry {
+    background-color: rgba(159, 208, 240, 0.04);
+    background-image: none;
+    border: 1px solid @ng_line;
+    border-radius: 0;
+    box-shadow: none;
+    color: @ng_text;
+    caret-color: @ng_teal_lt;
+    font-family: "Space Mono";
+    font-size: 10pt;
+    padding: 4px 10px;
+    min-height: 26px;
+}
+
+.thunar entry:focus {
+    border-color: @ng_teal;
+}
+
+.thunar entry selection {
+    background-color: alpha(@ng_teal, 0.45);
+    color: @ng_text;
+}
+
+/* Path buttons, when the location bar shows buttons instead of an entry. */
+.thunar .path-bar button {
+    font-family: "Space Mono";
+    font-size: 9pt;
+    color: @ng_muted;
+}
+
+/* Side pane */
+
+.thunar .sidebar,
+.thunar .sidebar.view,
+.thunar .sidebar treeview,
+.thunar .sidebar viewport {
+    background-color: @ng_side;
+    color: @ng_body;
+    border-right: 1px solid @ng_rule;
+}
+
+.thunar .sidebar treeview.view {
+    padding: 2px 0;
+}
+
+.thunar .sidebar .view:hover,
+.thunar .sidebar treeview.view:hover {
+    background-color: alpha(@ng_sky, 0.06);
+}
+
+.thunar .sidebar .view:selected,
+.thunar .sidebar treeview.view:selected {
+    background-color: alpha(@ng_teal, 0.2);
+    color: @ng_text;
+    box-shadow: inset 2px 0 0 @ng_teal_lt;
+}
+
+/* Main view: list and icon views. */
+
+.thunar .standard-view,
+.thunar .standard-view.view,
+.thunar scrolledwindow treeview.view,
+.thunar iconview,
+.thunar iconview.view {
+    background-color: @ng_pane;
+    color: @ng_body;
+}
+
+.thunar treeview.view:hover,
+.thunar iconview.view:hover {
+    background-color: alpha(@ng_sky, 0.05);
+}
+
+.thunar treeview.view:selected,
+.thunar iconview.view:selected,
+.thunar treeview.view:selected:focus,
+.thunar iconview.view:selected:focus {
+    background-color: alpha(@ng_teal, 0.24);
+    color: @ng_text;
+}
+
+.thunar treeview.view.rubberband,
+.thunar iconview.view.rubberband,
+.thunar .rubberband {
+    background-color: alpha(@ng_teal, 0.12);
+    border: 1px solid @ng_teal;
+}
+
+/* Column headers: small mono capitals over a hairline, no fill. */
+
+.thunar treeview.view header button {
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    border-bottom: 1px solid @ng_line;
+    border-right: 1px solid alpha(@ng_line, 0.5);
+    border-radius: 0;
+    box-shadow: none;
+    padding: 6px 10px;
+    color: @ng_am;
+    font-family: "Space Mono";
+    font-size: 8pt;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.thunar treeview.view header button label {
+    color: @ng_am;
+}
+
+.thunar treeview.view header button:hover,
+.thunar treeview.view header button:hover label {
+    color: @ng_sky;
+    background-color: alpha(@ng_sky, 0.04);
+}
+
+/* Tabs */
+
+.thunar notebook header {
+    background-color: transparent;
+    border-bottom: 1px solid @ng_rule;
+}
+
+.thunar notebook tab {
+    border: none;
+    padding: 4px 12px;
+    color: @ng_faint;
+    font-family: "Space Mono";
+    font-size: 9pt;
+}
+
+.thunar notebook tab:checked {
+    color: @ng_text;
+    box-shadow: inset 0 -2px 0 @ng_teal;
+}
+
+/* Split pane handle */
+
+.thunar paned > separator {
+    background-color: @ng_rule;
+    background-image: none;
+    min-width: 1px;
+    min-height: 1px;
+}
+
+/* Status bar: mono, faint, with a violet to teal rule above it. */
+
+.thunar statusbar {
+    background-color: transparent;
+    background-image: linear-gradient(to right, @ng_am_mid, @ng_teal 46%, alpha(@ng_teal, 0) 92%);
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    background-position: top;
+    color: @ng_faint;
+    font-family: "Space Mono";
+    font-size: 8.5pt;
+    padding: 2px 10px;
+}
+
+.thunar statusbar label {
+    color: @ng_faint;
+}
+
+/* Scrollbars: thin, square, teal on hover. */
+
+.thunar scrollbar {
+    background-color: transparent;
+    border: none;
+}
+
+.thunar scrollbar slider {
+    background-color: alpha(@ng_sky, 0.18);
+    border-radius: 0;
+    min-width: 4px;
+    min-height: 4px;
+    border: none;
+}
+
+.thunar scrollbar slider:hover {
+    background-color: alpha(@ng_teal_lt, 0.6);
+}
+
+/* Menus and tooltips that Thunar opens. */
+
+.thunar menu,
+.thunar .context-menu,
+menu.thunar,
+window.popup menu {
+    background-color: rgba(14, 20, 44, 0.96);
+    border: 1px solid rgba(163, 131, 227, 0.3);
+    border-radius: 0;
+    padding: 4px 0;
+}
+
+.thunar menuitem,
+window.popup menuitem {
+    padding: 5px 14px;
+    color: @ng_body;
+}
+
+.thunar menuitem:hover,
+window.popup menuitem:hover {
+    background-color: alpha(@ng_teal, 0.22);
+    color: @ng_text;
+}
