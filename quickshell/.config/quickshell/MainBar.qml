@@ -32,11 +32,10 @@ PanelWindow {
         anchors.fill: parent
         spacing: 0
         WorkspaceCell { id: wsCell; first: true; screenRef: bar.screen; onClicked: bar.toggle("workspace") }
-        // Left: workspaces and the window. Then free space, music and volume in the middle of
-        // it, more free space, and the machine and account cells on the right.
+        // Left: workspaces, the window, music and volume. Free space, then the machine and
+        // account cells on the right.
         WindowCell { id: winCell; screenRef: bar.screen; onClicked: bar.toggle("window") }
-        Item { Layout.fillWidth: true }
-        MediaCell { id: mediaCell; first: true; onClicked: bar.toggle("media") }
+        MediaCell { id: mediaCell; onClicked: bar.toggle("media") }
         VolumeCell { id: volCell; onClicked: bar.toggle("volume") }
         Item { Layout.fillWidth: true }
         NetCell { onClicked: bar.toggle("volume") }
