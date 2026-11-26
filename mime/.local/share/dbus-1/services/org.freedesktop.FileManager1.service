@@ -1,0 +1,6 @@
+# Thunar and Nautilus both ship a system file for this name.
+# This user file makes "Show in folder" open Thunar every time.
+[D-BUS Service]
+Name=org.freedesktop.FileManager1
+Exec=/usr/bin/Thunar --gapplication-service
+SystemdService=thunar.service

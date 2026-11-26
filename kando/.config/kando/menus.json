@@ -38,7 +38,7 @@
               {
                 "type": "command",
                 "data": {
-                  "command": "ghostty -e yazi"
+                  "command": "thunar"
                 },
                 "name": "Files",
                 "icon": "folder",

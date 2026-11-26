@@ -41,7 +41,6 @@ Then reboot. Hyprland starts automatically via TTY autologin + uwsm.
 | `theme/` | Central `theme.css` hub (WCAG-compliant color definitions) |
 | `tmux/` | tmux terminal multiplexer configuration |
 | `xdg-desktop-portal/` | XDG Desktop Portal configuration |
-| `yazi/` | Yazi file manager |
 | `zsh/` | Zsh (Zinit, Powerlevel10k, fzf, zoxide) |
 
 ## What the Bootstrap Script Does
@@ -94,7 +93,7 @@ For rollback, restore the previous dots commit so the Chrysaki submodule pin and
 | Editors | `neovim`, `visual-studio-code-bin` |
 | Hyprland ecosystem | `hyprland`, `hyprlock`, `hypridle`, `hyprpaper`, `hyprpicker`, `uwsm` |
 | Status & notifications | Quickshell (`quickshell/`): bar, popovers and notifications |
-| Launcher & file managers | `rofi`, `yazi`, `thunar` |
+| Launcher & file manager | `rofi`, `thunar` |
 | Audio & media | `mpd`, `pipewire`, `wireplumber`, `playerctl`, `pavucontrol` |
 | Fonts | `redhat-fonts`, `ttf-ibmplex-mono-nerd`, `ttf-iosevkatermslab-nerd`, `ttf-jetbrains-mono-nerd`, `noto-fonts-cjk`, `noto-fonts-emoji` |
 | Portals | `xdg-desktop-portal-hyprland`, `xdg-utils` |

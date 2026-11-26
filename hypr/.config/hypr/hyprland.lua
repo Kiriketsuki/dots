@@ -20,7 +20,7 @@ hl.exec_cmd("python3 " .. scripts .. "/setup_monitors.py")
 ---------------------
 
 local terminal    = "ghostty"
-local fileManager = "ghostty -e yazi"
+local fileManager = "thunar"
 local menu        = "rofi -show drun -modi drun,run -show-icons"
 
 -------------------
@@ -393,10 +393,10 @@ hl.window_rule({
     pin = true,
 })
 
--- File picker (yazi via ttypicker)
+-- File picker (the GTK portal dialog)
 hl.window_rule({
     name = "filepicker-float",
-    match = { title = "^(File Picker)$" },
+    match = { class = "^(xdg-desktop-portal-gtk)$" },
     float = true,
     size = { "monitor_w * 0.6", "monitor_h * 0.7" },
     center = true,

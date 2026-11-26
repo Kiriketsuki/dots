@@ -35,7 +35,7 @@ $YAY \
     hyprland hyprlock hypridle hyprpaper hyprpicker \
     quickshell rofi playerctl \
     uwsm \
-    yazi thunar thunar-archive-plugin thunar-volman tumbler mpd \
+    thunar thunar-archive-plugin thunar-volman tumbler mpd \
     fontconfig redhat-fonts ttf-ibmplex-mono-nerd ttf-iosevkatermslab-nerd ttf-jetbrains-mono-nerd \
     noto-fonts-cjk noto-fonts-emoji \
     xdg-desktop-portal-hyprland xdg-utils \
@@ -239,8 +239,8 @@ info "Stowing dotfiles..."
 mkdir -p ~/.config
 cd "$DOTS_DIR"
 stow ghostty backgrounds bash fontconfig git gtk hypr lazygit mime mpd \
-     rofi spicetify styles quickshell fonts theme ttypicker xdg-desktop-portal yazi zsh Code eza \
-     btop atuin procs tealdeer kando solaar superfile gromit tmux
+     rofi spicetify styles quickshell fonts theme xdg-desktop-portal zsh Code eza \
+     btop atuin procs tealdeer kando solaar gromit tmux
 
 # ─── 7b. Chrysaki submodule ────────────────────────────────────────────────
 info "Initialising Chrysaki submodule..."
