@@ -18,3 +18,12 @@ require("smart-enter"):setup {
 	open_multi = true,
 }
 
+-- Portal file chooser: overwrite dialog, OPEN/SAVE header, invalid-pick warnings.
+-- The setup call is required even with default options.
+require("filechooser"):setup {
+	overwrite_dialog = true,
+	open_multi_dialog = 5,
+	header = true,
+	yank_save_dummy = true,
+}
+

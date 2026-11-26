@@ -40,7 +40,7 @@ sep_style = { fg = "#252836", bg = "#252836" }
 
 rules = [
 	# Directories — emerald light (readable on dark)
-	{ name = "*/", fg = "#1a8a6a", bold = true },
+	{ url = "*/", fg = "#1a8a6a", bold = true },
 
 	# Media
 	{ mime = "image/*", fg = "#20969c" },
@@ -66,17 +66,17 @@ rules = [
 	{ mime = "text/*",                fg = "#e0e2ea" },
 
 	# Executables
-	{ name = "*.sh",  fg = "#1a8a6a" },
-	{ name = "*.py",  fg = "#20969c" },
-	{ name = "*.lua", fg = "#3d95e0" },
-	{ name = "*.rs",  fg = "#b53f4a" },
-	{ name = "*.js",  fg = "#FCC96A" },
-	{ name = "*.ts",  fg = "#3d95e0" },
+	{ url = "*.sh",  fg = "#1a8a6a" },
+	{ url = "*.py",  fg = "#20969c" },
+	{ url = "*.lua", fg = "#3d95e0" },
+	{ url = "*.rs",  fg = "#b53f4a" },
+	{ url = "*.js",  fg = "#FCC96A" },
+	{ url = "*.ts",  fg = "#3d95e0" },
 
 	# Symlinks
-	{ is = "link",    fg = "#20969c", italic = true },
-	{ is = "orphan",  fg = "#b53f4a", italic = true },
+	{ url = "*", is = "link",   fg = "#20969c", italic = true },
+	{ url = "*", is = "orphan", fg = "#b53f4a", italic = true },
 
 	# Fallback
-	{ name = "*",     fg = "#a0a4b8" },
+	{ url = "*",     fg = "#a0a4b8" },
 ]
